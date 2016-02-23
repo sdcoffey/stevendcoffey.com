@@ -7,15 +7,13 @@ String.prototype.toTitleCase = function() {
 
 
 $(document).ready(function() {
-  var debug = true;
   var typespeed = 10;
   var cd = "menu"
   var strings = ["Hi, ^100 I'm Steve.", "I'm a designer, ^100 software engineer, ^100 and dog enthusiast." + String.fromCodePoint(0x1F436), "Check out some stuff I've worked on!"];
-
-  if (debug) {
-    typespeed = 0;
-    strings = ["debug mode"];
-  }
+  // @ifdef !DEBUG
+  typespeed = 0;
+  strings = ["debug mode"];
+  // @endif
 
   type(strings, function() {
     addRow(true);

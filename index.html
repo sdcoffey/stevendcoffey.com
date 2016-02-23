@@ -2,10 +2,13 @@
 <head>
   <link href='style/style.css' rel='stylesheet' type='text/css'>
   <script src='js/jquery.js'></script>
-  <!-- build:js js/terminal.min.js -->
+  <!-- @ifdef !DEBUG -->
   <script src='js/typed.js'></script>
   <script src='js/terminal.js'></script>
-  <!-- /build -->
+  <!-- @endif -->
+  <!-- @ifdef DEBUG -->
+  <script src='js/terminal.min.js'></script>
+  <!-- @endif -->
 </head>
 <body>
   <template id="typedRowTemplate">

@@ -23,6 +23,7 @@
     "grunt": "^0.4.5"
   },
   "devDependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "grunt-preprocess": "^5.1.0"
   }
 }
