@@ -1,0 +1,28 @@
+{
+  "name": "stevendcoffey.com",
+  "version": "1.0.0",
+  "description": "The personal website of the atrocious Steve Coffey",
+  "main": "index.html",
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/steve_coffey/stevendcoffey.com.git"
+  },
+  "keywords": [
+    "Steve",
+    "Coffey",
+    "Burrito",
+    "portfolio"
+  ],
+  "author": "Steve Coffey",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/steve_coffey/stevendcoffey.com#readme",
+  "dependencies": {
+    "grunt": "^0.4.5"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}
