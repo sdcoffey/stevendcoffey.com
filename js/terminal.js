@@ -1,8 +1,8 @@
 $(document).ready(function() {
   var typespeed = 10;
-  var cd = "menu"
+  var cd = "~"
   var strings = ["Hi, ^100 I'm Steve.", "I'm a designer, ^100 software engineer, ^100 and dog enthusiast." + String.fromCodePoint(0x1F436), "Check out some stuff I've worked on!"];
-  // @ifdef !DEBUG
+  // @if NODE_ENV='dev'
   typespeed = 0;
   strings = ["debug mode"];
   // @endif
@@ -117,8 +117,6 @@ $(document).ready(function() {
     var result = "";
     var elem = $("#" + cd);
 
-    console.log(elem);
-    console.log(elem.children());
     $.each(elem.children(), function(i) {
       var id = $(this).attr("id");
       var klass = "";
