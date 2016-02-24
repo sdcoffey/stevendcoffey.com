@@ -1,8 +1,14 @@
+$red: rgb(255, 111, 107);
+$wheat: rgb(204, 187, 145);
+$blue: rgb(106, 118, 252);
+$slate: rgb(42,49,66);
+$green: rgb(148,243,111);
+
 body {
   height: 100%;
   width: 100%;
   margin: 0;
-  background-color: rgb(42,49,66); 
+  background-color: $slate;
 }
 
 #main-input {
@@ -17,7 +23,7 @@ body {
 }
 
 .typedRow > span {
-  font-family: "Lucida Console";
+  font-family: "Lucida Console", monaco;
   vertical-align: middle;
   display: table-cell;
   line-height: 17px;
@@ -26,15 +32,15 @@ body {
 }
 
 .input {
-  appearance: none; 
+  appearance: none;
   font-family: inherit;
   color: inherit;
   font-size: inherit;
   border: none;
   width: 100%;
 
-  color: rgb(42,49,66);
-  text-shadow: 0px 0px 0px rgb(204, 187, 145);
+  color: $slate;
+  text-shadow: 0px 0px 0px $wheat;
   -webkit-text-fill-color: transparent;
   z-order: 0;
 }
@@ -54,23 +60,23 @@ body {
 }
 
 span {
-  color: rgb(204, 187, 145);
+  color: $wheat;
 }
 
 .green {
-  color: rgb(148,243,111);
+  color: $green;
 }
 
 .blue {
-  color: rgb(106, 118, 252);
+  color: $blue;
 }
 
 .red {
-  color: rgb(255, 111, 107);
+  color: $red;
 }
 
 .cursor {
-  background-color: rgb(204, 187, 145);
+  background-color: $wheat;
   opacity: 1;
   z-order: 1;
   margin-left: 1px;

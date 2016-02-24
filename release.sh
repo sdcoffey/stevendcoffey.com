@@ -1,11 +1,6 @@
 #!/bin/bash
 
-tag=$1
 grunt
 
-git fetch
-git checkout $tag
-sudo rm -rf /var/www/stevendcoffey/*
-sudo cp build/index.html /var/www/stevendcoffey/
-sudo cp -R build/js /var/www/stevendcoffey/
-sudo cp -R build/style /var/www/stevendcoffey/
+rm -rf build/intermediate
+scp -r -i ~/.ssh/t1.micro.cer build/* ubuntu@ec2-54-186-122-115.us-west-2.compute.amazonaws.com:/home/ubuntu/stevendcoffey.com

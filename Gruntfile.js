@@ -27,16 +27,28 @@ module.exports = function(grunt) {
       main: {
         files: [{
           expand: true,
-          src: ['style/**', "js/jquery.js"],
+          src: ['js/jquery.js'],
           dest: 'build/'
         }]
+      }
+    },
+    sass: {
+      options: {
+        sourceMap: false,
+      },
+      dist: {
+        files: {
+          'build/style/style.css': 'style/style.scss'
+        }
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-mkdir');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-preprocess');
-  grunt.registerTask('default', ['preprocess', 'copy', 'uglify']);
+  grunt.registerTask('default', ['preprocess', 'sass', 'copy', 'uglify']);
 }

@@ -1,11 +1,3 @@
-String.prototype.toTitleCase = function() {
-  return this.replace(/(?:^|\s)\w/g, function(match) {
-    return match.toUpperCase();
-  });
-  return this;
-};
-
-
 $(document).ready(function() {
   var typespeed = 10;
   var cd = "menu"
@@ -122,35 +114,31 @@ $(document).ready(function() {
   }
 
   function ls(cmd) {
-    console.log(cmd);
     var result = "";
     var elem = $("#" + cd);
 
-    var searchpattern = " > li";
-    if (cd != "menu") {
-      searchpattern = "> ul" + searchpattern;
-    }
-    $.each(elem.find(searchpattern), function(i) {
+    console.log(elem);
+    console.log(elem.children());
+    $.each(elem.children(), function(i) {
       var id = $(this).attr("id");
       var klass = "";
       var isDir = $(this).children().length > 0;
       var isLink = (typeof $(this).attr("href")) != 'undefined';
+      var permstring = $(this).attr("mode");
 
       if (id != "") {
         var permstring = "";
         if (isDir) {
-          permstring = "drwxr-xr-x ";
           klass += "blue ";
           id += "/";
         } else if (isLink) {
-          permstring = "-rwxr-xr-x "
           id = "@" + id;
           klass += "red ";
         }
 
         var line = '<span class="' + klass + '">' + id + '</span>'
         if (cmd.flags.indexOf("l") >= 0) {
-          line = permstring + line;
+          line = permstring + " " + line;
           if (isLink) {
             line += '<span class="blue"> -> ' + $(this).attr("href") + '</span><br>';
           }
