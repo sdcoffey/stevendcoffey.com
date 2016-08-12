@@ -43,6 +43,8 @@ $(document).ready(function() {
             return;
           }
           runCmd(parseArgs(cmd));
+        } else if (event.keyCode == 9) {
+          event.preventDefault();
         }
       });
     } else {
