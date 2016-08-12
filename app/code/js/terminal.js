@@ -1,11 +1,9 @@
 $(document).ready(function() {
-  var typespeed = 10;
+  var debug = window.location.host.includes("localhost");
+
+  var typespeed = debug ? 0 : 10 ;
   var cd = "~"
-  var strings = ["Hi, ^100 I'm Steve.", "I'm a designer, ^100 software engineer, ^100 and dog enthusiast." + String.fromCodePoint(0x1F436), "Check out some stuff I've worked on!"];
-  // @if NODE_ENV='dev'
-  typespeed = 0;
-  strings = ["debug mode"];
-  // @endif
+  var strings = debug ? ["debug mode"] : ["Hi, ^100 I'm Steve.", "I'm a designer, ^100 software engineer, ^100 and dog enthusiast." + String.fromCodePoint(0x1F436), "Check out some stuff I've worked on!"];
 
   type(strings, function() {
     addRow(true);
