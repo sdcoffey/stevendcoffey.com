@@ -1,6 +1,34 @@
 @import 'reset';
 
-.main {
-  width: 100%;
+.fillheight {
   height: 100%;
+}
+
+.fillwidth {
+  width: 100%;
+}
+
+.hero-img {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#img-left {
+  background-image: url("/static_assets/bridge.jpg");
+}
+
+#img-right {
+  background-image: url("/static_assets/ocean.jpg");
+  background-position: 100%;
+}
+
+@media (max-width: 1200px) {
+  #img-left {
+    height: 50%;
+  }
+
+  #img-right {
+    height: 50%;
+    background-position: 100% 100%;
+  }
 }

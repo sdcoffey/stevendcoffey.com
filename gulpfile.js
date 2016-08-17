@@ -6,6 +6,8 @@ const live_server = require('gulp-live-server');
 const del = require('del');
 const uglify = require('gulp-uglify');
 const argv = require('yargs').argv;
+const shell = require('gulp-shell');
+const merge = require('merge-stream');
 
 var isProd = !!argv.production;
 var appDir = "app";
@@ -35,8 +37,15 @@ gulp.task('copy:assets', function () {
     .pipe(gulp.dest(buildDir()));
 });
 
+gulp.task('copy:libs', function() {
+  var filename = isProd ? 'jquery.min.js' : 'jquery.js';
+  var path = 'node_modules/jquery/dist/' + filename;
+  return gulp.src([path], {base: './node_modules/jquery/dist'})
+    .pipe(gulp.dest(buildDir() + '/js'));
+});
+
 gulp.task('copy:js', function() {
-  var jsCompile = gulp.src([appDir + '/**/*.js'], {base: './app'})
+  var jsCompile = gulp.src([appDir + '/**/*.js', appDir + '/**/*.json'], {base: './app'})
     .pipe(gulp.dest(buildDir()));
 
   if (isProd) {
@@ -44,6 +53,10 @@ gulp.task('copy:js', function() {
   }
 
   return jsCompile.pipe(gulp.dest(buildDir()));
+});
+
+gulp.task('kill-server', function() {
+  shell.task(["ps aux | grep gulp | grep -v grep | awk '{print $2}' | xargs kill -9 $1"]);
 });
 
 gulp.task('watch', ['build'], function () {
@@ -56,23 +69,23 @@ gulp.task('copy:html', function() {
     .pipe(gulp.dest(buildDir()));
 });
 
-gulp.task('build', ['clean', 'sass', 'copy:js', 'copy:html', 'copy:assets']);
+gulp.task('build', ['clean', 'sass', 'copy:libs', 'copy:js', 'copy:html', 'copy:assets']);
 gulp.task('build:prod', ['enable:prod', 'build']);
-gulp.task('default', ['build']);
+gulp.task('default', ['build:dev']);
 
 gulp.task('serve', ['build'], function() {
   var server = live_server.static(buildDir(), '3001');
   server.start();
-  gulp.watch(appDir + '/**/*', [buildDir()], function (file) {
-    server.notify.apply(server, [file]);
+  gulp.watch(appDir + '/**/*', ['build'], function (file) {
+    server.start.bind(server)();
   })
 });
 
 gulp.task('serve:prod', ['build:prod'], function() {
   var server = live_server.static(buildDir(), '3001');
   server.start();
-  gulp.watch(appDir + '/**/*', [buildDir()], function (file) {
-    server.notify.apply(server, [file]);
+  gulp.watch(appDir + '/**/*', ['build'], function (file) {
+    server.start.bind(server)();
   })
 });
 
