@@ -1,6 +1,15 @@
 #!/bin/bash
 
-grunt
+gulp build:prod
 
-rm -rf build/intermediate
-scp -r -i ~/.ssh/t1.micro.cer build/* ubuntu@ec2-54-186-122-115.us-west-2.compute.amazonaws.com:/home/ubuntu/stevendcoffey.com
+export AWS_PROFILE=sdcoffey
+unset AWS_ACCESS_KEY_ID
+unset AWS_SECRET_KEY
+bucket_name=stevendcoffey.com
+tag=$1
+
+git checkout $tag
+
+aws s3 rm "s3://$bucket_name/" --recursive --region=us-west-1
+aws s3 cp ./build/prod/ "s3://$bucket_name" --recursive --region=us-west-1
+
