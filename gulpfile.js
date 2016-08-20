@@ -8,6 +8,7 @@ const uglify = require('gulp-uglify');
 const argv = require('yargs').argv;
 const shell = require('gulp-shell');
 const merge = require('merge-stream');
+const rename = require('gulp-rename');
 
 var isProd = !!argv.production;
 var appDir = "app";
@@ -41,6 +42,7 @@ gulp.task('copy:libs', function() {
   var filename = isProd ? 'jquery.min.js' : 'jquery.js';
   var path = 'node_modules/jquery/dist/' + filename;
   return gulp.src([path], {base: './node_modules/jquery/dist'})
+    .pipe(rename('jquery.js'))
     .pipe(gulp.dest(buildDir() + '/js'));
 });
 
