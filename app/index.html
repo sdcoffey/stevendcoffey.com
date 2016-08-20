@@ -7,7 +7,12 @@
   </head>
   <body>
   <script>
-    window.location.replace(window.location + "/code");
+    var url = window.location.href;
+    var path = 'code'
+    if (!url.endsWith('/')) {
+      url += '/';
+    }
+    window.location.replace(url + path);
   </script>
     <div class="container-fluid fillheight">
       <div class="row fillheight">
