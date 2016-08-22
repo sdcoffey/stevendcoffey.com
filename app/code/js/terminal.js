@@ -1,5 +1,6 @@
 function Terminal(type) {
   this.app = new App().app;
+  this.workingDirectory = "home";
 }
 
 Terminal.prototype.resetCurrentInput = function() {
@@ -13,7 +14,7 @@ Terminal.prototype.addRow = function(editable) {
   var clone = $("#typedRowTemplate").html();
   $("#terminal").append(clone);
   if (editable) {
-    this.currentRow().find("#cd").html(cd);
+    this.currentRow().find("#cwd").html(this.workingDirectory);
     this.currentSpan().addClass("inputLine");
     this.currentSpan().append($("#inputTemplate").html());
     var input = this.currentSpan().find(".input");
@@ -70,48 +71,25 @@ Terminal.prototype.parseArgs = function(raw) {
 }
 
 Terminal.prototype.runCmdNew = function(args) {
-  var executable = this.app.bin[args.command];
+  var executable = this[this.app.bin[args.command]];
   if (executable == undefined) {
-    print("Unrecognized command: " + args.command);
-    addRow(true);
+    this.println("command not found: " + args.command);
+    this.addRow(true);
   } else {
-    console.log($(this)[executable.fn]);
-    $(this)[executable.fn](args);
-  }
-}
-
-function runCmd(cmd) {
-  switch(cmd.cmd) {
-    case "pwd":
-      print(pwd());
-      addRow(true);
-      break;
-    case "ls":
-      print(ls(cmd));
-      addRow(true);
-      break;
-    case "cd":
-      if (cmd.args.length > 0) {
-        changeDirectory(cmd.args[0]);
-      }
-      addRow(true);
-      break;
-    default:
-      print("Unrecognized command: " + cmd.cmd)
-      addRow(true);
+    executable(args);
   }
 }
 
 Terminal.prototype.ls = function(cmd) {
-  var result = "";
-  var elem = $("#" + cd);
+  console.log(this.workingDirectory);
+  const dir = this.app[this.workingDirectory].contents;
 
-  $.each(elem.children(), function(i) {
-    var id = $(this).attr("id");
+  var result = "";
+  for (var key in dir) {
+    var id = key;
     var klass = "";
-    var isDir = $(this).children().length > 0;
-    var isLink = (typeof $(this).attr("href")) != 'undefined';
-    var permstring = $(this).attr("mode");
+    var isDir = dir[key] != undefined;
+    var isLink = dir[key].sym != undefined;
 
     if (id != "") {
       var permstring = "";
@@ -135,8 +113,10 @@ Terminal.prototype.ls = function(cmd) {
 
       result += line;
     }
-  });
-  return result;
+  }
+
+  this.println(result);
+  this.addRow(true);
 }
 
 function changeDirectory(item) {
@@ -157,8 +137,8 @@ function changeDirectory(item) {
 }
 
 Terminal.prototype.println = function(text) {
-  addRow(false);
-  currentSpan().html(text);
+  this.addRow(false);
+  this.currentSpan().html(text);
 }
 
 Terminal.prototype.type = function(strings, done) {

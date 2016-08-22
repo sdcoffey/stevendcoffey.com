@@ -2,15 +2,9 @@ function App(type) {}
 
 App.prototype.app = {
   bin: {
-    help: {
-      fn: "help"
-    },
-    ls: {
-      fn: "ls"
-    },
-    cd: {
-      fn: "cd"
-    }
+    help: "help",
+    ls: "ls",
+    cd: "cd"
   },
   home: {
     perm: 0755,
