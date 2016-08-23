@@ -1,4 +1,4 @@
-function Terminal(type) {
+function Terminal() {
   this.app = new App().app;
   this.workingDirectory = "home";
 }
@@ -14,7 +14,7 @@ Terminal.prototype.addRow = function(editable) {
   var clone = $("#typedRowTemplate").html();
   $("#terminal").append(clone);
   if (editable) {
-    this.currentRow().find("#cwd").html(this.workingDirectory);
+    this.currentSpan().find("#cwd").html(this.workingDirectory);
     this.currentSpan().addClass("inputLine");
     this.currentSpan().append($("#inputTemplate").html());
     var input = this.currentSpan().find(".input");
@@ -76,19 +76,19 @@ Terminal.prototype.runCmdNew = function(args) {
     this.println("command not found: " + args.command);
     this.addRow(true);
   } else {
-    executable(args);
+    executable.apply(this, args);
   }
 }
 
 Terminal.prototype.ls = function(cmd) {
-  console.log(this.workingDirectory);
+  console.log(cmd);
   const dir = this.app[this.workingDirectory].contents;
 
   var result = "";
   for (var key in dir) {
     var id = key;
     var klass = "";
-    var isDir = dir[key] != undefined;
+    var isDir = dir[key].contents != undefined;
     var isLink = dir[key].sym != undefined;
 
     if (id != "") {
