@@ -9,6 +9,7 @@ const argv = require('yargs').argv;
 const shell = require('gulp-shell');
 const merge = require('merge-stream');
 const rename = require('gulp-rename');
+const execSync = require('child_process').execSync;
 
 var isProd = !!argv.production;
 var appDir = "app";
@@ -33,17 +34,25 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(buildDir()));
 });
 
+gulp.task('templates', shell.task([
+  'ruby template.rb',
+]));
+
 gulp.task('copy:assets', function () {
-  return gulp.src([appDir + '/static_assets/*'], {base: './app'})
+  return gulp.src(['app/**/*.jpg'], {base: './app'})
     .pipe(gulp.dest(buildDir()));
 });
 
 gulp.task('copy:libs', function() {
-  var filename = isProd ? 'jquery.min.js' : 'jquery.js';
-  var path = 'node_modules/jquery/dist/' + filename;
-  return gulp.src([path], {base: './node_modules/jquery/dist'})
-    .pipe(rename('jquery.js'))
-    .pipe(gulp.dest(buildDir() + '/js'));
+  libs = [
+  ]
+
+  task = gulp.src(libs, {base: './node_modules'});
+  if (isProd) {
+    task.pipe(uglify());
+  }
+
+  return task.pipe(gulp.dest(buildDir() + '/js'));
 });
 
 gulp.task('copy:js', function() {
@@ -65,20 +74,25 @@ gulp.task('watch', ['build'], function () {
   gulp.watch(appDir + '/**/*', ['build']);
 });
 
-gulp.task('copy:html', function() {
+gulp.task('copy:html', ['templates'], function() {
   return gulp.src([appDir + '/**/*.html'], {base: './app'})
     .pipe(preprocess({ context: { NODE_ENV: env() }}))
     .pipe(gulp.dest(buildDir()));
 });
 
-gulp.task('build', ['clean', 'sass', 'copy:libs', 'copy:js', 'copy:html', 'copy:assets']);
+gulp.task('build', ['sass', 'copy:libs', 'copy:js', 'copy:html', 'copy:assets']);
 gulp.task('build:prod', ['enable:prod', 'build']);
 gulp.task('default', ['build:dev']);
 
 gulp.task('serve', ['build'], function() {
   var server = live_server.static(buildDir(), '3001');
   server.start();
-  gulp.watch(appDir + '/**/*', ['build'], function (file) {
+  types = [
+    appDir + "/**/*.js",
+    appDir + "/**/*.erb",
+    appDir + "/**/*.scss",
+  ]
+  gulp.watch(types, ['clean', 'build'], function (file) {
     server.start.bind(server)();
   })
 });

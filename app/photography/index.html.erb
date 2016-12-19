@@ -1,0 +1,30 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css" />
+<link href="https://fonts.googleapis.com/css?family=IM+Fell+Double+Pica:400,400i|Nunito+Sans|Poppins:400,700" rel="stylesheet">
+</head>
+<body>
+  <% assets = Dir.entries("#{File.dirname(__FILE__)}/static_assets").select { |f| !File.directory? f } %>
+  <div class="container">
+    <div class="header">
+      <h1>photography</h1>
+    </div>
+    <div class="grid">
+      <% assets.each_with_index do |value, index| %>
+        <% filename = "static_assets/#{value}" %>
+        <div class="grid-item <% if horiz?(File.join(File.dirname(__FILE__), filename)) %>grid-item--width2<% end %>">
+          <img src="<%= filename %>"></img>
+          <div class="overlay">
+            <p>
+              This is a really long sentence with a lot of words that I don't do good and some that I do.
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</body>
+</html>
+
+

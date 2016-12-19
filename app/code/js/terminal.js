@@ -1,6 +1,6 @@
 function Terminal() {
-  this.app = new App().app;
-  this.workingDirectory = "home";
+  this.app = new App();
+  this.app.workingDirectory = this.app.app.home;
 }
 
 Terminal.prototype.resetCurrentInput = function() {
@@ -14,7 +14,7 @@ Terminal.prototype.addRow = function(editable) {
   var clone = $("#typedRowTemplate").html();
   $("#terminal").append(clone);
   if (editable) {
-    this.currentSpan().find("#cwd").html(this.workingDirectory);
+    this.currentSpan().find("#cwd").html(this.app.workingDirectory.name);
     this.currentSpan().addClass("inputLine");
     this.currentSpan().append($("#inputTemplate").html());
     var input = this.currentSpan().find(".input");
@@ -71,18 +71,17 @@ Terminal.prototype.parseArgs = function(raw) {
 }
 
 Terminal.prototype.runCmdNew = function(args) {
-  var executable = this[this.app.bin[args.command]];
+  var executable = this[this.app.command([args.command])];
   if (executable == undefined) {
     this.println("command not found: " + args.command);
     this.addRow(true);
   } else {
-    executable.apply(this, args);
+    executable.call(this, args);
   }
 }
 
 Terminal.prototype.ls = function(cmd) {
-  console.log(cmd);
-  const dir = this.app[this.workingDirectory].contents;
+  const dir = this.app.workingDirectory.contents;
 
   var result = "";
   for (var key in dir) {
@@ -104,8 +103,8 @@ Terminal.prototype.ls = function(cmd) {
       var line = '<span class="' + klass + '">' + id + '</span>'
       if (cmd.flags.indexOf("l") >= 0) {
         line = permstring + " " + line;
-        if (isLink) {
-          line += '<span class="blue"> -> ' + $(this).attr("href") + '</span><br>';
+        if (dir[key].sym != undefined) {
+          line += '<span class="blue"> -> ' + dir[key].sym + '</span><br>';
         }
       } else {
         line += "&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -119,20 +118,22 @@ Terminal.prototype.ls = function(cmd) {
   this.addRow(true);
 }
 
-function changeDirectory(item) {
-  if (item == "..") {
-    cd = "menu";
-    return;
-  }
-  var id = item.toLowerCase();
-  var elem = $("#" + cd).find("#" + id);
-  var href = elem.attr("href");
-  if (elem.length == 0) {
-    print("cd: No such file or directory: " + item);
-  } else if (typeof href == 'undefined') {
-    cd = id.replace(/[^a-zA-Z 0-9]+/g, '');
+Terminal.prototype.cd = function(cmd) {
+  var item = cmd.args;
+  if (item == ".." && this.app.workingDirectory.name != "~") {
+    this.app.changeDirectory(this.app.findParent(null));
   } else {
-    window.open(href, "_blank");
+    var newDir = this.app.workingDirectory.contents[cmd.args];
+    if (newDir.sym != undefined) {
+      window.open(newDir.sym, "_blank");
+    } else if (newDir.contents != undefined) {
+      this.app.changeDirectory(this.app.workingDirectory.contents[cmd.args]);
+    } else if (newDir.contents == undefined) {
+      print("cd: not a directory: " + newDir.name);
+    } else {
+      print("cd: No such file or directory: " + item);
+    }
+    this.addRow(true);
   }
 }
 

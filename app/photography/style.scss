@@ -1,0 +1,108 @@
+@import '../style/reset';
+
+.container {
+  text-align: center;
+}
+
+.header {
+  height: 120px;
+}
+
+.header h1 {
+  @include vertical-align();
+  font-family: 'Nunito Sans';
+  font-size: 3em;
+  color: #444;
+}
+
+.grid {
+  display: inline-block;
+}
+
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.grid-item {
+  position: relative;
+  margin: 100px 0px;
+  width: 100%;
+  float: left;
+}
+
+.grid-item img {
+  display: block;
+  width: 100%;
+}
+
+@media screen and (min-width: 1440px) {
+  .grid-item {
+    margin: 100px 0px;
+  }
+  .grid {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1024px) 
+  and (max-width: 1440px) {
+  .grid-item {
+    margin: 75px 0px;
+  }
+  .grid {
+    width: 75%;
+  }
+}
+
+@media screen and (min-width: 768px) 
+  and (max-width: 1024px) {
+  .grid-item {
+    margin: 50px 0px;
+  }
+  .grid {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .grid-item {
+    margin: 0px 0px;
+  }
+  .grid {
+    width: 100%;
+  }
+}
+
+// Overlay
+
+.overlay {
+  opacity: 0;
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0);
+  transition: background .3s, opacity 0.2s;
+  -webkit-transition: background 0.3s, opacity 0.2s;
+}
+
+.overlay p {
+  padding: 0 45px;
+  margin: 0;
+  @include vertical-align();
+  color: #ddd;
+  font-family: 'IM Fell Double Pica';
+  text-transform: lowercase;
+  font-size: 3em;
+  font-style: italic;
+}
+
+.overlay:hover {
+  background: rgba(0,0,0,0.5);
+  opacity: 1;
+}
+
+
