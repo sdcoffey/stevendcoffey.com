@@ -1,4 +1,6 @@
 @import '../style/reset';
+$nunito: 'Nunito Sans';
+$imfell: 'IM Fell Double Pica';
 
 .container {
   text-align: center;
@@ -10,7 +12,7 @@
 
 .header h1 {
   @include vertical-align();
-  font-family: 'Nunito Sans';
+  font-family: $nunito;
   font-size: 3em;
   color: #444;
 }
@@ -84,25 +86,30 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0);
-  transition: background .3s, opacity 0.2s;
-  -webkit-transition: background 0.3s, opacity 0.2s;
+  background: rgba(0,0,0,0.6);
+  transition: opacity 0.3s ease-out;
+  -webkit-transition: opacity 0.3s ease-out;
 }
 
-.overlay p {
-  padding: 0 45px;
-  margin: 0;
+.caption {
   @include vertical-align();
+  padding: 0 45px;
+  margin-top: 10px;
   color: #ddd;
-  font-family: 'IM Fell Double Pica';
+  font-family: $imfell;
   text-transform: lowercase;
-  font-size: 3em;
+  font-size: 2em;
   font-style: italic;
+  transition: margin-top .3s ease-out;
+  -webkit-transition: margin-top .3s ease-out;
 }
 
 .overlay:hover {
-  background: rgba(0,0,0,0.5);
   opacity: 1;
+}
+
+.overlay:hover > .caption {
+  margin-top: 0px;
 }
 
 
