@@ -29,7 +29,9 @@ def walk(folder)
 end
 
 def isProd
+  puts ARGV[0]
   ARGV[0] == "prod"
 end
 
+puts isProd
 walk(File.expand_path('./app'))

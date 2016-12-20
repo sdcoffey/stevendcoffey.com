@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gulp build:prod
+gulp build --production
 
 export AWS_PROFILE=sdcoffey
 unset AWS_ACCESS_KEY_ID

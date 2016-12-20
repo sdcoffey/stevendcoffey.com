@@ -75,7 +75,6 @@ gulp.task('copy:html', ['templates'], function() {
 });
 
 gulp.task('build', ['sass', 'copy:libs', 'copy:js', 'copy:html', 'copy:assets']);
-gulp.task('build:prod', ['enable:prod', 'build']);
 gulp.task('default', ['build:dev']);
 
 gulp.task('serve', ['build'], function() {
@@ -101,9 +100,5 @@ gulp.task('serve:prod', ['build:prod'], function() {
   gulp.watch(appDir + '/**/*', ['build'], function (file) {
     server.notify.apply(server, [file]);
   })
-});
-
-gulp.task('enable:prod', function() {
-  isProd = true;
 });
 
