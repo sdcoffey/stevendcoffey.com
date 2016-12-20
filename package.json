@@ -4,11 +4,11 @@
   "description": "The personal website of the atrocious Steve Coffey",
   "main": "index.html",
   "scripts": {
-    "test": "grunt"
+    "test": "gulp"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/steve_coffey/stevendcoffey.com.git"
+    "url": "git+ssh://git@github.com/sdcoffey/stevendcoffey.com.git"
   },
   "keywords": [
     "Steve",
