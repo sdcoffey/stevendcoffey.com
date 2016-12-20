@@ -1,5 +1,4 @@
 require "erb"
-require "fastimage"
 
 class ERB
   def self.from_file(file, safe_level=nil, trim_mode=nil, eoutvar='_erbout')
@@ -8,11 +7,6 @@ class ERB
 
     t
   end
-end
-
-def horiz?(filename)
-  size = FastImage.size(filename)
-  return size[0] > size[1]
 end
 
 def render_template(template)
@@ -32,6 +26,10 @@ def walk(folder)
       render_template(path)
     end
   end
+end
+
+def isProd
+  ARGV[0] == "prod"
 end
 
 walk(File.expand_path('./app'))

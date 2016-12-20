@@ -3,6 +3,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css" />
 <link href="https://fonts.googleapis.com/css?family=IM+Fell+Double+Pica:400,400i|Nunito+Sans|Poppins:400,700" rel="stylesheet">
+<% if !isProd %>
+<script src="http://localhost:35729/livereload.js"></script>
+<% end %>
+<script src="/js/jquery/dist/jquery.js"></script>
 </head>
 <body>
   <div class="container">
@@ -15,18 +19,53 @@
       <% next unless !line.lstrip.empty? %>
       <% asset = line.split("|") %>
       <% filename = File.join("assets", asset[0]) %>
-      <div class="grid-item <% if horiz?(File.join(dir, filename)) %>grid-item--width2<% end %>">
-        <img src="<%= filename %>"></img>
+      <div class="grid-item">
+        <img id="<%= filename %>" src="<%= filename %>"></img>
         <div class="overlay">
           <p class="caption">
-            <%= asset[1] %>
+            <%= asset[1].lstrip %>
           </p>
         </div>
       </div>
       <% end %>
     </div>
   </div>
+  <div class="lightbox">
+    <img id="lbImg" ></img>
+  </div>
 </body>
+<script>
+  $('.lightbox').addClass('hidden');
+
+  $('.grid-item').click(function(event) {
+    img = $(this).find('img')[0].src;
+    $('.lightbox').addClass('visible');
+    $('.lightbox').removeClass('hidden');
+    $('#lbImg').addClass('no-top-margin');
+    $('#lbImg').attr('src', img);
+    $('body').addClass('noscroll');
+  });
+
+  function hideLightbox() {
+    $('body').removeClass('noscroll');
+    $('.lightbox').removeClass('visible');
+    $('#lbImg').removeClass('no-top-margin');
+    setTimeout(function() {
+      $('.lightbox').addClass('hidden');
+    }, 300);
+  }
+
+  $('.lightbox').click(function(e) {
+    if ($(e.target).is('img')) return;
+    hideLightbox();
+  });
+
+  $(document).keyup(function(e) {
+    if (e.keyCode === 27) {
+      hideLightbox();
+    }
+  });
+</script>
 </html>
 
 
