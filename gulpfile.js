@@ -1,13 +1,11 @@
 const gulp = require('gulp');
 const watch = require('gulp-watch');
 const sass = require('gulp-sass');
-const live_server = require('gulp-live-server');
 const del = require('del');
 const uglify = require('gulp-uglify');
 const argv = require('yargs').argv;
 const shell = require('gulp-shell');
-const merge = require('merge-stream');
-const rename = require('gulp-rename');
+const gls = require('gulp-server-livereload');
 
 var isProd = !!argv.production;
 var appDir = "app";
@@ -78,8 +76,15 @@ gulp.task('build', ['sass', 'copy:libs', 'copy:js', 'copy:html', 'copy:assets'])
 gulp.task('default', ['build:dev']);
 
 gulp.task('serve', ['build'], function() {
-  var server = live_server('server.js');
-  server.start();
+  gulp.src(buildDir())
+  .pipe(gls({
+    port: 3000,
+    livereload: true,
+    directoryListing: true,
+    open: true,
+    log: 'debug'
+  }));
+
   types = [
     "gulpfile.js",
     appDir + "/**/*.js",
@@ -87,18 +92,5 @@ gulp.task('serve', ['build'], function() {
     appDir + "/**/*.scss",
     appDir + "/**/*.txt",
   ]
-
-  gulp.watch(types, ['clean', 'build'],  function (file) {
-    console.log(file);
-    server.notify.apply(server, [file]);
-  });
+  gulp.watch(types, ['build']);
 });
-
-gulp.task('serve:prod', ['build:prod'], function() {
-  var server = live_server.static(buildDir(), '3001');
-  server.start();
-  gulp.watch(appDir + '/**/*', ['build'], function (file) {
-    server.notify.apply(server, [file]);
-  })
-});
-
