@@ -20,6 +20,7 @@ git pull --tags
 git tag $tag -m $tag
 git checkout $tag
 
+npm install
 gulp build --production
 
 aws s3 rm "s3://$bucket_name/" --recursive --region=us-west-1
