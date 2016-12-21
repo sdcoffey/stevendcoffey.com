@@ -21,7 +21,7 @@ var buildDir = function() {
 // -- tasks
 
 gulp.task('clean', function () {
-  return del.sync(buildDir() + '/**/*');
+  return del.sync(buildDir());
 });
 
 gulp.task('sass', function () {
@@ -72,7 +72,7 @@ gulp.task('copy:html', ['templates'], function() {
     .pipe(gulp.dest(buildDir()));
 });
 
-gulp.task('build', ['sass', 'copy:libs', 'copy:js', 'copy:html', 'copy:assets']);
+gulp.task('build', ['clean', 'sass', 'copy:libs', 'copy:js', 'copy:html', 'copy:assets']);
 gulp.task('default', ['build:dev']);
 
 gulp.task('serve', ['build'], function() {
