@@ -6,7 +6,7 @@ unset AWS_ACCESS_KEY_ID
 unset AWS_SECRET_KEY
 bucket_name=stevendcoffey.com
 
-last_tag=`git tag --list | tail -n1`
+last_tag=`git tag --list | gsort -V | tail -n1`
 echo "Which tag to create (last tag: ${last_tag})"
 read tag
 
