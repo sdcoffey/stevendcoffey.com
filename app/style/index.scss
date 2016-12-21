@@ -47,6 +47,10 @@ h2 {
     flex-direction: column;
     height: auto;
   }
+
+  .margin-right {
+    margin-right: 0px !important;
+  } 
 }
 
 .menu-item {
@@ -57,10 +61,6 @@ h2 {
 
 .margin-right {
   margin-right: 10px;
-}
-
-.margin-left {
-  margin-left: 10px;
 }
 
 .menu-item h2 {
