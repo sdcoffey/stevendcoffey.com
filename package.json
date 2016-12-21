@@ -30,5 +30,6 @@
     "gulp-server-livereload": "^1.9.2"
   },
   "dependencies": {
+    "jquery": "^3.1.1"
   }
 }

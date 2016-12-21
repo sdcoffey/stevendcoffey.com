@@ -1,5 +1,5 @@
-@import '../style/reset';
-$nunito: 'Nunito Sans';
+@import '../../style/reset';
+$montserrat: 'Montserrat';
 $imfell: 'IM Fell Double Pica';
 
 ::-webkit-scrollbar { 
@@ -70,7 +70,8 @@ $imfell: 'IM Fell Double Pica';
 
 .header h1 {
   @include vertical-align();
-  font-family: $nunito;
+  font-family: $montserrat;
+  font-weight: 700;
   font-size: 3em;
   color: #444;
 }
@@ -102,7 +103,7 @@ $imfell: 'IM Fell Double Pica';
     margin: 100px 0px;
   }
   .grid {
-    width: 60%;
+    width: 50%;
   }
 }
 
@@ -112,7 +113,7 @@ $imfell: 'IM Fell Double Pica';
     margin: 75px 0px;
   }
   .grid {
-    width: 75%;
+    width: 60%;
   }
 }
 

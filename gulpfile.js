@@ -80,7 +80,6 @@ gulp.task('serve', ['build'], function() {
   .pipe(gls({
     port: 3000,
     livereload: true,
-    directoryListing: true,
     open: true,
     log: 'debug'
   }));

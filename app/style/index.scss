@@ -1,4 +1,15 @@
 @import 'reset';
+@import 'color';
+
+h2 {
+  margin: 0;
+  font-family: $montserrat;
+}
+
+.container {
+  text-align: center;
+  background: $teal;
+}
 
 .fillheight {
   height: 100%;
@@ -8,27 +19,51 @@
   width: 100%;
 }
 
-.hero-img {
-  background-repeat: no-repeat;
-  background-size: cover;
+.black {
+  background: black;
 }
 
-#img-left {
-  background-image: url("/static_assets/bridge.jpg");
+#header {
+  display: inline-block;
+  @include vertical-align();
 }
 
-#img-right {
-  background-image: url("/static_assets/ocean.jpg");
-  background-position: 100%;
+#header h1 {
+  margin: 10px;
+  font-family: $montserrat;
+  font-size: 3em;
+  color: white;
 }
 
-@media (max-width: 1200px) {
-  #img-left {
-    height: 50%;
+#menu-container {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+}
+
+@media screen and (max-width: 767px) {
+  #menu-container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
   }
-
-  #img-right {
-    height: 50%;
-    background-position: 100% 100%;
-  }
 }
+
+.menu-item {
+  cursor: pointer;
+  padding: 10px;
+  flex-grow: 1;
+}
+
+.margin-right {
+  margin-right: 10px;
+}
+
+.margin-left {
+  margin-left: 10px;
+}
+
+.menu-item h2 {
+  color: white;
+}
+
