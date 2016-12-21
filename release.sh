@@ -25,7 +25,7 @@ gulp build --production
 aws s3 rm "s3://$bucket_name/" --recursive --region=us-west-1
 aws s3 cp ./build/prod/ "s3://$bucket_name" --recursive --region=us-west-1
 
-aws configure set cloudfront.preview true
+aws configure set preview.cloudfront true
 aws cloudfront create-invalidation --distribution-id $stevendcoffey_distro_id --paths "/*"
 
 git push --tags
