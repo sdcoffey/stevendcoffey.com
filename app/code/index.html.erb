@@ -1,11 +1,12 @@
 <html>
 <head>
   <link href='style/code.css' rel='stylesheet' type='text/css'>
-  <script src='/js/jquery.js'></script>
+  <script src="/js/jquery/dist/jquery.js"></script>
   <script src='js/typed.js'></script>
   <script src='js/app.js'></script>
   <script src='js/terminal.js'></script>
   <script src='js/code.js'></script>
+  <% if !isProd %><script src="//localhost:35729/livereload.js"></script><% end %>
 </head>
 <body>
   <template id="typedRowTemplate">
