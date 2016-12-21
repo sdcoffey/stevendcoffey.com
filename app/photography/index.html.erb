@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="style.css" />
 <link href="https://fonts.googleapis.com/css?family=IM+Fell+Double+Pica:400,400i|Nunito+Sans|Poppins:400,700" rel="stylesheet">
 <script src="/js/jquery/dist/jquery.js"></script>
+<script src="js/photography.js"></script>
 <% if !isProd %><script src="//localhost:35729/livereload.js"></script><% end %>
 </head>
 <body>
@@ -20,7 +21,7 @@
       <div class="grid-item">
         <img id="img_<%= index %>" src="<%= filename %>"></img>
         <div class="overlay">
-          <p class="caption">
+          <p id="p_<%= index %>" class="caption">
             <%= asset[1].lstrip %>
           </p>
         </div>
@@ -30,64 +31,10 @@
   </div>
   <div class="lightbox">
     <img id="lbImg"></img>
+    <p id="lbP"></p>
   </div>
 </body>
 <script>
-  // TODO: disable lightbox on mobile/ipad
-  // Add opacity focus to visible image in mobile
-  // Move captions below on mobile
-  $('.lightbox').addClass('hidden');
-
-  $('.grid-item').click(function(event) {
-    img = $(this).find('img')[0];
-    $('.lightbox').addClass('visible');
-    $('.lightbox').removeClass('hidden');
-    $('.lightbox').attr('data-id', img.id);
-    $('#lbImg').addClass('no-top-margin');
-    $('#lbImg').attr('src', $(img).attr('src'));
-    $('body').addClass('noscroll');
-  });
-
-  function hideLightbox() {
-    $('body').removeClass('noscroll');
-    $('.lightbox').removeClass('visible');
-    $('#lbImg').removeClass('no-top-margin');
-    setTimeout(function() {
-      $('.lightbox').addClass('hidden');
-    }, 300);
-  }
-
-  $('.lightbox').click(function(e) {
-    if ($(e.target).is('img')) return;
-    hideLightbox();
-  });
-
-  function move(by) {
-    var sibImages = $('.grid').children('.grid-item');
-    var currentIndex = parseInt($('.lightbox').attr('data-id').split('_')[1], 10);
-    var next = currentIndex + by;
-    if (next >= sibImages.length) {
-      next = 0;
-    } else if (next < 0) {
-      next = sibImages.length - 1;
-    }
-    var newId = "img_" + next;
-    $('#lbImg').attr('src', $('#' + newId).attr('src'));
-    $('.lightbox').attr('data-id', newId);
-  }
-
-  $(document).keyup(function(e) {
-    if (e.keyCode === 27) {
-      hideLightbox();
-    }
-    if ($('.lightbox').hasClass('visible')) {
-      if (e.keyCode === 39){ // right
-        move(1);
-      } else if (e.keyCode === 37) {
-        move(-1);
-      }
-    }
-  });
 </script>
 </html>
 

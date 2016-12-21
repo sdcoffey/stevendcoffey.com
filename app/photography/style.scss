@@ -33,6 +33,7 @@ $imfell: 'IM Fell Double Pica';
 }
 
 #lbImg {
+  position:fixed;
   display:block;
   @include vertical-align();
   max-width: 80%;
@@ -41,6 +42,17 @@ $imfell: 'IM Fell Double Pica';
   margin-top: 10px;
   transition: margin-top .3s ease-out;
   -webkit-transition: margin-top .3s ease-out;
+}
+
+#lbP {
+  position: relative;
+  display: block;
+  top: 15%;
+  font-family: $imfell;
+  text-transform: lowercase;
+  font-size: 2.5em;
+  font-style: italic;
+  color: white;
 }
 
 .no-top-margin {
