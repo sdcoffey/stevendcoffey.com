@@ -1,6 +1,3 @@
 .DS_Store
 build/
-*.map
-*.html
 .sass-cache
-node_modules/

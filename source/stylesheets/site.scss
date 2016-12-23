@@ -1,0 +1,53 @@
+@charset "utf-8";
+@import "normalize";
+
+$slate: rgb(42,49,66);
+$green: rgb(148,243,111);
+$highlighter: #e9f771;
+$teal: #70ffd6;
+
+// fonts
+$montserrat: 'montserrat';
+$imfell: 'im fell double pica';
+
+// common styles
+.black {
+  background: black;
+}
+
+.fillheight {
+  height: 100%;
+}
+
+.fillwidth {
+  width: 100%;
+}
+
+h1,
+h2 {
+  font-family: $montserrat;
+  text-transform: uppercase;
+}
+
+.container {
+  width: 100%;
+}
+
+.header {
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.header h1 {
+  margin: 10px;
+  font-weight: 700;
+  font-size: 3em;
+  color: $slate;
+}
+
+.title-bg {
+  background: $teal;
+}
+

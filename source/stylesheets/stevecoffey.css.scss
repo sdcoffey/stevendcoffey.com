@@ -1,36 +1,27 @@
-@import 'reset';
-@import 'color';
+@import "site";
 
 h2 {
-  margin: 0;
-  font-family: $montserrat;
+	margin: 0;
 }
 
 .container {
+	height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   text-align: center;
   background: $teal;
 }
 
-.fillheight {
-  height: 100%;
-}
-
-.fillwidth {
-  width: 100%;
-}
-
-.black {
-  background: black;
-}
-
 #header {
+  width: auto;
   display: inline-block;
-  @include vertical-align();
 }
 
 #header h1 {
   margin: 10px;
-  font-family: $montserrat;
   font-size: 3em;
   color: white;
 }
@@ -39,18 +30,16 @@ h2 {
   display: flex;
   flex-direction: row;
   height: auto;
+	justify-content: space-between;
 }
 
 @media screen and (max-width: 767px) {
   #menu-container {
-    display: flex;
     flex-direction: column;
-    height: auto;
   }
-
-  .margin-right {
-    margin-right: 0px !important;
-  } 
+	.menu-item {
+		margin: 5px 0px !important;
+	}
 }
 
 .menu-item {
@@ -58,12 +47,18 @@ h2 {
   padding: 10px;
   flex-grow: 1;
 }
-
-.margin-right {
-  margin-right: 10px;
+.menu-item:last-child {
+	margin-right: 0px;
+	margin-left: 10px;
+}
+.menu-item:first-child {
+	margin-right: 10px;
+	margin-left: 0px;
 }
 
 .menu-item h2 {
   color: white;
+  text-transform: uppercase;
 }
+
 

@@ -1,0 +1,23 @@
+---
+title: "Steve Coffey"
+menu_items:
+ - colors
+ - code
+ - words
+---
+
+<div class="container fillheight fillwidth">
+	<div id="header">
+		<div class="black">
+			<h1>STEVEN D COFFEY DOT COM</h1>
+		</div>
+		<div id="menu-container">
+			<% index = 0 %>
+			<% current_page.data.menu_items.each do |k| %>
+				<div class="menu-item black" onclick="window.location='/<%=k%>'">
+					<h2><%= k %></h2>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
