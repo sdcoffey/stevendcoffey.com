@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 export AWS_PROFILE=sdcoffey
 unset AWS_ACCESS_KEY_ID
 unset AWS_SECRET_KEY
@@ -20,11 +19,10 @@ git pull --tags
 git tag $tag -m $tag
 git checkout $tag
 
-npm install
-gulp build --production
+middleman build --clean
 
 aws s3 rm "s3://$bucket_name/" --recursive --region=us-west-1
-aws s3 cp ./build/prod/ "s3://$bucket_name" --recursive --region=us-west-1
+aws s3 cp ./build/ "s3://$bucket_name" --recursive --region=us-west-1
 
 aws configure set preview.cloudfront true
 aws cloudfront create-invalidation --distribution-id $stevendcoffey_distro_id --paths "/*"
