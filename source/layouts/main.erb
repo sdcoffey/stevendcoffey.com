@@ -9,10 +9,8 @@
 		<% title = current_page.data.title.gsub(/\s+/, "") %>
 		<%= stylesheet_link_tag title.downcase %>
     <%= javascript_include_tag :all %>
-    <%= javascript_include_tag :jquery %>
-    <% puts File.join("javascripts", "#{title.downcase}.js") %>
-    <% if sitemap.find_resource_by_path(File.join("javascripts", "#{title.downcase}.js")) %>
-    <%= javascript_include_tag title.downcase %>
+    <% current_page.data.additional_js.each do |js| %>
+    <%= javascript_include_tag js %>
     <% end %>
   </head>
   <body class="<%= page_classes %>">
