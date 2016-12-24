@@ -8,7 +8,6 @@
 		<link href="https://fonts.googleapis.com/css?family=IM+Fell+Double+Pica:400,400i|Montserrat:700" rel="stylesheet">
 		<% title = current_page.data.title.gsub(/\s+/, "") %>
 		<%= stylesheet_link_tag title.downcase %>
-    <%= javascript_include_tag :all %>
     <% current_page.data.additional_js.each do |js| %>
     <%= javascript_include_tag js %>
     <% end %>

@@ -11,7 +11,7 @@ additional_js:
 	<% File.open(File.join(dir, "images", "img.txt")).each_with_index do |line, index| %>
 		<% next unless !line.lstrip.empty? %>
 		<% asset = line.split("|") %>
-		<% filename = File.join("colors", "images", asset[0]) %>
+    <% filename = "/colors/images/#{asset[0]}" %>
 		<div class="grid-item">
 			<img id="img_<%= index %>" src="<%= filename %>"></img>
 			<div class="overlay">
