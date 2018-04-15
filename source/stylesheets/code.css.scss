@@ -1,7 +1,7 @@
-@import 'site';
+@import 'global';
 
 body {
-  background-color: $slate;
+  background-color: #091524;
 }
 
 #main-input {
@@ -16,6 +16,7 @@ body {
 }
 
 .typedRow > span {
+  letter-spacing: 0.39px;
   font-family: "Lucida Console", monaco;
   vertical-align: middle;
   display: table-cell;
@@ -33,7 +34,7 @@ body {
   width: 100%;
 
   color: $slate;
-  text-shadow: 0px 0px 0px $wheat;
+  text-shadow: 0px 0px 0px #fff;
   -webkit-text-fill-color: transparent;
   z-order: 0;
 }
@@ -45,7 +46,7 @@ body {
 }
 
 .inputLine {
-  width: 10px;
+  width: 100px;
 }
 
 .input:focus {
@@ -65,12 +66,13 @@ span {
 }
 
 .red {
-  color: $red;
+  color: red;
 }
 
 .cursor {
+  font-family: "Lucida Console", monaco;
   background-color: $wheat;
-  opacity: 1;
+  opacity: 0.75;
   z-order: 1;
   margin-left: 1px;
 }

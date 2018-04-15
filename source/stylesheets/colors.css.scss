@@ -1,4 +1,4 @@
-@import "site";
+@import "global";
 
 ::-webkit-scrollbar {
   display: none;
@@ -50,7 +50,7 @@
   position: relative;
   display: block;
   top: 15%;
-  font-family: $imfell;
+  font-family: $opensans;
   text-transform: lowercase;
   font-size: 2.5em;
   font-style: italic;
@@ -148,7 +148,7 @@
   padding: 0 45px;
   margin-top: 10px;
   color: #ddd;
-  font-family: $imfell;
+  font-family: $opensans;
   text-transform: lowercase;
   font-size: 2.5em;
   font-style: italic;
