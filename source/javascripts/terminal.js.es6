@@ -86,6 +86,11 @@ class Terminal {
     this._addRow(true);
   }
 
+  clear() {
+    $('#terminal').empty();
+    this._addRow(true);
+  }
+
   echo(cmd) {
     let text = cmd.args[0];
 
