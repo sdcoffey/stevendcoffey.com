@@ -165,8 +165,7 @@ class Terminal {
   _keydown(event) {
     const cursorDelta = 10;
 
-
-    if (event.keyCode == 17) { // ctrl
+    if (event.keyCode == 17 || event.keyCode == 18) { // ctrl/alt
       return false;
     } else if (event.keyCode == 13 || event.keyCode == 9) { // tab/enter
       event.preventDefault();
@@ -185,19 +184,23 @@ class Terminal {
           let currentText = this._currentRow().find('.input').html();
           let input = this._currentRow().find('.input');
 
+          let range = document.createRange();
+          range.selectNodeContents(input.get(0));
+          range.collapse(false);
+
           let left;
           let selection;
           if (event.keyCode == 69) {
             left = 0;
             selection = currentText.length -1;
           } else {
-            selection = 0;
+            range.setStart(input.get(0), 0);
+            left = -this._currentRow().find('.input').width();
           }
 
-          let range = document.createRange();
-          range.setStart(input.get(0), selection);
           window.getSelection().removeAllRanges();
           window.getSelection().addRange(range);
+          input.focus();
 
           cursor.css({'left': `${left}px`});
       }

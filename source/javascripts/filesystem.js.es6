@@ -81,6 +81,10 @@ class FileSystem {
         steve: new File({
           perm:755
         }).addChildren({
+          photos: new File({
+            perm: 755,
+            link: '/colors'
+          }),
           home: new File({
             perm: 755,
             link: '/'
