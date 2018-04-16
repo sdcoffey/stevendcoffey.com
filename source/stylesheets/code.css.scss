@@ -4,15 +4,15 @@ body {
   background-color: #152346;
 }
 
-#main-input {
-  margin: 12px;
+#terminal {
+  @include flex(column);
+
+  padding: 12px 10px;
 }
 
 .typedRow {
-  height: 21px;
-  margin: 2px;
-  display: table;
   width: 100%;
+  margin-bottom: 5px;
 }
 
 .typedRow > span {
@@ -70,10 +70,12 @@ span {
 }
 
 .cursor {
+  position: relative;
   font-family: "Lucida Console", monaco;
   background-color: $wheat;
   opacity: 0.75;
   z-order: 1;
   margin-left: 1px;
+  left: 0;
 }
 

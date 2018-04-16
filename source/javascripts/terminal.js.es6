@@ -163,6 +163,9 @@ class Terminal {
   }
 
   _keydown(event) {
+    const cursorDelta = 10;
+
+
     if (event.keyCode == 17) { // ctrl
       return false;
     } else if (event.keyCode == 13 || event.keyCode == 9) { // tab/enter
@@ -170,44 +173,75 @@ class Terminal {
     }
 
     if (event.ctrlKey) { // handle C-<x> keystrokes
-      if (event.keyCode == 85) {
-        this._currentRow().find('.input').html('');
-      }
-    } else if (event.keyCode == 13) { // handle enter
-      let input = $(event.target);
-
-      input.prop('contenteditable', false);
-      this._currentSpan().find('.cursor').hide();
-      let cmd = input.text();
-      if (cmd.length == 0) {
-        this._addRow(true);
-        return;
-      }
-      this._runCmd(this._parseCmd(cmd));
-    } else if (event.keyCode == 37 || event.keyCode == 39) { // left/right arrow
       let cursor = this._currentSpan().find('.cursor');
-      let leftMargin = parseInt(cursor.css('margin-left'));
-      let currentText = this._currentRow().find('.input').html();
-      let delta = 10;
 
-      if (event.keyCode == 37) {
-        if (currentText.length == 0) {
-          return;
-        }
-        let leftLimit = currentText.length * -delta + 1;
+      switch (event.keyCode) {
+        case 85: // u - clear row
+          this._currentRow().find('.input').html('');
+          cursor.css({'left': '0px'});
+          break;
+        case 65: // a - go to beginning
+        case 69: // e - go to end
+          let currentText = this._currentRow().find('.input').html();
+          let input = this._currentRow().find('.input');
 
-        if (leftMargin - delta >= leftLimit) {
-          leftMargin -= delta;
-        }
-      } else if (event.keyCode == 39) {
-        if (leftMargin > 0) {
-          return;
-        }
+          let left;
+          let selection;
+          if (event.keyCode == 69) {
+            left = 0;
+            selection = currentText.length -1;
+          } else {
+            selection = 0;
+          }
 
-        leftMargin += delta;
+          let range = document.createRange();
+          range.setStart(input.get(0), selection);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+
+          cursor.css({'left': `${left}px`});
       }
+    } else {
+      switch (event.keyCode) {
+        case 13: // Enter
+          let input = $(event.target);
 
-      cursor.css({'margin-left': `${leftMargin}px`});
+          input.prop('contenteditable', false);
+          this._currentSpan().find('.cursor').hide();
+          let cmd = input.text();
+          if (cmd.length == 0) {
+            this._addRow(true);
+            return;
+          }
+          this._runCmd(this._parseCmd(cmd));
+
+          break;
+        case 37: // left arrow
+        case 39: // right arrow
+          let cursor = this._currentSpan().find('.cursor');
+          let left = parseInt(cursor.css('left'));
+          let currentText = this._currentRow().find('.input').html();
+
+          if (event.keyCode == 37) {
+            if (currentText.length == 0) {
+              return;
+            }
+
+            let leftLimit = currentText.length * -cursorDelta;
+
+            if (left - cursorDelta >= leftLimit) {
+              left -= cursorDelta;
+            }
+          } else if (event.keyCode == 39) {
+            left += cursorDelta;
+
+            if (left > 0) {
+              left = 0;
+            }
+          }
+
+          cursor.css({'left': `${left}px`});
+      }
     }
   }
 
