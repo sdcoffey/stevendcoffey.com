@@ -63,10 +63,8 @@ class Terminal {
       item = this._workingDirectory.child(item);
 
       if (!item) {
-        this._echo('cd: No such file or directory: ' + item);
-      }
-
-      if (item.isLink) {
+        this._echo('cd: No such file or directory: ' + cmd.args[0]);
+      } else if (item.isLink) {
         if (item.link[0] == '/') {
           window.location = item.link;
         } else {
@@ -74,8 +72,8 @@ class Terminal {
         }
       } else if (item.isDir) {
         this._workingDirectory = item;
-      } else if (!item.isDir) {
-        this._echo('cd: not a directory: ' + item);
+      } else {
+        this._echo('cd: not a directory: ' + item.name);
       }
     }
 

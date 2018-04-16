@@ -59,3 +59,21 @@ h2 {
   background: $teal;
 }
 
+// mixin
+
+@mixin flex($direction) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+.flex {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
