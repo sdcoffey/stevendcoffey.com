@@ -129,7 +129,6 @@ class Terminal {
 
       input.focus();
 
-      input.keyup(this._keyup.bind(this));
       input.keydown(this._keydown.bind(this));
     } else {
       this._currentRow().find('span:not(:last)').hide();
@@ -159,7 +158,28 @@ class Terminal {
   }
 
   _keydown(event) {
-    if (event.keyCode == 37 || event.keyCode == 39) { // left/right arrow
+    if (event.keyCode == 17) { // ctrl
+      return false;
+    } else if (event.keyCode == 13 || event.keyCode == 9) { // tab/enter
+      event.preventDefault();
+    }
+
+    if (event.ctrlKey) { // handle C-<x> keystrokes
+      if (event.keyCode == 85) {
+        this._currentRow().find('.input').html('');
+      }
+    } else if (event.keyCode == 13) { // handle enter
+      let input = $(event.target);
+
+      input.prop('contenteditable', false);
+      this._currentSpan().find('.cursor').hide();
+      let cmd = input.text();
+      if (cmd.length == 0) {
+        this._addRow(true);
+        return;
+      }
+      this._runCmd(this._parseCmd(cmd));
+    } else if (event.keyCode == 37 || event.keyCode == 39) { // left/right arrow
       let cursor = this._currentSpan().find('.cursor');
       let leftMargin = parseInt(cursor.css('margin-left'));
       let currentText = this._currentRow().find('.input').html();
@@ -183,33 +203,6 @@ class Terminal {
       }
 
       cursor.css({'margin-left': `${leftMargin}px`});
-    } else if (event.keyCode == 13 || event.keyCode == 9) { // tab/enter
-      event.preventDefault();
-    }
-  }
-
-  _keyup(event) {
-    if (event.keyCode == 17) {
-      return false;
-    }
-
-    if (event.ctrlKey) {
-      if (event.keyCode == 85) {
-        this._currentRow().find('.input').html('');
-      }
-    } else{
-      if (event.keyCode == 13) {
-        let input = $(event.target);
-
-        input.prop('contenteditable', false);
-        this._currentSpan().find('.cursor').hide();
-        let cmd = input.text();
-        if (cmd.length == 0) {
-          this._addRow(true);
-          return;
-        }
-        this._runCmd(this._parseCmd(cmd));
-      }
     }
   }
 
