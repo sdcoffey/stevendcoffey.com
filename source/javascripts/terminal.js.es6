@@ -81,8 +81,10 @@ class Terminal {
   }
 
   help() {
-    this._echo('Welcome to the terminal! Type \'ls\' to see were to go from here.');
-    this._echo('Type \'cd\' and a destination to go!');
+    this._echo('Hey there!');
+    this._echo(`I'm Steve. I'm a full-stack engineer based in San Francisco.`);
+    this._echo('Type \'ls\' to see were to go from here.');
+    this._echo(`If the terminal isn't your cup of tea, type 'cd home' to get to the UI.`);
     this._addRow(true);
   }
 
