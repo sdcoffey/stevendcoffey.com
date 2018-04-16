@@ -92,7 +92,7 @@ class Terminal {
   }
 
   echo(cmd) {
-    let text = cmd.args[0];
+    let text = cmd.args.join(' ');
 
     if (text[0] == `'`) {
       text = text.slice(1, text.length-1);
