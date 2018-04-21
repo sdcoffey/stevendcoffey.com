@@ -28,6 +28,15 @@ a {
   text-align: justify;
 }
 
+#footer {
+  position: absolute;
+  bottom: 48px;
+}
+
+#footer > a {
+  font-size: 0.85em;
+}
+
 .text-container {
   width: auto;
   display: flex;
