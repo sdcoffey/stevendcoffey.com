@@ -87,7 +87,7 @@ class FileSystem {
           }),
           home: new File({
             perm: 755,
-            link: '/ui'
+            link: '/'
           }),
           resume: new File({
             perm: 755,
