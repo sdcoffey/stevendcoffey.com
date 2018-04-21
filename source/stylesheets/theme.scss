@@ -1,0 +1,24 @@
+$orange: #ffb045;
+$green: rgb(148,243,111);
+$wheat: rgb(204, 187, 145);
+$blue: rgb(106, 118, 252);
+$light-orange: #ffca84;
+$slate: rgb(42,49,66);
+$white: #f9f9f9;
+$light-teal: #d4f5f2;
+$teal: #54cec3;
+$highlighter: #e9f771;
+
+.bg-orange { background-color: $orange; }
+.bg-light-orange { background-color: $light-orange; }
+.bg-slate { background-color: $slate; }
+.bg-white { background-color: $white; }
+.bg-light-teal { background-color: $light-teal; }
+.bg-teal { background-color: $teal; }
+
+.orange { color: $orange; }
+.light-orange { color: $light-orange; }
+.slate { color: $slate; }
+.white { color: $white; }
+.light-teal { color: $light-teal; }
+.teal { color: $teal; }

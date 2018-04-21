@@ -1,12 +1,6 @@
 @charset "utf-8";
 @import "normalize";
-
-$wheat: rgb(204, 187, 145);
-$blue: rgb(106, 118, 252);
-$slate: rgb(42,49,66);
-$green: rgb(148,243,111);
-$highlighter: #e9f771;
-$teal: #70ffd6;
+@import "theme";
 
 // query sizes
 $large: 1440px;
@@ -77,3 +71,6 @@ h2 {
 .column {
   flex-direction: column;
 }
+
+.bg-slate { background-color: $slate; }
+.bg-wheat { background-color: $wheat; }

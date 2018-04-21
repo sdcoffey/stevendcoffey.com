@@ -1,6 +1,5 @@
 @import "global";
 
-$sidebar-grey: #ddd;
 $header-grey: #aaa;
 
 h1,
@@ -84,14 +83,16 @@ p {
 
   flex: 1;
   max-width: 25%;
-  background-color: $sidebar-grey;
   justify-content: center;
   align-items: flex-end;
 }
 
 .section-header > h2 {
-  color: #fff;
-  margin-right: 64px
+  color: $white;
+  margin-right: 48px;
+  font-size: 1.5em;
+  word-wrap: break-word;
+  text-align: right;
 }
 
 .section-content {
@@ -101,7 +102,27 @@ p {
   padding: 64px;
 }
 
+.skill-wrapper {
+  @include flex(row);
+
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 48px;
+}
+
+.skill-logo {
+  max-width: 200px;
+  object-fit: contain;
+  flex: 1;
+  margin-right: 24px;
+}
+
 @media screen and (max-width: $tablet) {
+  #header {
+    height: 50%;
+  }
+
   #img-sidebar {
     display: none;
   }
