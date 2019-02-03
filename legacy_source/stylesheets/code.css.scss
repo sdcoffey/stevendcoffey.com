@@ -1,4 +1,4 @@
-@import 'global';
+@import "global";
 
 body {
   background-color: #152346;
@@ -50,7 +50,7 @@ body {
 }
 
 .input:focus {
-  outline: none
+  outline: none;
 }
 
 span {
@@ -78,4 +78,3 @@ span {
   margin-left: 1px;
   left: 0;
 }
-

@@ -1,9 +1,8 @@
-'use strict';
+"use strict";
 
 class File {
-
   constructor(options) {
-    this.name = '';
+    this.name = "";
     this.perm = options.perm || 755;
     this.link = options.link;
 
@@ -56,7 +55,7 @@ class File {
     let parent = this.parent;
 
     if (!parent) {
-      return '/';
+      return "/";
     }
 
     while (parent) {
@@ -69,33 +68,32 @@ class File {
 }
 
 class FileSystem {
-
   constructor() {
     this._root = new File({
-      name: '',
-      perm: 700,
+      name: "",
+      perm: 700
     }).addChildren({
       home: new File({
-        perm: 755,
+        perm: 755
       }).addChildren({
         steve: new File({
-          perm:755
+          perm: 755
         }).addChildren({
           photos: new File({
             perm: 755,
-            link: '/colors'
+            link: "/colors"
           }),
           home: new File({
             perm: 755,
-            link: '/'
+            link: "/"
           }),
           resume: new File({
             perm: 755,
-            link: '/resume'
+            link: "/resume"
           }),
           github: new File({
             perm: 755,
-            link: 'https://github.com/sdcoffey'
+            link: "https://github.com/sdcoffey"
           })
         })
       })
@@ -107,13 +105,13 @@ class FileSystem {
   }
 
   find(filepath) {
-    let pathElements = filepath.split('/');
+    let pathElements = filepath.split("/");
 
     let curObj = this.root;
     for (let i in pathElements) {
       let pathElement = pathElements[i];
 
-      if (pathElement === '') {
+      if (pathElement === "") {
         continue;
       }
 
@@ -127,4 +125,3 @@ class FileSystem {
     return curObj;
   }
 }
-

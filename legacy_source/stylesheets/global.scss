@@ -9,8 +9,8 @@ $tablet: 767px;
 $phone: 480px;
 
 // fonts
-$opensans: 'open sans';
-$pacifico: 'pacifico';
+$opensans: "open sans";
+$pacifico: "pacifico";
 
 // common styles
 .black {
@@ -25,8 +25,7 @@ $pacifico: 'pacifico';
   width: 100%;
 }
 
-h1!
-h2 {
+h1! h2 {
   font-family: $opensans;
   text-transform: uppercase;
 }
@@ -72,5 +71,9 @@ h2 {
   flex-direction: column;
 }
 
-.bg-slate { background-color: $slate; }
-.bg-wheat { background-color: $wheat; }
+.bg-slate {
+  background-color: $slate;
+}
+.bg-wheat {
+  background-color: $wheat;
+}

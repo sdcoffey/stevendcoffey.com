@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import ContentEditable from 'react-contenteditable';
-import sanitizeHtml from 'sanitize-html';
+import ContentEditable from "react-contenteditable";
+import sanitizeHtml from "sanitize-html";
 
 import { State } from "../redux/reducers";
 import { Dispatch } from "../redux/store";
@@ -52,7 +52,9 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
           html={currentText}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress}
-          innerRef={(ref: HTMLDivElement) => { this.input = ref }}
+          innerRef={(ref: HTMLDivElement) => {
+            this.input = ref;
+          }}
         />
         <div className="InputRow--caret" />
       </div>
@@ -61,9 +63,9 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
 
   handleChange = (event: any): void => {
     if (event.target.value) {
-      this.setState({ currentText: sanitizeHtml(event.target.value) })
+      this.setState({ currentText: sanitizeHtml(event.target.value) });
     }
-  }
+  };
 
   handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     switch (event.key.toLowerCase()) {
@@ -76,7 +78,7 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
         }
       case "u":
         if (event.ctrlKey) {
-          this.setState({ currentText: "" })
+          this.setState({ currentText: "" });
         }
     }
   };
@@ -85,7 +87,7 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
     if (this.input) {
       this.input.focus();
     }
-  }
+  };
 }
 
 const mapStateToProps = (state: State) => ({

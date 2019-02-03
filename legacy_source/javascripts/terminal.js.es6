@@ -1,13 +1,12 @@
-'use strict';
+"use strict";
 
 class Terminal {
-
   constructor(bodyElem, startingPath) {
     this._fs = new FileSystem();
     this._workingDirectory = this._fs.find(startingPath);
 
     bodyElem.click(() => {
-      let input = this._currentSpan().find('.input');
+      let input = this._currentSpan().find(".input");
 
       input.focus();
     });
@@ -18,26 +17,26 @@ class Terminal {
   ls(cmd) {
     let children = this._workingDirectory.children;
 
-    let result = '';
+    let result = "";
     for (let i in children) {
       let child = children[i];
-      let klass = '';
+      let klass = "";
       let id = child.name;
 
-      let permstring = '';
+      let permstring = "";
       if (child.isDir) {
-        klass += 'blue ';
-        id += '/';
+        klass += "blue ";
+        id += "/";
       }
 
-      let line = `<span class='${klass}'>${id}</span>`
-      if (cmd.flags.indexOf('l') >= 0) {
-        line = permstring + ' ' + line;
+      let line = `<span class='${klass}'>${id}</span>`;
+      if (cmd.flags.indexOf("l") >= 0) {
+        line = permstring + " " + line;
         if (child.isLink) {
           line += `<span class='blue'> -> ${child.link}</span><br>`;
         }
       } else {
-        line += '&nbsp;&nbsp;&nbsp;&nbsp;'
+        line += "&nbsp;&nbsp;&nbsp;&nbsp;";
       }
 
       result += line;
@@ -55,25 +54,25 @@ class Terminal {
 
     let item = cmd.args[0];
 
-    if (item == '..') {
+    if (item == "..") {
       if (!this._workingDirectory.isRoot) {
         this._workingDirectory = this._workingDirectory.parent;
       }
-    } else if (item !== '.') {
+    } else if (item !== ".") {
       item = this._workingDirectory.child(item);
 
       if (!item) {
-        this._echo('cd: No such file or directory: ' + cmd.args[0]);
+        this._echo("cd: No such file or directory: " + cmd.args[0]);
       } else if (item.isLink) {
-        if (item.link[0] == '/') {
+        if (item.link[0] == "/") {
           window.location = item.link;
         } else {
-          window.open(item.link, '_blank');
+          window.open(item.link, "_blank");
         }
       } else if (item.isDir) {
         this._workingDirectory = item;
       } else {
-        this._echo('cd: not a directory: ' + item.name);
+        this._echo("cd: not a directory: " + item.name);
       }
     }
 
@@ -81,23 +80,25 @@ class Terminal {
   }
 
   help() {
-    this._echo('Hey there!');
+    this._echo("Hey there!");
     this._echo(`I'm Steve. I'm a full-stack engineer based in San Francisco.`);
-    this._echo('Type \'ls\' to see were to go from here.');
-    this._echo(`If the terminal isn't your cup of tea, type 'cd home' to get to the UI.`);
+    this._echo("Type 'ls' to see were to go from here.");
+    this._echo(
+      `If the terminal isn't your cup of tea, type 'cd home' to get to the UI.`
+    );
     this._addRow(true);
   }
 
   clear() {
-    $('#terminal').empty();
+    $("#terminal").empty();
     this._addRow(true);
   }
 
   echo(cmd) {
-    let text = cmd.args.join(' ');
+    let text = cmd.args.join(" ");
 
     if (text[0] == `'`) {
-      text = text.slice(1, text.length-1);
+      text = text.slice(1, text.length - 1);
     }
 
     this._echo(text);
@@ -110,54 +111,64 @@ class Terminal {
   }
 
   pwd(cmd) {
-    let curItem = $('#' + cd);
-    let absPath = curItem.attr('id');
-    while(curItem.attr('id') != 'menu') {
-      absPath += '/' + curItem.attr('id');
+    let curItem = $("#" + cd);
+    let absPath = curItem.attr("id");
+    while (curItem.attr("id") != "menu") {
+      absPath += "/" + curItem.attr("id");
       do {
         curItem = curItem.parent();
-      } while(typeof curItem.attr('id') == 'undefined');
+      } while (typeof curItem.attr("id") == "undefined");
     }
     return absPath;
   }
 
   _addRow(editable) {
-    let clone = $('#typedRowTemplate').html();
+    let clone = $("#typedRowTemplate").html();
 
-    $('#terminal').append(clone);
+    $("#terminal").append(clone);
 
     let span = this._currentSpan();
     if (editable) {
       this._setWd(this._workingDirectory.filepath());
-      span.addClass('inputLine');
-      span.append($('#inputTemplate').html());
+      span.addClass("inputLine");
+      span.append($("#inputTemplate").html());
 
-      let input = span.find('.input');
+      let input = span.find(".input");
 
       input.focus();
 
       input.keydown(this._keydown.bind(this));
     } else {
-      this._currentRow().find('span:not(:last)').hide();
+      this._currentRow()
+        .find("span:not(:last)")
+        .hide();
     }
   }
 
   _setWd(workingDir) {
-    this._currentRow().find('#wd').html(workingDir);
+    this._currentRow()
+      .find("#wd")
+      .html(workingDir);
   }
 
   _currentRow() {
-    return $('#terminal').children().last();
+    return $("#terminal")
+      .children()
+      .last();
   }
 
   _currentSpan() {
-    return this._currentRow().children().last();
+    return this._currentRow()
+      .children()
+      .last();
   }
 
   _runCmd(args) {
     let executable = this[args.command];
     if (executable == undefined) {
-      this._echo(`command not found: '${args.command}'. Type 'help' for options.`);
+      this._echo(
+        `command not found: '${args.command}'. Type 'help' for options.`
+      );
       this._addRow(true);
     } else {
       executable.call(this, args);
@@ -167,24 +178,31 @@ class Terminal {
   _keydown(event) {
     const cursorDelta = 10;
 
-    if (event.keyCode == 17 || event.keyCode == 18) { // ctrl/alt
+    if (event.keyCode == 17 || event.keyCode == 18) {
+      // ctrl/alt
       return false;
-    } else if (event.keyCode == 13 || event.keyCode == 9) { // tab/enter
+    } else if (event.keyCode == 13 || event.keyCode == 9) {
+      // tab/enter
       event.preventDefault();
     }
 
-    if (event.ctrlKey) { // handle C-<x> keystrokes
-      let cursor = this._currentSpan().find('.cursor');
+    if (event.ctrlKey) {
+      // handle C-<x> keystrokes
+      let cursor = this._currentSpan().find(".cursor");
 
       switch (event.keyCode) {
         case 85: // u - clear row
-          this._currentRow().find('.input').html('');
-          cursor.css({'left': '0px'});
+          this._currentRow()
+            .find(".input")
+            .html("");
+          cursor.css({ left: "0px" });
           break;
         case 65: // a - go to beginning
         case 69: // e - go to end
-          let currentText = this._currentRow().find('.input').html();
-          let input = this._currentRow().find('.input');
+          let currentText = this._currentRow()
+            .find(".input")
+            .html();
+          let input = this._currentRow().find(".input");
 
           let range = document.createRange();
           range.selectNodeContents(input.get(0));
@@ -194,25 +212,29 @@ class Terminal {
           let selection;
           if (event.keyCode == 69) {
             left = 0;
-            selection = currentText.length -1;
+            selection = currentText.length - 1;
           } else {
             range.setStart(input.get(0), 0);
-            left = -this._currentRow().find('.input').width();
+            left = -this._currentRow()
+              .find(".input")
+              .width();
           }
 
           window.getSelection().removeAllRanges();
           window.getSelection().addRange(range);
           input.focus();
 
-          cursor.css({'left': `${left}px`});
+          cursor.css({ left: `${left}px` });
       }
     } else {
       switch (event.keyCode) {
         case 13: // Enter
           let input = $(event.target);
 
-          input.prop('contenteditable', false);
-          this._currentSpan().find('.cursor').hide();
+          input.prop("contenteditable", false);
+          this._currentSpan()
+            .find(".cursor")
+            .hide();
           let cmd = input.text();
           if (cmd.length == 0) {
             this._addRow(true);
@@ -223,9 +245,11 @@ class Terminal {
           break;
         case 37: // left arrow
         case 39: // right arrow
-          let cursor = this._currentSpan().find('.cursor');
-          let left = parseInt(cursor.css('left'));
-          let currentText = this._currentRow().find('.input').html();
+          let cursor = this._currentSpan().find(".cursor");
+          let left = parseInt(cursor.css("left"));
+          let currentText = this._currentRow()
+            .find(".input")
+            .html();
 
           if (event.keyCode == 37) {
             if (currentText.length == 0) {
@@ -245,13 +269,13 @@ class Terminal {
             }
           }
 
-          cursor.css({'left': `${left}px`});
+          cursor.css({ left: `${left}px` });
       }
     }
   }
 
   _parseCmd(raw) {
-    let unparsedArgs = raw.split(' ');
+    let unparsedArgs = raw.split(" ");
     let cmd = unparsedArgs[0];
     unparsedArgs = unparsedArgs.slice(1);
 
@@ -269,7 +293,7 @@ class Terminal {
     return {
       command: $.trim(cmd),
       flags: flags,
-      args: args,
+      args: args
     };
   }
 }
