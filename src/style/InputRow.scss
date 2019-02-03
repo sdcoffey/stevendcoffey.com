@@ -1,0 +1,45 @@
+@import "colors";
+
+.InputRow {
+  display: flex;
+  flex: 1;
+  flex-flow: row wrap;
+  font-family: monospace;
+  font-size: 1.4em;
+  font-weight: 700;
+}
+
+.InputRow--host {
+  color: $col_light_green;
+}
+
+.InputRow--prompt {
+  color: $col_light_blue;
+}
+
+.InputRow--separator {
+  color: #fff;
+  margin: 0 8px;
+}
+
+.InputRow--input {
+  border: none;
+  caret-color: transparent;
+  color: white;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  word-break: break-all;
+  word-wrap: break-word;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.InputRow--caret {
+  align-self: stretch;
+  background-color: rgba(255,255,255,0.8);
+  color: white;
+  width: 10px;
+}
