@@ -125,8 +125,10 @@
   },
   "devDependencies": {
     "@types/react-redux": "^7.0.1",
+    "@types/redux-logger": "^3.0.6",
     "node-sass": "^4.11.0",
     "pretty-quick": "^1.10.0",
+    "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3"
   }
 }

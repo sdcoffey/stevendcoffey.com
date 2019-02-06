@@ -8,29 +8,41 @@ import InputRow from "./InputRow";
 import "../style/Terminal.scss";
 
 interface TerminalProps {
+  cwd: string;
   inputPairs: InputPair[];
 }
 
 class Terminal extends Component<TerminalProps> {
   render() {
-    const { inputPairs } = this.props;
+    const { cwd, inputPairs } = this.props;
 
-    console.log(inputPairs);
     return (
       <div className="Terminal">
         <div className="Terminal--rows">
           {inputPairs.map(pair => (
-            <InputRow />
+            <div>
+              <InputRow
+                active={false}
+                key={`${pair.timestamp}-input`}
+                input={pair.input}
+              />
+              {pair.output && (
+                <div key={`${pair.timestamp}-output`}>{pair.output}</div>
+              )}
+            </div>
           ))}
-          <InputRow />
+          <InputRow input={""} active={true} />
         </div>
       </div>
     );
   }
 }
 
-const connector = connect((state: State) => ({
-  inputPairs: state.terminal.inputs
-}));
+const mapStateToProps = (state: State) => {
+  return {
+    cwd: state.terminal.cwd,
+    inputPairs: state.terminal.inputs
+  };
+};
 
-export default connector(Terminal);
+export default connect(mapStateToProps)(Terminal);

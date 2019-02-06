@@ -1,5 +1,6 @@
 import { applyMiddleware, createStore, Store } from "redux";
 import thunk from "redux-thunk";
+import { createLogger } from "redux-logger";
 
 import { Actions } from "../actions";
 import rootReducer, { State } from "../reducers";
@@ -14,6 +15,11 @@ export type Dispatch = (
 
 export function configureStore() {
   const middleware = [thunk];
+  if (process.env.NODE_ENV === "development") {
+    const logger = createLogger({});
+    // @ts-ignore
+    middleware.push(logger);
+  }
 
   return createStore(rootReducer, applyMiddleware(...middleware));
 }

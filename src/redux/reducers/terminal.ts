@@ -7,7 +7,7 @@ import {
 export interface InputPair {
   timestamp: number;
   input: string;
-  output: string;
+  output: string | null;
 }
 
 export interface TerminalState {
@@ -27,8 +27,8 @@ export default function terminalReducer(
   switch (action.type) {
     case ADD_INPUT_PAIR:
       return {
-        inputs: [action.inputPair, ...state.inputs],
-        ...state
+        ...state,
+        inputs: [...state.inputs, action.inputPair]
       };
     case UPDATE_CWD:
       return {

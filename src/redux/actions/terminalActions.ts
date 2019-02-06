@@ -26,7 +26,7 @@ interface AddInputPairAction {
   type: typeof ADD_INPUT_PAIR;
   inputPair: {
     input: string;
-    output: string;
+    output: string | null;
     timestamp: number;
   };
 }
@@ -40,7 +40,10 @@ function updateCwd(cwd: string): UpdateCwdAction {
   };
 }
 
-function addInputPair(input: string, output: string): AddInputPairAction {
+export function addInputPair(
+  input: string,
+  output: string | null
+): AddInputPairAction {
   const timestamp = Date.now();
 
   return {
@@ -56,6 +59,11 @@ function addInputPair(input: string, output: string): AddInputPairAction {
 export function processCommand(input: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
     const cleaned = input.replace(/^\s+/, "").replace(/\s+$/, "");
+    if (cleaned === "") {
+      dispatch(addInputPair(cleaned, null));
+      return;
+    }
+
     const components = cleaned.split(" ");
     const exec = components[0];
     const args = components.slice(1, components.length);

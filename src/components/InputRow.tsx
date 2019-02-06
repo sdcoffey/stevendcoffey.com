@@ -10,6 +10,8 @@ import { processCommand } from "../redux/actions/terminalActions";
 import "../style/InputRow.scss";
 
 interface InputRowProps {
+  active: boolean;
+  input: string;
   cwd: string;
   processCommand?: typeof processCommand;
 }
@@ -27,7 +29,7 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
     this.cwd = props.cwd;
     this.input = null;
     this.state = {
-      currentText: ""
+      currentText: props.input
     };
   }
 
@@ -38,7 +40,7 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
   }
 
   render() {
-    const { cwd } = this.props;
+    const { active, cwd } = this.props;
     const { currentText } = this.state;
 
     return (
@@ -48,6 +50,7 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
         <span className="InputRow--separator">%</span>
         <ContentEditable
           className="InputRow--input"
+          disabled={!active}
           onBlur={this.handleBlur}
           html={currentText}
           onChange={this.handleChange}
@@ -56,7 +59,7 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
             this.input = ref;
           }}
         />
-        <div className="InputRow--caret" />
+        {active && <div className="InputRow--caret" />}
       </div>
     );
   }
@@ -75,6 +78,7 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
         if (processCommand) {
           processCommand(currentText);
           event.preventDefault();
+          this.setState({ currentText: "" });
         }
       case "u":
         if (event.ctrlKey) {

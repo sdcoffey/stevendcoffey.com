@@ -1,6 +1,11 @@
-import { processCommand } from "../../src/redux/actions/terminalActions";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
+
+import {
+  addInputPair,
+  processCommand
+} from "../../src/redux/actions/terminalActions";
+import terminal from "../../src/redux/reducers/terminal";
 
 const middlewares = [thunk];
 
@@ -11,7 +16,7 @@ describe("terminal reducer", () => {
     const store = mockStore({
       terminal: {
         cwd: "/",
-        inputPairs: []
+        inputs: []
       }
     });
 
@@ -31,6 +36,15 @@ describe("terminal reducer", () => {
           }
         }
       ]);
+    });
+  });
+
+  describe("add input pair", () => {
+    it("adds an input pair to the state", () => {
+      const action = addInputPair("test-input", "test-output");
+
+      const newState = terminal(undefined, action);
+      expect(newState.inputs).toContain(action.inputPair);
     });
   });
 });
