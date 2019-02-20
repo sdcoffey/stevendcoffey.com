@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
 import { State } from "../redux/reducers";
 import { InputPair } from "../redux/reducers/terminal";
-
 import InputRow from "./InputRow";
+import OutputRow from "./OutputRow";
 
 import "../style/Terminal.scss";
 
@@ -27,7 +28,9 @@ class Terminal extends Component<TerminalProps> {
                 input={pair.input}
               />
               {pair.output && (
-                <div key={`${pair.timestamp}-output`}>{pair.output}</div>
+                <OutputRow key={`${pair.timestamp}-output`}>
+                  {pair.output}
+                </OutputRow>
               )}
             </div>
           ))}
