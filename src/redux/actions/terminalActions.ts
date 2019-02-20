@@ -1,6 +1,8 @@
 import { GetState, Dispatch, ThunkAction } from "../store";
 import { State } from "../reducers";
 
+import { DEFAULT_DIRECTORY } from "../reducers/terminal";
+
 // Behind the scenes sync actions
 export const UPDATE_CWD = "UPDATE_CWD";
 export const ADD_INPUT_PAIR = "ADD_INPUT_PAIR";
@@ -14,7 +16,9 @@ interface CommandMap {
 }
 
 const AVAILABLE_COMMANDS: CommandMap = {
-  cd
+  cd,
+  echo,
+  pwd
 };
 
 interface UpdateCwdAction {
@@ -72,17 +76,30 @@ export function processCommand(input: string): ThunkAction {
       const output = AVAILABLE_COMMANDS[exec](dispatch, getState(), ...args);
       dispatch(addInputPair(cleaned, output));
     } else {
-      const output = `Command ${exec} not found`;
+      const output = `command not found: ${exec}`;
       dispatch(addInputPair(input, output));
     }
   };
 }
 
+function echo(dispatch: Dispatch, state: State, ...args: string[]): string {
+  return args.join(" ");
+}
+
+function pwd(dispatch: Dispatch, state: State): string {
+  const { cwd } = state.terminal;
+  return cwd;
+}
+
 function cd(dispatch: Dispatch, state: State, newWd: string): string {
   const { cwd } = state.terminal;
 
-  if (cwd === ".") {
+  if (!newWd) {
+    dispatch(updateCwd(DEFAULT_DIRECTORY));
+    return "";
+  } else if (cwd === ".") {
     dispatch(updateCwd(cwd));
+    return "";
   }
 
   let components = newWd.split("/");

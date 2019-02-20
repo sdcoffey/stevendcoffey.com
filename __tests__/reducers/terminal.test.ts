@@ -10,32 +10,52 @@ import terminal from "../../src/redux/reducers/terminal";
 const middlewares = [thunk];
 
 const mockStore = configureMockStore(middlewares);
+const store = mockStore({
+  terminal: {
+    cwd: "/",
+    inputs: []
+  }
+});
+
+beforeEach(() => {
+  store.clearActions();
+});
+
+function expectOutput(input: string, output: string) {
+  expect(store.getActions()).toContainEqual({
+    type: "ADD_INPUT_PAIR",
+    inputPair: {
+      timestamp: 1,
+      input,
+      output
+    }
+  });
+}
 
 describe("terminal reducer", () => {
-  describe("process command", () => {
-    const store = mockStore({
-      terminal: {
-        cwd: "/",
-        inputs: []
-      }
-    });
+  jest.spyOn(Date, "now").mockImplementation(() => 1);
 
+  describe("process command", () => {
     it("strips whitespace and splits the input", () => {
       const command = " cd up ";
 
-      jest.spyOn(Date, "now").mockImplementation(() => 1);
+      store.dispatch(processCommand(command));
+      expectOutput("cd up", "");
+    });
+  });
+
+  describe("echo", () => {
+    it("echos an unquoted string", () => {
+      const command = "echo hello";
 
       store.dispatch(processCommand(command));
-      expect(store.getActions()).toEqual([
-        {
-          type: "ADD_INPUT_PAIR",
-          inputPair: {
-            timestamp: 1,
-            input: "cd up",
-            output: ""
-          }
-        }
-      ]);
+      expectOutput(command, "hello");
+    });
+
+    it("echos a quoted string", () => {
+      const command = "echo 'hello'";
+      store.dispatch(processCommand(command));
+      expectOutput(command, "hello");
     });
   });
 

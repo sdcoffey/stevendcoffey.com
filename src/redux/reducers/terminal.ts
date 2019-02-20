@@ -4,6 +4,8 @@ import {
   TerminalActionsType
 } from "../actions/terminalActions";
 
+export const DEFAULT_DIRECTORY = "/home/steve";
+
 export interface InputPair {
   timestamp: number;
   input: string;
@@ -16,7 +18,7 @@ export interface TerminalState {
 }
 
 const initialState: TerminalState = {
-  cwd: "/home/steve",
+  cwd: DEFAULT_DIRECTORY,
   inputs: []
 };
 
