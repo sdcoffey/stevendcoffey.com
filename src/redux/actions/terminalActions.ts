@@ -6,6 +6,7 @@ import { DEFAULT_DIRECTORY } from "../reducers/terminal";
 // Behind the scenes sync actions
 export const UPDATE_CWD = "UPDATE_CWD";
 export const ADD_INPUT_PAIR = "ADD_INPUT_PAIR";
+export const CLEAR_INPUTS = "CLEAR_INPUTS";
 
 interface CommandMap {
   [command: string]: (
@@ -17,6 +18,7 @@ interface CommandMap {
 
 const AVAILABLE_COMMANDS: CommandMap = {
   cd,
+  clear,
   echo,
   pwd
 };
@@ -24,6 +26,10 @@ const AVAILABLE_COMMANDS: CommandMap = {
 interface UpdateCwdAction {
   type: typeof UPDATE_CWD;
   cwd: string;
+}
+
+interface ClearInputsAction {
+  type: typeof CLEAR_INPUTS;
 }
 
 interface AddInputPairAction {
@@ -35,12 +41,21 @@ interface AddInputPairAction {
   };
 }
 
-export type TerminalActionsType = UpdateCwdAction | AddInputPairAction;
+export type TerminalActionsType =
+  | UpdateCwdAction
+  | AddInputPairAction
+  | ClearInputsAction;
 
 function updateCwd(cwd: string): UpdateCwdAction {
   return {
     type: UPDATE_CWD,
     cwd
+  };
+}
+
+function clearInputs(): ClearInputsAction {
+  return {
+    type: CLEAR_INPUTS
   };
 }
 
@@ -80,6 +95,10 @@ export function processCommand(input: string): ThunkAction {
       dispatch(addInputPair(input, output));
     }
   };
+}
+
+function clear(dispatch: Dispatch, state: State, ...args: string[]): string {
+  return dispatch(clearInputs());
 }
 
 function echo(dispatch: Dispatch, state: State, ...args: string[]): string {

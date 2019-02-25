@@ -1,5 +1,6 @@
 import {
   ADD_INPUT_PAIR,
+  CLEAR_INPUTS,
   UPDATE_CWD,
   TerminalActionsType
 } from "../actions/terminalActions";
@@ -36,6 +37,12 @@ export default function terminalReducer(
       return {
         ...state,
         cwd: action.cwd
+      };
+    case CLEAR_INPUTS:
+      debugger;
+      return {
+        ...state,
+        inputs: []
       };
     default:
       return initialState;
