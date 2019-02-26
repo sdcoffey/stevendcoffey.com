@@ -80,10 +80,13 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
           event.preventDefault();
           this.setState({ currentText: "" });
         }
+        break;
       case "u":
         if (event.ctrlKey) {
           this.setState({ currentText: "" });
         }
+        break;
+      default:
     }
   };
 

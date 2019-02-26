@@ -2,14 +2,14 @@ import * as React from "react";
 
 import "../style/OSX.scss";
 
-import Window from "./window/Window";
+import { TerminalApp } from "./apps";
 
 interface OSXProps {}
 
 export default function OSX(props: OSXProps) {
   return (
     <div className="OSX">
-      <Window />
+      <TerminalApp />
     </div>
   );
 }

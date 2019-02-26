@@ -1,15 +1,14 @@
 import * as React from "react";
-import { Rnd } from "react-rnd";
+import { Rnd, Props as RndProps } from "react-rnd";
 
 import Toolbar from "./ToolBar";
 
 interface WindowProps {
   children?: React.ReactNode;
-  minWidth: number;
-  minHeight: number;
 }
 
-export default function Window({ children, minHeight, minWidth }: WindowProps) {
+export default function Window(props: WindowProps | RndProps) {
+  const { children } = props;
   return (
     <Rnd
       style={styles.window}
@@ -22,8 +21,7 @@ export default function Window({ children, minHeight, minWidth }: WindowProps) {
         topLeft: true,
         topRight: true
       }}
-      minHeight={minHeight}
-      minWidth={minWidth}
+      {...props}
     >
       <React.Fragment>
         <Toolbar />
