@@ -2,7 +2,7 @@ import * as React from "react";
 
 import "../style/OSX.scss";
 
-import Window from "./Window";
+import Window from "./window/Window";
 
 interface OSXProps {}
 

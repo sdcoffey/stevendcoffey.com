@@ -50,6 +50,7 @@
     "react-dev-utils": "^7.0.1",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
+    "react-rnd": "^9.1.2",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "resolve": "1.8.1",
