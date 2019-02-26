@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 
-import Terminal from "./components/Terminal";
+import OSX from "./components/OSX";
 import { configureStore, ReduxStore } from "./redux/store";
 
 import "./style/App.scss";
@@ -18,7 +18,7 @@ class App extends Component<AppProps, AppState> {
     return (
       <Provider store={store}>
         <div className="App">
-          <Terminal />
+          <OSX />
         </div>
       </Provider>
     );
