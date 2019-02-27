@@ -39,7 +39,6 @@ export default function terminalReducer(
         cwd: action.cwd
       };
     case CLEAR_INPUTS:
-      debugger;
       return {
         ...state,
         inputs: []

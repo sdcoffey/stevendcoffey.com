@@ -3,32 +3,48 @@ import { Rnd, Props as RndProps } from "react-rnd";
 
 import Toolbar from "./ToolBar";
 
-interface WindowProps {
+interface OwnWindowProps {
   children?: React.ReactNode;
 }
 
-export default function Window(props: WindowProps | RndProps) {
-  const { children } = props;
-  return (
-    <Rnd
-      style={styles.window}
-      default={{ x: 0, y: 0, width: 320, height: 200 }}
-      dragAxis="both"
-      dragHandleClassName="Toolbar"
-      enableResizing={{
-        bottomLeft: true,
-        bottomRight: true,
-        topLeft: true,
-        topRight: true
-      }}
-      {...props}
-    >
-      <React.Fragment>
-        <Toolbar />
-        {children}
-      </React.Fragment>
-    </Rnd>
-  );
+type WindowProps = OwnWindowProps | RndProps;
+
+export default class Window extends React.Component<WindowProps> {
+  static defaultProps = {
+    minHeight: 50,
+    minWidth: 100
+  };
+  key: string;
+
+  constructor(props: WindowProps) {
+    super(props);
+
+    this.key = new Date().getTime().toString();
+  }
+
+  render() {
+    const { children } = this.props;
+    return (
+      <Rnd
+        style={styles.window}
+        default={{ x: 0, y: 0, width: 320, height: 200 }}
+        dragAxis="both"
+        dragHandleClassName="Toolbar"
+        enableResizing={{
+          bottomLeft: true,
+          bottomRight: true,
+          topLeft: true,
+          topRight: true
+        }}
+        {...this.props}
+      >
+        <React.Fragment>
+          <Toolbar />
+          {children}
+        </React.Fragment>
+      </Rnd>
+    );
+  }
 }
 
 const styles = {
@@ -42,9 +58,4 @@ const styles = {
     borderRadius: "5px",
     overflow: "hidden"
   }
-};
-
-Window.defaultProps = {
-  minHeight: 50,
-  minWidth: 100
 };
