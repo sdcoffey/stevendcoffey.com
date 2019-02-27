@@ -1,9 +1,14 @@
+import * as React from "react";
+
+import { WindowProps } from "../reducers/osx";
+
 export const ADD_WINDOW = "ADD_WINDOW";
 export const CLOSE_WINDOW = "CLOSE_WINDOW";
 
 interface AddWindowAction {
   type: typeof ADD_WINDOW;
   windowKey: string;
+  props: WindowProps;
 }
 
 interface CloseWindowAction {
@@ -13,10 +18,16 @@ interface CloseWindowAction {
 
 export type OSXActionsType = AddWindowAction | CloseWindowAction;
 
-export function addWindow(windowKey: string): AddWindowAction {
+export function addWindow(
+  windowKey: string,
+  windowType: React.ComponentClass
+): AddWindowAction {
   return {
     type: ADD_WINDOW,
-    windowKey
+    windowKey,
+    props: {
+      windowType
+    }
   };
 }
 

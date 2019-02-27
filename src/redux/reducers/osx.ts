@@ -7,8 +7,7 @@ import {
 } from "../actions/osxActions";
 
 export interface WindowProps {
-  type: typeof React.Component;
-  props: { key: string };
+  windowType: React.ComponentClass;
 }
 
 export type WindowMap = { [key: string]: WindowProps };
@@ -30,7 +29,7 @@ export default function osxReducer(
       return {
         ...state,
         windows: {
-          [action.windowKey]: { open: true },
+          [action.windowKey]: action.props,
           ...state.windows
         }
       };
