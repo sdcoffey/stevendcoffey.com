@@ -1,4 +1,7 @@
 .OSX {
-  background: url(../assets/img/background-1.jpg) no-repeat center center fixed;
+  background-image: url(../assets/img/background-1.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   height: 100vh;
 }
