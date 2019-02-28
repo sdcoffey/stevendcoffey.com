@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-import TerminalApp from "./apps/TerminalApp";
+import Dock from "./system/Dock";
 import { BaseAppProps } from "./apps/BaseApp";
 import { State } from "../redux/reducers";
 import { Dispatch } from "../redux/store";
@@ -32,15 +32,7 @@ class OSX extends React.Component<OSXProps> {
           };
           return React.createElement(appType, computedProps);
         })}
-        <button
-          onClick={() => {
-            if (this.props.addApp) {
-              this.props.addApp(TerminalApp);
-            }
-          }}
-        >
-          Click me
-        </button>
+        <Dock />
       </div>
     );
   }
