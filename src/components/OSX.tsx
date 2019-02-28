@@ -25,7 +25,12 @@ class OSX extends React.Component<OSXProps> {
       <div className="OSX">
         {Object.keys(apps).map(pid => {
           const { appType, appProps } = apps[pid];
-          return React.createElement(appType, appProps);
+
+          const computedProps = {
+            key: pid,
+            ...appProps
+          };
+          return React.createElement(appType, computedProps);
         })}
         <button
           onClick={() => {

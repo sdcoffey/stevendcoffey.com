@@ -18,7 +18,7 @@ interface CloseAppAction {
 export type OSXActionsType = AddAppAction | CloseAppAction;
 
 function generatePid(): string {
-  return (new Date().getTime() % 10000).toString();
+  return (new Date().getTime() % 100000).toString();
 }
 
 export function addApp(

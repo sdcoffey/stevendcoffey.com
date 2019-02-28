@@ -23,18 +23,18 @@ export default function osxReducer(
   switch (action.type) {
     case ADD_APP:
       return {
-        ...state,
         apps: {
-          [action.pid]: action.app,
-          ...state.apps
+          ...state.apps,
+          [action.pid]: action.app
         }
       };
     case CLOSE_APP:
       const { apps } = state;
-      delete apps[action.pid];
+      const { [action.pid]: victim, ...survivors } = apps;
+
       return {
         ...state,
-        apps
+        apps: survivors
       };
     default:
       return initialState;

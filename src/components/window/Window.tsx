@@ -1,22 +1,17 @@
 import * as React from "react";
 import { Rnd, Props as RndProps } from "react-rnd";
 
-import Toolbar from "./ToolBar";
+import Toolbar, { ToolbarProps } from "./ToolBar";
 
-interface OwnWindowProps {
+interface WindowProps {
   children?: React.ReactNode;
+  toolbarProps: ToolbarProps;
+  windowProps: RndProps;
 }
 
-type WindowProps = OwnWindowProps | RndProps;
-
 export default class Window extends React.Component<WindowProps> {
-  static defaultProps = {
-    minHeight: 50,
-    minWidth: 100
-  };
-
   render() {
-    const { children } = this.props;
+    const { children, toolbarProps, windowProps } = this.props;
     return (
       <Rnd
         style={styles.window}
@@ -29,10 +24,10 @@ export default class Window extends React.Component<WindowProps> {
           topLeft: true,
           topRight: true
         }}
-        {...this.props}
+        {...windowProps}
       >
         <React.Fragment>
-          <Toolbar />
+          <Toolbar {...toolbarProps} />
           {children}
         </React.Fragment>
       </Rnd>

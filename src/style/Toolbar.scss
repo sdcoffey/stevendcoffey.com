@@ -22,4 +22,8 @@
   &:last-child {
     background-color: rgb(84, 194, 43);
   }
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
