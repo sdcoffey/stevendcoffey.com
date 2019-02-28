@@ -14,13 +14,6 @@ export default class Window extends React.Component<WindowProps> {
     minHeight: 50,
     minWidth: 100
   };
-  key: string;
-
-  constructor(props: WindowProps) {
-    super(props);
-
-    this.key = new Date().getTime().toString();
-  }
 
   render() {
     const { children } = this.props;

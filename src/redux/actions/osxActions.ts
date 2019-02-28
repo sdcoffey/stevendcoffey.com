@@ -1,39 +1,46 @@
-import * as React from "react";
+import { App } from "../reducers/osx";
+import { AppPropTypes } from "../../components/apps";
 
-import { WindowProps } from "../reducers/osx";
+export const ADD_APP = "ADD_APP";
+export const CLOSE_APP = "CLOSE_APP";
 
-export const ADD_WINDOW = "ADD_WINDOW";
-export const CLOSE_WINDOW = "CLOSE_WINDOW";
-
-interface AddWindowAction {
-  type: typeof ADD_WINDOW;
-  windowKey: string;
-  props: WindowProps;
+interface AddAppAction {
+  type: typeof ADD_APP;
+  pid: string;
+  app: App;
 }
 
-interface CloseWindowAction {
-  type: typeof CLOSE_WINDOW;
-  windowKey: string;
+interface CloseAppAction {
+  type: typeof CLOSE_APP;
+  pid: string;
 }
 
-export type OSXActionsType = AddWindowAction | CloseWindowAction;
+export type OSXActionsType = AddAppAction | CloseAppAction;
 
-export function addWindow(
-  windowKey: string,
-  windowType: React.ComponentClass
-): AddWindowAction {
+function generatePid(): string {
+  return (new Date().getTime() % 10000).toString();
+}
+
+export function addApp(
+  appType: React.ComponentClass<AppPropTypes>
+): AddAppAction {
+  const pid = generatePid();
+
   return {
-    type: ADD_WINDOW,
-    windowKey,
-    props: {
-      windowType
+    type: ADD_APP,
+    pid,
+    app: {
+      appType,
+      appProps: {
+        pid
+      }
     }
   };
 }
 
-export function closeWindow(windowKey: string): CloseWindowAction {
+export function killApp(pid: string): CloseAppAction {
   return {
-    type: CLOSE_WINDOW,
-    windowKey
+    type: CLOSE_APP,
+    pid
   };
 }

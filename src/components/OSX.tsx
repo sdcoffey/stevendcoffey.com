@@ -1,46 +1,52 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
+import TerminalApp from "./apps/TerminalApp";
+import { BaseAppProps } from "./apps/BaseApp";
 import { State } from "../redux/reducers";
 import { Dispatch } from "../redux/store";
-import { addWindow } from "../redux/actions/osxActions";
-import { WindowMap } from "../redux/reducers/osx";
-import TerminalApp from "./apps/TerminalApp";
+import { addApp } from "../redux/actions/osxActions";
+import { ApplicationMap } from "../redux/reducers/osx";
 
 import "../style/OSX.scss";
 
 interface OSXProps {
-  addWindow: typeof addWindow;
-  windows: WindowMap;
+  addApp?: typeof addApp;
+  apps: ApplicationMap;
 }
 
 class OSX extends React.Component<OSXProps> {
-  componentDidMount() {
-    const { addWindow } = this.props;
-    addWindow("abc", TerminalApp);
-  }
+  componentDidMount() {}
 
   render() {
-    const { windows } = this.props;
+    const { apps } = this.props;
 
     return (
       <div className="OSX">
-        {Object.keys(windows).map(windowKey => {
-          const { windowType } = windows[windowKey];
-
-          const props = { key: windowKey };
-          return React.createElement(windowType, props);
+        {Object.keys(apps).map(pid => {
+          const { appType, appProps } = apps[pid];
+          return React.createElement(appType, appProps);
         })}
+        <button
+          onClick={() => {
+            if (this.props.addApp) {
+              this.props.addApp(TerminalApp);
+            }
+          }}
+        >
+          Click me
+        </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state: State) => ({ windows: state.osx.windows });
+const mapStateToProps = (state: State) => ({ apps: state.osx.apps });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addWindow: (windowKey: string, windowType: React.ComponentClass) =>
-    dispatch(addWindow(windowKey, windowType))
+  addApp: (appType: React.ComponentClass<BaseAppProps>) => {
+    dispatch(addApp(appType));
+  }
 });
 
 export default connect(

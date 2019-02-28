@@ -1,14 +1,14 @@
 import * as React from "react";
 
-import Window from "../window";
+import BaseApp, { BaseAppProps } from "./BaseApp";
 import Terminal from "../Terminal";
 
-export default class TerminalApp extends React.Component<{}> {
+export default class TerminalApp extends React.Component<BaseAppProps> {
   render() {
     return (
-      <Window minWidth={300} minHeight={200}>
+      <BaseApp {...this.props}>
         <Terminal />
-      </Window>
+      </BaseApp>
     );
   }
 }

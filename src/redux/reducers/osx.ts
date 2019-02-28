@@ -1,44 +1,40 @@
-import * as React from "react";
+import { ADD_APP, CLOSE_APP, OSXActionsType } from "../actions/osxActions";
+import { AppPropTypes } from "../../components/apps";
 
-import {
-  ADD_WINDOW,
-  CLOSE_WINDOW,
-  OSXActionsType
-} from "../actions/osxActions";
-
-export interface WindowProps {
-  windowType: React.ComponentClass;
+export interface App {
+  appType: React.ComponentClass<AppPropTypes>;
+  appProps: AppPropTypes;
 }
 
-export type WindowMap = { [key: string]: WindowProps };
+export type ApplicationMap = { [pid: string]: App };
 
 export interface OSXState {
-  windows: WindowMap;
+  apps: ApplicationMap;
 }
 
 const initialState: OSXState = {
-  windows: {}
+  apps: {}
 };
 
 export default function osxReducer(
   state = initialState,
   action: OSXActionsType
-) {
+): OSXState {
   switch (action.type) {
-    case ADD_WINDOW:
+    case ADD_APP:
       return {
         ...state,
-        windows: {
-          [action.windowKey]: action.props,
-          ...state.windows
+        apps: {
+          [action.pid]: action.app,
+          ...state.apps
         }
       };
-    case CLOSE_WINDOW:
-      const { windows } = state;
-      delete windows[action.windowKey];
+    case CLOSE_APP:
+      const { apps } = state;
+      delete apps[action.pid];
       return {
         ...state,
-        windows
+        apps
       };
     default:
       return initialState;
