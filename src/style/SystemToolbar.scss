@@ -1,0 +1,16 @@
+.SystemToolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 12px;
+  background-color: rgb(73, 81, 90);
+  position: absolute;
+  height: 30px;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.SystemToolbar--icon {
+  height: 10px;
+}
