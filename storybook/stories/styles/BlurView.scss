@@ -1,0 +1,29 @@
+.BlurView--story {
+  background-image: url(../../../src/assets/img/background-1.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+@keyframes example {
+  0%   {left:-100px; top:0px;}
+  50%  {left:100px; top:0px;}
+  100%  {left:-100px; top:0px;}
+}
+
+.BlurView--instance {
+  height: 300px;
+  width: 400px;
+}
+
+.animated {
+  animation-name: example;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
