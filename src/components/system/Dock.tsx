@@ -26,11 +26,8 @@ export default class Dock extends React.Component<DockProps, DockState> {
     ]);
 
     return (
-      <div
-        className="Dock--wrapper"
-        onMouseEnter={this.handleHoverOn}
-        onMouseLeave={this.handleHoverOff}
-      >
+      <div className="Dock--wrapper" onMouseLeave={this.handleHoverOff}>
+        <div className="Dock--hoverRegion" onMouseEnter={this.handleHoverOn} />
         <BlurView className={bvClasses} />
       </div>
     );

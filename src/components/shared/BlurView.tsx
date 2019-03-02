@@ -24,7 +24,7 @@ export function BlurView(props: BlurViewProps) {
 
   return (
     <div className={classNames("BlurView", className)}>
-      <div>{children}</div>
+      <div className="BlurView--children">{children}</div>
     </div>
   );
 }

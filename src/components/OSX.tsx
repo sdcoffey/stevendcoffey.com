@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import Dock from "./system/Dock";
-import SystemToolbar from "./system/SystemBar";
+import SystemToolbar from "./system/SystemToolbar";
 import { BaseAppProps } from "./apps/BaseApp";
 import { State } from "../redux/reducers";
 import { Dispatch } from "../redux/store";

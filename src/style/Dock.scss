@@ -9,8 +9,16 @@
   flex-direction: row;
   justify-content: center;
   position: absolute;
-  height: 100px;
+  height: 80px;
   width: 100vw;
+}
+
+.Dock--hoverRegion {
+  position: absolute;
+  height: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .Dock {
@@ -18,7 +26,7 @@
   border-radius: 5px 5px 0 0;
   height: 100%;
   min-width: 300px;
- transition: top 0.5s;
+  transition: top 0.5s cubic-bezier(0, 0, 0.22, 1.04);
 }
 
 .hidden {
@@ -26,6 +34,5 @@
 }
 
 .shown {
-  top: 0px
+  top: 0px;
 }
-

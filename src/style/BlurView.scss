@@ -8,12 +8,16 @@
     background: inherit;
     position: absolute;
     height: 100vh;
-    width: 100vw;
+    width: 120vw;
     right: -25px;
     left: -25px;
     bottom: -25px;
     top: -25px;
-    box-shadow: inset 0 0 0 3000px rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 0 0 3000px rgba(30, 30, 30, 0.6);
     filter: blur(10px);
   }
+}
+
+.BlurView--children {
+  z-index: 1;
 }
