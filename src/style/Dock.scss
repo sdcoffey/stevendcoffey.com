@@ -9,7 +9,7 @@
   flex-direction: row;
   justify-content: center;
   position: absolute;
-  height: 80px;
+  height: 90px;
   width: 100vw;
 }
 
@@ -23,6 +23,7 @@
 
 .Dock {
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 5px 5px 0 0;
   height: 100%;
   min-width: 300px;
