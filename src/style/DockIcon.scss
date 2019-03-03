@@ -1,13 +1,57 @@
 $sq: 72px;
 
+.DockIcon--wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .DockIcon {
   height: $sq;
   width: $sq;
 
   z-index: inherit;
+
+  &:hover~.DockIcon--tooltip {
+    display: flex;
+  }
 }
 
 .DockIcon--image {
   height: $sq;
   width: $sq;
 }
+
+.DockIcon--tooltip {
+  display: none;
+  color: white;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: -120px;
+  padding: 6px 2px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.DockIcon--selected {
+  animation-name: bounce;
+  animation-duration: 1.0s;
+  animation-iteration-count: 1;
+  animation-easing-function: ease-in-out;
+}
+

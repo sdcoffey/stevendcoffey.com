@@ -15,7 +15,7 @@ export default class Iterm extends React.Component<BaseAppProps> {
 }
 
 AppRegistry.registerApp({
-  appName: "Iterm",
+  appName: "iTerm",
   appComponent: Iterm,
   dockIconSource: require("./AppIcon.png")
 });

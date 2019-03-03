@@ -41,6 +41,7 @@ class Dock extends React.Component<DockProps, DockState> {
           {apps.map((app, i) => (
             <DockIcon
               key={i}
+              appName={app.appName}
               source={app.dockIconSource}
               onClick={this.handleIconClicked(app)}
             />
