@@ -9,8 +9,8 @@ import { closeApp, requestFocus } from "../../redux/actions/osxActions";
 export interface BaseAppProps {
   windowProps?: RndProps;
   children?: React.ReactNode;
-  pid: string;
   closeApp?: typeof closeApp;
+  name: string;
   requestFocus?: typeof requestFocus;
 }
 
@@ -41,25 +41,25 @@ export class BaseApp extends React.Component<BaseAppProps> {
   }
 
   handleCloseRequested = () => {
-    const { closeApp, pid } = this.props;
+    const { closeApp, name } = this.props;
 
     if (closeApp) {
-      closeApp(pid);
+      closeApp(name);
     }
   };
 
   handleClick = () => {
-    const { requestFocus, pid } = this.props;
+    const { requestFocus, name } = this.props;
 
     if (requestFocus) {
-      requestFocus(pid);
+      requestFocus(name);
     }
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  closeApp: (pid: string) => dispatch(closeApp(pid)),
-  requestFocus: (pid: string) => dispatch(requestFocus(pid))
+  closeApp: (name: string) => dispatch(closeApp(name)),
+  requestFocus: (name: string) => dispatch(requestFocus(name))
 });
 
 export default connect(

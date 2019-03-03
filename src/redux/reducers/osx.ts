@@ -2,20 +2,15 @@ import {
   OPEN_APP,
   CLOSE_APP,
   REQUEST_FOCUS,
+  CloseAppAction,
+  RequestFocusAction,
   OSXActionsType
 } from "../actions/osxActions";
-import { AppPropTypes } from "../../components/apps";
 
-export interface App {
-  appType: React.ComponentClass<AppPropTypes>;
-  appProps: AppPropTypes;
-  pid: string;
-}
-
-export type ApplicationMap = App[];
+import { App } from "../../registry/osx/AppRegistry";
 
 export interface OSXState {
-  apps: ApplicationMap;
+  apps: App[];
 }
 
 const initialState: OSXState = {
@@ -42,10 +37,10 @@ export default function osxReducer(
 
 function handleCloseAppAction(
   state: OSXState,
-  action: OSXActionsType
+  action: CloseAppAction
 ): OSXState {
   const { apps } = state;
-  const appsWithoutTarget = apps.filter(a => a.pid !== action.pid);
+  const appsWithoutTarget = apps.filter(a => a.name !== action.name);
 
   return {
     ...state,
@@ -55,16 +50,16 @@ function handleCloseAppAction(
 
 function handleRequestFocusAction(
   state: OSXState,
-  action: OSXActionsType
+  action: RequestFocusAction
 ): OSXState {
   const { apps } = state;
 
-  const target = apps.find(app => app.pid === action.pid);
+  const target = apps.find(app => app.name === action.name);
   if (!target) {
     return state;
   }
 
-  const others = apps.filter(app => app.pid !== action.pid);
+  const others = apps.filter(app => app.name !== action.name);
 
   return {
     ...state,

@@ -4,12 +4,17 @@ import { connect } from "react-redux";
 
 import AppRegistry, { App } from "../../registry/osx/AppRegistry";
 import DockIcon from "./DockIcon";
+import { AppPropTypes } from "../apps";
 import { BlurView } from "../shared/BlurView";
+
+import { State } from "../../redux/reducers";
+import { Dispatch } from "../../redux/store";
 import { openApp } from "../../redux/actions/osxActions";
 
 import "../../style/Dock.scss";
 
 interface DockProps {
+  apps: App[];
   openApp?: typeof openApp;
 }
 
@@ -41,7 +46,7 @@ class Dock extends React.Component<DockProps, DockState> {
           {apps.map((app, i) => (
             <DockIcon
               key={i}
-              appName={app.appName}
+              appName={app.name}
               source={app.dockIconSource}
               onClick={this.handleIconClicked(app)}
             />
@@ -63,14 +68,22 @@ class Dock extends React.Component<DockProps, DockState> {
   handleIconClicked = (app: App) => () => {
     const { openApp } = this.props;
     if (openApp) {
-      openApp(app.appComponent);
+      openApp(app);
     }
   };
 }
 
-const connector = connect(
-  undefined,
-  { openApp }
-);
+const mapStateToProps = (state: State) => ({
+  apps: state.osx.apps
+});
 
-export default connector(Dock);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openApp: (app: App) => {
+    dispatch(openApp(app));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dock);

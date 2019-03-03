@@ -39,10 +39,6 @@ export default class Window extends React.Component<WindowProps> {
       </Rnd>
     );
   }
-
-  handleClick = () => {
-    console.log("click");
-  };
 }
 
 const styles = {

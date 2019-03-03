@@ -6,12 +6,12 @@ import "./apps";
 import Dock from "./system/Dock";
 import SystemToolbar from "./system/SystemToolbar";
 import { State } from "../redux/reducers";
-import { ApplicationMap } from "../redux/reducers/osx";
+import { App } from "../registry/osx/AppRegistry";
 
 import "../style/OSX.scss";
 
 interface OSXProps {
-  apps: ApplicationMap;
+  apps: App[];
 }
 
 class OSX extends React.Component<OSXProps> {
@@ -24,14 +24,15 @@ class OSX extends React.Component<OSXProps> {
       <div className="OSX">
         <div className="OSX--windowArea">
           {apps.reverse().map((app, i) => {
-            const { appType, appProps, pid } = app;
+            const { appComponent, name } = app;
 
             const computedProps = {
-              key: pid,
-              focused: i === 0,
-              ...appProps
+              key: name,
+              name,
+              focused: i === 0
             };
-            return React.createElement(appType, computedProps);
+
+            return React.createElement(appComponent, computedProps);
           })}
         </div>
         <SystemToolbar />

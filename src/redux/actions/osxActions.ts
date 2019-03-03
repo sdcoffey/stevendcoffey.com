@@ -1,60 +1,57 @@
-import { App } from "../reducers/osx";
-import { AppPropTypes } from "../../components/apps";
+import { GetState, Dispatch, ThunkAction } from "../store";
+import { App } from "../../registry/osx/AppRegistry";
 
 export const OPEN_APP = "OPEN_APP";
 export const CLOSE_APP = "CLOSE_APP";
 export const REQUEST_FOCUS = "REQUEST_FOCUS";
 
-interface AddAppAction {
+export interface OpenAppAction {
   type: typeof OPEN_APP;
-  pid: string;
   app: App;
 }
 
-interface CloseAppAction {
+export interface CloseAppAction {
   type: typeof CLOSE_APP;
-  pid: string;
+  name: string;
 }
 
-interface RequestFocusAction {
+export interface RequestFocusAction {
   type: typeof REQUEST_FOCUS;
-  pid: string;
+  name: string;
 }
 
-export type OSXActionsType = AddAppAction | CloseAppAction | RequestFocusAction;
+export type OSXActionsType =
+  | OpenAppAction
+  | CloseAppAction
+  | RequestFocusAction;
 
-function generatePid(): string {
-  return (new Date().getTime() % 100000).toString();
-}
+export function openApp(app: App): ThunkAction {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const { apps } = getState().osx;
 
-export function openApp(
-  appType: React.ComponentClass<AppPropTypes>
-): AddAppAction {
-  const pid = generatePid();
+    const existingApp = apps.find(_app => _app.name === app.name);
 
-  return {
-    type: OPEN_APP,
-    pid,
-    app: {
-      appType,
-      appProps: {
-        pid
-      },
-      pid
+    if (!!existingApp) {
+      dispatch(requestFocus(existingApp.name));
+    } else {
+      dispatch({
+        type: OPEN_APP,
+        app
+      });
     }
   };
 }
 
-export function closeApp(pid: string): CloseAppAction {
+export function closeApp(name: string): CloseAppAction {
   return {
     type: CLOSE_APP,
-    pid
+    name
   };
 }
 
-export function requestFocus(pid: string): RequestFocusAction {
+export function requestFocus(name: string): RequestFocusAction {
   return {
     type: REQUEST_FOCUS,
-    pid
+    name
   };
 }
