@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import BaseApp, { BaseAppProps } from "./BaseApp";
+import BaseApp, { BaseAppProps } from "../BaseApp";
 
 export default class Safari extends React.Component<BaseAppProps> {
   render() {
