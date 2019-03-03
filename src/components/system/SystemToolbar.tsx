@@ -38,7 +38,6 @@ class SystemToolbarItem extends React.Component<SystemToolbarItemProps> {
     return (
       <div onClick={this.handleClick} className="SystemToolbarItem">
         {children}
-        {active && <SystemToolbarItemMenu items={["one", "two", "three"]} />}
       </div>
     );
   }
