@@ -1,8 +1,6 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
 
-import { Apple } from "../../src/components/shared/icons";
-
 import {
   BlurView,
   DraggableBlurView
@@ -18,9 +16,7 @@ storiesOf("BlurView", module)
   ))
   .add("animated", () => (
     <div className="BlurView--story">
-      <BlurView className="BlurView--instance animated">
-        <Apple />
-      </BlurView>
+      <BlurView className="BlurView--instance animated" />
     </div>
   ))
   .add("draggable", () => (

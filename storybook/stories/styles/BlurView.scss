@@ -12,16 +12,13 @@
 
 @keyframes example {
   0% {
-    left: -100px;
-    top: 0px;
+    transform: translateX(-100px);
   }
   50% {
-    left: 100px;
-    top: 0px;
+    transform: translateX(0px);
   }
   100% {
-    left: -100px;
-    top: 0px;
+    transform: translateX(-100px);
   }
 }
 
