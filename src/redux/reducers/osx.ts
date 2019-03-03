@@ -1,4 +1,4 @@
-import { ADD_APP, CLOSE_APP, OSXActionsType } from "../actions/osxActions";
+import { OPEN_APP, CLOSE_APP, OSXActionsType } from "../actions/osxActions";
 import { AppPropTypes } from "../../components/apps";
 
 export interface App {
@@ -21,7 +21,7 @@ export default function osxReducer(
   action: OSXActionsType
 ): OSXState {
   switch (action.type) {
-    case ADD_APP:
+    case OPEN_APP:
       return {
         apps: {
           ...state.apps,

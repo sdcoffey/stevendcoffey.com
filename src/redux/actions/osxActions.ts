@@ -1,11 +1,11 @@
 import { App } from "../reducers/osx";
 import { AppPropTypes } from "../../components/apps";
 
-export const ADD_APP = "ADD_APP";
+export const OPEN_APP = "OPEN_APP";
 export const CLOSE_APP = "CLOSE_APP";
 
 interface AddAppAction {
-  type: typeof ADD_APP;
+  type: typeof OPEN_APP;
   pid: string;
   app: App;
 }
@@ -27,7 +27,7 @@ export function openApp(
   const pid = generatePid();
 
   return {
-    type: ADD_APP,
+    type: OPEN_APP,
     pid,
     app: {
       appType,
