@@ -1,4 +1,5 @@
 @import "colors";
+@import "grid";
 
 .SystemToolbar {
   display: flex;
@@ -8,7 +9,7 @@
 
   padding: 0 12px;
   position: absolute;
-  height: 30px;
+  height: $system_toolbar_height;
   width: 100%;
   left: 0;
   right: 0;

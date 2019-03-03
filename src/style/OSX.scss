@@ -1,7 +1,17 @@
+@import "grid";
+
 .OSX {
   background-image: url(../assets/img/background-1.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   height: 100vh;
+}
+
+.OSX--windowArea {
+  position: absolute;
+  top: $system_toolbar_height;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }

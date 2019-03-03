@@ -18,6 +18,7 @@ export default class Window extends React.Component<WindowProps> {
         default={{ x: 100, y: 100, width: 320, height: 200 }}
         dragAxis="both"
         dragHandleClassName="Toolbar"
+        bounds=".OSX--windowArea"
         enableResizing={{
           bottomLeft: true,
           bottomRight: true,

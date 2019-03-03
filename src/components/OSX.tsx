@@ -22,15 +22,17 @@ class OSX extends React.Component<OSXProps> {
 
     return (
       <div className="OSX">
-        {Object.keys(apps).map(pid => {
-          const { appType, appProps } = apps[pid];
+        <div className="OSX--windowArea">
+          {Object.keys(apps).map(pid => {
+            const { appType, appProps } = apps[pid];
 
-          const computedProps = {
-            key: pid,
-            ...appProps
-          };
-          return React.createElement(appType, computedProps);
-        })}
+            const computedProps = {
+              key: pid,
+              ...appProps
+            };
+            return React.createElement(appType, computedProps);
+          })}
+        </div>
         <SystemToolbar />
         <Dock />
       </div>
