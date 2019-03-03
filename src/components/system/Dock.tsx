@@ -2,9 +2,8 @@ import * as React from "react";
 import classNames from "classnames";
 import { connect } from "react-redux";
 
-import AppRegistry, { App } from "../../registry/osx/AppRegistry";
+import AppRegistry, { App } from "../../registry/osx";
 import DockIcon from "./DockIcon";
-import { AppPropTypes } from "../apps";
 import { BlurView } from "../shared/BlurView";
 
 import { State } from "../../redux/reducers";

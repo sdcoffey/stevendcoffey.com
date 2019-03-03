@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import AppRegistry from "../../../registry/osx/AppRegistry";
+import AppRegistry from "../../../registry/osx";
 import BaseApp, { BaseAppProps } from "../BaseApp";
 import Terminal from "../../Terminal";
 

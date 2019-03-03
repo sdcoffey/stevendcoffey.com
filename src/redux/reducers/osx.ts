@@ -7,7 +7,7 @@ import {
   OSXActionsType
 } from "../actions/osxActions";
 
-import { App } from "../../registry/osx/AppRegistry";
+import { App } from "../../registry/osx";
 
 export interface OSXState {
   apps: App[];

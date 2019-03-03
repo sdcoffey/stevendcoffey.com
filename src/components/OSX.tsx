@@ -6,7 +6,7 @@ import "./apps";
 import Dock from "./system/Dock";
 import SystemToolbar from "./system/SystemToolbar";
 import { State } from "../redux/reducers";
-import { App } from "../registry/osx/AppRegistry";
+import { App } from "../registry/osx";
 
 import "../style/OSX.scss";
 
