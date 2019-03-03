@@ -1,15 +1,23 @@
 import * as React from "react";
 import classNames from "classnames";
+import { connect } from "react-redux";
 
+import AppRegistry, { App } from "../../registry/osx/AppRegistry";
+import DockIcon from "./DockIcon";
 import { BlurView } from "../shared/BlurView";
+import { openApp } from "../../redux/actions/osxActions";
+
 import "../../style/Dock.scss";
 
-interface DockProps {}
+interface DockProps {
+  openApp?: typeof openApp;
+}
+
 interface DockState {
   hidden: boolean;
 }
 
-export default class Dock extends React.Component<DockProps, DockState> {
+class Dock extends React.Component<DockProps, DockState> {
   state = {
     hidden: true
   };
@@ -25,10 +33,20 @@ export default class Dock extends React.Component<DockProps, DockState> {
       }
     ]);
 
+    const { apps } = AppRegistry;
+
     return (
       <div className="Dock--wrapper" onMouseLeave={this.handleHoverOff}>
+        <BlurView className={bvClasses} childrenClassName="Dock--iconsWrapper">
+          {apps.map((app, i) => (
+            <DockIcon
+              key={i}
+              source={app.dockIconSource}
+              onClick={this.handleIconClicked(app)}
+            />
+          ))}
+        </BlurView>
         <div className="Dock--hoverRegion" onMouseEnter={this.handleHoverOn} />
-        <BlurView className={bvClasses} />
       </div>
     );
   }
@@ -40,4 +58,18 @@ export default class Dock extends React.Component<DockProps, DockState> {
   handleHoverOff = () => {
     this.setState({ hidden: true });
   };
+
+  handleIconClicked = (app: App) => () => {
+    const { openApp } = this.props;
+    if (openApp) {
+      openApp(app.appComponent);
+    }
+  };
 }
+
+const connector = connect(
+  undefined,
+  { openApp }
+);
+
+export default connector(Dock);

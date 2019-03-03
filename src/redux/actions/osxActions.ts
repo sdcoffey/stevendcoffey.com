@@ -21,7 +21,7 @@ function generatePid(): string {
   return (new Date().getTime() % 100000).toString();
 }
 
-export function addApp(
+export function openApp(
   appType: React.ComponentClass<AppPropTypes>
 ): AddAppAction {
   const pid = generatePid();

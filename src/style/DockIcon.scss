@@ -1,0 +1,13 @@
+$sq: 72px;
+
+.DockIcon {
+  height: $sq;
+  width: $sq;
+
+  z-index: inherit;
+}
+
+.DockIcon--image {
+  height: $sq;
+  width: $sq;
+}

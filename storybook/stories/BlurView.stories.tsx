@@ -1,6 +1,7 @@
 import * as React from "react";
 import { storiesOf } from "@storybook/react";
-import { Rnd, Props as RndProps } from "react-rnd";
+
+import { Apple } from "../../src/components/shared/icons";
 
 import {
   BlurView,
@@ -12,22 +13,18 @@ import "./styles/BlurView.scss";
 storiesOf("BlurView", module)
   .add("static", () => (
     <div className="BlurView--story">
-      <BlurView className="BlurView--instance">
-        <p>some text</p>
-      </BlurView>
+      <BlurView className="BlurView--instance" />
     </div>
   ))
   .add("animated", () => (
     <div className="BlurView--story">
       <BlurView className="BlurView--instance animated">
-        <p>some text</p>
+        <Apple />
       </BlurView>
     </div>
   ))
   .add("draggable", () => (
     <div className="BlurView--story">
-      <DraggableBlurView className="BlurView--instance">
-        <p>some text</p>
-      </DraggableBlurView>
+      <DraggableBlurView className="BlurView--instance" />
     </div>
   ));

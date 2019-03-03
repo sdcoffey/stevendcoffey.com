@@ -6,6 +6,7 @@ import "../../style/BlurView.scss";
 
 interface OwnBlurViewProps {
   children?: React.ReactNode;
+  childrenClassName?: string;
 }
 
 type BlurViewProps = OwnBlurViewProps & React.HTMLAttributes<HTMLDivElement>;
@@ -20,11 +21,12 @@ type DraggableData = {
 };
 
 export function BlurView(props: BlurViewProps) {
-  const { children, className } = props;
+  const { children, childrenClassName, className } = props;
 
+  const childrenClasses = classNames("BlurView--children", childrenClassName);
   return (
     <div className={classNames("BlurView", className)}>
-      <div className="BlurView--children">{children}</div>
+      <div className={childrenClasses}>{children}</div>
     </div>
   );
 }

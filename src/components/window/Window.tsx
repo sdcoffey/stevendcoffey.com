@@ -15,7 +15,7 @@ export default class Window extends React.Component<WindowProps> {
     return (
       <Rnd
         style={styles.window}
-        default={{ x: 0, y: 0, width: 320, height: 200 }}
+        default={{ x: 100, y: 100, width: 320, height: 200 }}
         dragAxis="both"
         dragHandleClassName="Toolbar"
         enableResizing={{

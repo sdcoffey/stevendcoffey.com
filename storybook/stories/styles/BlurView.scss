@@ -11,9 +11,18 @@
 }
 
 @keyframes example {
-  0%   {left:-100px; top:0px;}
-  50%  {left:100px; top:0px;}
-  100%  {left:-100px; top:0px;}
+  0% {
+    left: -100px;
+    top: 0px;
+  }
+  50% {
+    left: 100px;
+    top: 0px;
+  }
+  100% {
+    left: -100px;
+    top: 0px;
+  }
 }
 
 .BlurView--instance {
@@ -26,4 +35,3 @@
   animation-duration: 3s;
   animation-iteration-count: infinite;
 }
-

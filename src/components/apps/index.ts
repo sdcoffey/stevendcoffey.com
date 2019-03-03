@@ -1,4 +1,4 @@
-import TerminalApp from "./TerminalApp";
+import Iterm from "./iterm/Iterm";
 
 export * from "./types";
-export { TerminalApp };
+export { Iterm };
