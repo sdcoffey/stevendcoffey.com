@@ -7,9 +7,14 @@ interface WindowProps {
   children?: React.ReactNode;
   toolbarProps: ToolbarProps;
   windowProps: RndProps;
+  onClick?: () => void;
 }
 
 export default class Window extends React.Component<WindowProps> {
+  static defaultProps = {
+    focused: false
+  };
+
   render() {
     const { children, toolbarProps, windowProps } = this.props;
     return (
@@ -34,6 +39,10 @@ export default class Window extends React.Component<WindowProps> {
       </Rnd>
     );
   }
+
+  handleClick = () => {
+    console.log("click");
+  };
 }
 
 const styles = {

@@ -4,13 +4,14 @@ import { Props as RndProps } from "react-rnd";
 
 import Window from "../window";
 import { Dispatch } from "../../redux/store";
-import { killApp } from "../../redux/actions/osxActions";
+import { closeApp, requestFocus } from "../../redux/actions/osxActions";
 
 export interface BaseAppProps {
   windowProps?: RndProps;
   children?: React.ReactNode;
   pid: string;
-  killApp?: typeof killApp;
+  closeApp?: typeof closeApp;
+  requestFocus?: typeof requestFocus;
 }
 
 const DEFAULT_MIN_WIDTH = 300;
@@ -23,6 +24,7 @@ export class BaseApp extends React.Component<BaseAppProps> {
     const windowPropsWithDefaults = {
       minHeight: DEFAULT_MIN_HEIGHT,
       minWidth: DEFAULT_MIN_WIDTH,
+      onClick: this.handleClick,
       ...windowProps
     };
 
@@ -39,16 +41,25 @@ export class BaseApp extends React.Component<BaseAppProps> {
   }
 
   handleCloseRequested = () => {
-    const { killApp, pid } = this.props;
+    const { closeApp, pid } = this.props;
 
-    if (killApp) {
-      killApp(pid);
+    if (closeApp) {
+      closeApp(pid);
+    }
+  };
+
+  handleClick = () => {
+    const { requestFocus, pid } = this.props;
+
+    if (requestFocus) {
+      requestFocus(pid);
     }
   };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  killApp: (pid: string) => dispatch(killApp(pid))
+  closeApp: (pid: string) => dispatch(closeApp(pid)),
+  requestFocus: (pid: string) => dispatch(requestFocus(pid))
 });
 
 export default connect(

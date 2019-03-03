@@ -3,6 +3,7 @@ import { AppPropTypes } from "../../components/apps";
 
 export const OPEN_APP = "OPEN_APP";
 export const CLOSE_APP = "CLOSE_APP";
+export const REQUEST_FOCUS = "REQUEST_FOCUS";
 
 interface AddAppAction {
   type: typeof OPEN_APP;
@@ -15,7 +16,12 @@ interface CloseAppAction {
   pid: string;
 }
 
-export type OSXActionsType = AddAppAction | CloseAppAction;
+interface RequestFocusAction {
+  type: typeof REQUEST_FOCUS;
+  pid: string;
+}
+
+export type OSXActionsType = AddAppAction | CloseAppAction | RequestFocusAction;
 
 function generatePid(): string {
   return (new Date().getTime() % 100000).toString();
@@ -33,14 +39,22 @@ export function openApp(
       appType,
       appProps: {
         pid
-      }
+      },
+      pid
     }
   };
 }
 
-export function killApp(pid: string): CloseAppAction {
+export function closeApp(pid: string): CloseAppAction {
   return {
     type: CLOSE_APP,
+    pid
+  };
+}
+
+export function requestFocus(pid: string): RequestFocusAction {
+  return {
+    type: REQUEST_FOCUS,
     pid
   };
 }

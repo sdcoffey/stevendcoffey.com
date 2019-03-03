@@ -44,6 +44,6 @@ export default function terminalReducer(
         inputs: []
       };
     default:
-      return initialState;
+      return state;
   }
 }
