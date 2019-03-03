@@ -36,6 +36,18 @@ $sq: 72px;
   border-radius: 5px;
 }
 
+.DockIcon--openIndicator {
+  position: absolute;
+  bottom: 10px;
+  align-self: center;
+
+  width: 5px;
+  height: 5px;
+
+  background-color: white;
+  border-radius: 5px;
+}
+
 @keyframes bounce {
   0% {
     transform: translateY(0px);
@@ -53,5 +65,9 @@ $sq: 72px;
   animation-duration: 1.0s;
   animation-iteration-count: 1;
   animation-easing-function: ease-in-out;
+}
+
+.DockIcon--openIndicator-hidden {
+  opacity: 0;
 }
 

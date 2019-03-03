@@ -38,6 +38,7 @@ class Dock extends React.Component<DockProps, DockState> {
     ]);
 
     const { apps } = AppRegistry;
+    const openAppKeys = new Set(this.props.apps.map(app => app.name));
 
     return (
       <div className="Dock--wrapper" onMouseLeave={this.handleHoverOff}>
@@ -45,6 +46,7 @@ class Dock extends React.Component<DockProps, DockState> {
           {apps.map((app, i) => (
             <DockIcon
               key={i}
+              open={openAppKeys.has(app.name)}
               appName={app.name}
               source={app.dockIconSource}
               onClick={this.handleIconClicked(app)}

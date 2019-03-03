@@ -9,6 +9,7 @@ interface DockIconProps {
   appName: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   source: number;
+  open: boolean;
 }
 
 interface DockIconState {
@@ -23,11 +24,20 @@ export default class DockIcon extends React.Component<
     selected: false
   };
 
+  componentDidUpdate(prevProps: DockIconProps) {
+    if (prevProps.open && !this.props.open) {
+      this.setState({ selected: false });
+    }
+  }
+
   render() {
-    const { appName, source } = this.props;
+    const { appName, open, source } = this.props;
     const { selected } = this.state;
 
     const classes = classNames("DockIcon", { "DockIcon--selected": selected });
+    const indicatorClasses = classNames("DockIcon--openIndicator", {
+      "DockIcon--openIndicator-hidden": !open
+    });
 
     return (
       <div className="DockIcon--wrapper">
@@ -39,6 +49,7 @@ export default class DockIcon extends React.Component<
           />
         </div>
         <BlurView className="DockIcon--tooltip">{appName}</BlurView>
+        <div className={indicatorClasses} />
       </div>
     );
   }
