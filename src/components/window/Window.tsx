@@ -3,6 +3,8 @@ import { Rnd, Props as RndProps } from "react-rnd";
 
 import Toolbar, { ToolbarProps } from "./ToolBar";
 
+import "./Window.scss";
+
 interface WindowProps {
   children?: React.ReactNode;
   toolbarProps: ToolbarProps;
@@ -19,7 +21,7 @@ export default class Window extends React.Component<WindowProps> {
     const { children, toolbarProps, windowProps } = this.props;
     return (
       <Rnd
-        style={styles.window}
+        className="Window"
         default={{ x: 100, y: 100, width: 320, height: 200 }}
         dragAxis="both"
         dragHandleClassName="Toolbar"
@@ -32,24 +34,11 @@ export default class Window extends React.Component<WindowProps> {
         }}
         {...windowProps}
       >
-        <React.Fragment>
+        <div className="Window--contentArea">
           <Toolbar {...toolbarProps} />
-          {children}
-        </React.Fragment>
+          <div className="Window--childrenArea">{children}</div>
+        </div>
       </Rnd>
     );
   }
 }
-
-const styles = {
-  topbar: {
-    backgroundColor: "black",
-    height: "20px",
-    width: "100%"
-  },
-  window: {
-    boxShadow: "0px 0px 20px rgba(0,0,0,0.5)",
-    borderRadius: "5px",
-    overflow: "hidden"
-  }
-};
