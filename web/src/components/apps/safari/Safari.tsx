@@ -1,5 +1,4 @@
 import * as React from "react";
-import Interweave from "interweave";
 // @ts-ignore
 import renderHTML from "react-render-html";
 
@@ -11,41 +10,13 @@ import "./Safari.scss";
 
 type SafariState = {
   url?: string;
-  webContent?: string;
 };
 
 export default class Safari extends React.Component<BaseAppProps, SafariState> {
   iframe: HTMLIFrameElement | null = null;
   state = {
-    url: "https://www.google.com",
-    webContent: ""
+    url: "https://www.apple.com"
   };
-
-  componentDidMount() {
-    const { url } = this.state;
-    const corsUrl = `https://cors-anywhere.herokuapp.com/${url}`;
-    console.log(corsUrl);
-    var x = new XMLHttpRequest();
-    x.open("GET", corsUrl);
-    x.onload = () => {
-      const { iframe } = this;
-      if (!!iframe && !!iframe.contentWindow) {
-        const html = x.responseText.replace(
-          new RegExp('(href|src)="/', "g"),
-          '$1="' + `https://cors-anywhere.herokuapp.com/${url}` + "/"
-        );
-
-        iframe.contentWindow.document.open();
-        iframe.contentWindow.document.write(html);
-        iframe.contentWindow.document.close();
-      }
-    };
-
-    // this.setState({ webContent });
-    x.send();
-
-    this.bindEvents();
-  }
 
   bindEvents() {
     window.addEventListener("message", this.handleMessageReceived, false);
@@ -56,7 +27,7 @@ export default class Safari extends React.Component<BaseAppProps, SafariState> {
   };
 
   render() {
-    const { webContent, url } = this.state;
+    const { url } = this.state;
 
     return (
       <BaseApp {...this.props} windowProps={{ minHeight: 300, minWidth: 600 }}>
@@ -65,9 +36,11 @@ export default class Safari extends React.Component<BaseAppProps, SafariState> {
           childrenClassName="Safari--fill"
         >
           <iframe
-            ref={ref => (this.iframe = ref)}
+            is="x-frame-bypass"
             className="Safari--fill Safari--webFrame"
-            // src={`https://cors-anywhere.herokuapp.com/${url}`}
+            src={url}
+            width="100%"
+            height="100%"
           />
         </BlurView>
       </BaseApp>
@@ -75,8 +48,8 @@ export default class Safari extends React.Component<BaseAppProps, SafariState> {
   }
 }
 
-AppRegistry.registerApp({
-  appComponent: Safari,
-  dockIconSource: require("./AppIcon.png"),
-  name: "Safari"
-});
+// AppRegistry.registerApp({
+//   appComponent: Safari,
+//   dockIconSource: require("./AppIcon.png"),
+//   name: "Safari"
+// });

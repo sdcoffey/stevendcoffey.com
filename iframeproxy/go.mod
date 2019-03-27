@@ -23,7 +23,7 @@ require (
 	github.com/stamblerre/gocode v0.0.0-20190213022308-8cc90faaf476 // indirect
 	github.com/zmb3/gogetdoc v0.0.0-20190228002656-b37376c5da6a // indirect
 	golang.org/x/lint v0.0.0-20190301231843-5614ed5bae6f // indirect
-	golang.org/x/net v0.0.0-20190310014029-b774fd8d5c0f // indirect
+	golang.org/x/net v0.0.0-20190310014029-b774fd8d5c0f
 	golang.org/x/tools v0.0.0-20190308174544-00c44ba9c14f // indirect
 	gopkg.in/alecthomas/kingpin.v3-unstable v3.0.0-20180810215634-df19058c872c // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
