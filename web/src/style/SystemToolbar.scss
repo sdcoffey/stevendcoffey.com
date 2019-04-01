@@ -3,6 +3,7 @@
 
 .SystemToolbar {
   display: flex;
+  flex: 1;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -10,7 +11,6 @@
   padding: 0 12px;
   position: absolute;
   height: $system_toolbar_height;
-  width: 100%;
   left: 0;
   right: 0;
   top: 0;
@@ -19,6 +19,20 @@
 .SystemToolbar--childWrapper {
   display: flex;
   flex-direction: row;
+
+  height: 100%;
+  width: 100%;
+}
+
+.SystemToolbar--menuDock {
+  display: flex;
+  flex: 1;
+}
+
+.SystemToolbar--toolbarDock {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .SystemToolbarItem {
@@ -37,4 +51,12 @@
 .SystemToolbarItemMenu {
   position: absolute;
   top: 30px;
+}
+
+.SystemToolbar--clock {
+  display: flex;
+  justify-content: flex-start;
+
+  color: white;
+  width: 110px;
 }
