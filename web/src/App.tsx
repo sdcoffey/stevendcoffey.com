@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import Media from "react-media";
 import { Provider } from "react-redux";
 
 import OSX from "./components/OSX";
+import IOS from "./components/iOS";
 import { configureStore, ReduxStore } from "./redux/store";
 
 import "./style/App.scss";
@@ -18,7 +20,9 @@ class App extends Component<AppProps, AppState> {
     return (
       <Provider store={store}>
         <div className="App">
-          <OSX />
+          <Media query={{ maxWidth: 599 }}>
+            {(matches: boolean) => (matches ? <IOS /> : <OSX />)}
+          </Media>
         </div>
       </Provider>
     );
