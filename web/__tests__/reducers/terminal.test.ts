@@ -55,7 +55,7 @@ describe("terminal reducer", () => {
     it("echos a quoted string", () => {
       const command = "echo 'hello'";
       store.dispatch(processCommand(command));
-      expectOutput(command, "hello");
+      expectOutput(command, "'hello'");
     });
   });
 

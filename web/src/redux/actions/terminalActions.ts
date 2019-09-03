@@ -4,9 +4,11 @@ import { State } from "../reducers";
 import { DEFAULT_DIRECTORY } from "../reducers/terminal";
 
 // Behind the scenes sync actions
-export const UPDATE_CWD = "UPDATE_CWD";
 export const ADD_INPUT_PAIR = "ADD_INPUT_PAIR";
 export const CLEAR_INPUTS = "CLEAR_INPUTS";
+export const CLEAR_CURRENT_INPUT = "CLEAR_CURRENT_INPUT";
+export const SET_CURRENT_INPUT = "SET_CURRENT_INPUT";
+export const UPDATE_CWD = "UPDATE_CWD";
 
 interface CommandMap {
   [command: string]: (
@@ -41,10 +43,21 @@ interface AddInputPairAction {
   };
 }
 
+interface ClearCurrentInputAction {
+  type: typeof CLEAR_CURRENT_INPUT;
+}
+
+interface SetCurrentInputAction {
+  type: typeof SET_CURRENT_INPUT;
+  value: string;
+}
+
 export type TerminalActionsType =
-  | UpdateCwdAction
   | AddInputPairAction
-  | ClearInputsAction;
+  | ClearInputsAction
+  | UpdateCwdAction
+  | ClearCurrentInputAction
+  | SetCurrentInputAction;
 
 function updateCwd(cwd: string): UpdateCwdAction {
   return {
@@ -57,6 +70,19 @@ function clearInputs(): ClearInputsAction {
   return {
     type: CLEAR_INPUTS
   };
+}
+
+export function clearCurrentInput(): ClearCurrentInputAction {
+  return {
+    type: CLEAR_CURRENT_INPUT
+  }
+}
+
+export function setCurrentInput(value: string): SetCurrentInputAction {
+  return {
+    type: SET_CURRENT_INPUT,
+    value
+  }
 }
 
 export function addInputPair(

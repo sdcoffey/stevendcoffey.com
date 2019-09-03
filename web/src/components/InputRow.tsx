@@ -1,26 +1,19 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
-
-import { State } from "../redux/reducers";
-import { Dispatch } from "../redux/store";
-import { processCommand } from "../redux/actions/terminalActions";
 
 import "../style/InputRow.scss";
 
 interface InputRowProps {
   active: boolean;
-  input: string;
   cwd: string;
-  processCommand?: typeof processCommand;
+  inputValue: string;
+  onSubmit: () => void;
+  onChange: (newValue: string) => void;
+  onClearCurrentInput: () => void;
 }
 
-interface InputRowState {
-  currentText: string;
-}
-
-class InputRow extends React.Component<InputRowProps, InputRowState> {
+export default class InputRow extends React.Component<InputRowProps> {
   cwd: string;
   input: HTMLDivElement | null;
 
@@ -28,9 +21,6 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
     super(props);
     this.cwd = props.cwd;
     this.input = null;
-    this.state = {
-      currentText: props.input
-    };
   }
 
   componentDidMount() {
@@ -40,50 +30,49 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
   }
 
   render() {
-    const { active, cwd } = this.props;
-    const { currentText } = this.state;
+    const { active, cwd, inputValue } = this.props;
 
     return (
-      <div className="InputRow">
-        <span className="InputRow--host">stevendcoffey.com:</span>
-        <span className="InputRow--prompt">{cwd}</span>
-        <span className="InputRow--separator">%</span>
+      <div className="input-row">
+        <span className="input-row__host">stevendcoffey.com:</span>
+        <span className="input-row__prompt">{cwd}</span>
+        <span className="input-row__separator">%</span>
         <ContentEditable
-          className="InputRow--input"
+          className="input-row__input"
           disabled={!active}
           onBlur={this.handleBlur}
-          html={currentText}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress}
-          innerRef={(ref: HTMLDivElement) => {
+          html={inputValue}
+          innerRef={(ref: HTMLInputElement) => {
             this.input = ref;
           }}
         />
-        {active && <div className="InputRow--caret" />}
+        {active && <div className="input-row__caret" />}
       </div>
     );
   }
 
   handleChange = (event: any): void => {
+    const { onChange } = this.props;
     if (event.target.value) {
-      this.setState({ currentText: sanitizeHtml(event.target.value) });
+      const sanitized = sanitizeHtml(event.target.value, { allowedTags: [] });
+      onChange(sanitized);
     }
   };
 
   handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     switch (event.key.toLowerCase()) {
       case "enter":
-        const { processCommand } = this.props;
-        const { currentText } = this.state;
-        if (processCommand) {
-          processCommand(currentText);
-          event.preventDefault();
-          this.setState({ currentText: "" });
-        }
+        const { onSubmit } = this.props;
+        event.preventDefault();
+        onSubmit();
+
         break;
       case "u":
         if (event.ctrlKey) {
-          this.setState({ currentText: "" });
+          const { onClearCurrentInput } = this.props;
+          onClearCurrentInput();
         }
         break;
       default:
@@ -96,16 +85,3 @@ class InputRow extends React.Component<InputRowProps, InputRowState> {
     }
   };
 }
-
-const mapStateToProps = (state: State) => ({
-  cwd: state.terminal.cwd
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  processCommand: (input: string) => dispatch(processCommand(input))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(InputRow);

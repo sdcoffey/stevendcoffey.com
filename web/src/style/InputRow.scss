@@ -1,7 +1,7 @@
-@import "colors";
-@import "typography";
+@import 'colors';
+@import 'typography';
 
-.InputRow {
+.input-row {
   display: flex;
   flex: 1;
   flex-flow: row wrap;
@@ -10,26 +10,27 @@
   font-weight: 700;
 }
 
-.InputRow--host {
-  color: $col_light_green;
+.input-row__host {
+  color: $col-light-green;
 }
 
-.InputRow--prompt {
-  color: $col_light_blue;
+.input-row__prompt {
+  color: $col-light-blue;
 }
 
-.InputRow--separator {
-  color: #fff;
+.input-row__separator {
+  color: white;
   margin: 0 8px;
 }
 
-.InputRow--input {
-  border: none;
+.input-row__input {
+  border: 0;
+  background-color: transparent;
   caret-color: transparent;
   color: white;
   font-family: inherit;
-  font-weight: inherit;
   font-size: inherit;
+  font-weight: inherit;
   word-break: break-all;
   word-wrap: break-word;
 
@@ -38,9 +39,8 @@
   }
 }
 
-.InputRow--caret {
+.input-row__caret {
   align-self: stretch;
-  background-color: rgba(255, 255, 255, 0.8);
-  color: white;
+  background-color: rgba(255, 255, 255, .8);
   width: 10px;
 }
