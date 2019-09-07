@@ -5,8 +5,8 @@ import { DEFAULT_DIRECTORY } from "../reducers/terminal";
 
 // Behind the scenes sync actions
 export const ADD_INPUT_PAIR = "ADD_INPUT_PAIR";
-export const CLEAR_INPUTS = "CLEAR_INPUTS";
 export const CLEAR_CURRENT_INPUT = "CLEAR_CURRENT_INPUT";
+export const CLEAR_INPUTS = "CLEAR_INPUTS";
 export const SET_CURRENT_INPUT = "SET_CURRENT_INPUT";
 export const UPDATE_CWD = "UPDATE_CWD";
 
@@ -25,15 +25,6 @@ const AVAILABLE_COMMANDS: CommandMap = {
   pwd
 };
 
-interface UpdateCwdAction {
-  type: typeof UPDATE_CWD;
-  cwd: string;
-}
-
-interface ClearInputsAction {
-  type: typeof CLEAR_INPUTS;
-}
-
 interface AddInputPairAction {
   type: typeof ADD_INPUT_PAIR;
   inputPair: {
@@ -41,6 +32,10 @@ interface AddInputPairAction {
     output: string | null;
     timestamp: number;
   };
+}
+
+interface ClearInputsAction {
+  type: typeof CLEAR_INPUTS;
 }
 
 interface ClearCurrentInputAction {
@@ -52,12 +47,17 @@ interface SetCurrentInputAction {
   value: string;
 }
 
+interface UpdateCwdAction {
+  type: typeof UPDATE_CWD;
+  cwd: string;
+}
+
 export type TerminalActionsType =
   | AddInputPairAction
-  | ClearInputsAction
-  | UpdateCwdAction
   | ClearCurrentInputAction
-  | SetCurrentInputAction;
+  | ClearInputsAction
+  | SetCurrentInputAction
+  | UpdateCwdAction;
 
 function updateCwd(cwd: string): UpdateCwdAction {
   return {
@@ -75,14 +75,25 @@ function clearInputs(): ClearInputsAction {
 export function clearCurrentInput(): ClearCurrentInputAction {
   return {
     type: CLEAR_CURRENT_INPUT
-  }
+  };
 }
 
 export function setCurrentInput(value: string): SetCurrentInputAction {
   return {
     type: SET_CURRENT_INPUT,
     value
-  }
+  };
+}
+
+export function submit(): ThunkAction {
+  return (dispatch: Dispatch, getState: GetState) => {
+    const {
+      terminal: { currentInput }
+    } = getState();
+
+    dispatch(processCommand(currentInput));
+    dispatch(clearCurrentInput());
+  };
 }
 
 export function addInputPair(
@@ -101,7 +112,7 @@ export function addInputPair(
   };
 }
 
-export function processCommand(input: string): ThunkAction {
+function processCommand(input: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
     const cleaned = input.replace(/^\s+/, "").replace(/\s+$/, "");
     if (cleaned === "") {

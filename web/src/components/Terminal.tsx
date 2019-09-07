@@ -6,7 +6,8 @@ import { InputPair } from "../redux/reducers/terminal";
 import { State } from "../redux/reducers";
 import {
   clearCurrentInput,
-  setCurrentInput
+  setCurrentInput,
+  submit
 } from "../redux/actions/terminalActions";
 import InputRow from "./InputRow";
 import OutputRow from "./OutputRow";
@@ -19,6 +20,7 @@ interface TerminalProps {
   inputPairs: InputPair[];
   clearCurrentInput?: typeof clearCurrentInput;
   setCurrentInput?: typeof setCurrentInput;
+  submit?: typeof submit;
 }
 
 function Terminal(props: TerminalProps) {
@@ -27,14 +29,17 @@ function Terminal(props: TerminalProps) {
     currentInput,
     cwd,
     inputPairs,
-    setCurrentInput
+    setCurrentInput,
+    submit
   } = props;
 
   const handleRowChange = (newValue: string) => {
     setCurrentInput && setCurrentInput(newValue);
   };
 
-  const handleRowSubmit = () => {};
+  const handleRowSubmit = () => {
+    submit && submit();
+  };
 
   const handleClearCurrentInput = () => {
     clearCurrentInput && clearCurrentInput();
@@ -74,7 +79,8 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatch = (dispatch: Dispatch) => ({
   clearCurrentInput: (value: string) => dispatch(clearCurrentInput()),
-  setCurrentInput: (value: string) => dispatch(setCurrentInput(value))
+  setCurrentInput: (value: string) => dispatch(setCurrentInput(value)),
+  submit: () => dispatch(submit())
 });
 
 export default connect(

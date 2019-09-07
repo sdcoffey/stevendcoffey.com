@@ -64,8 +64,9 @@ export default class InputRow extends React.Component<InputRowProps> {
   handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     switch (event.key.toLowerCase()) {
       case "enter":
-        const { onSubmit } = this.props;
         event.preventDefault();
+
+        const { onSubmit } = this.props;
         onSubmit();
 
         break;
