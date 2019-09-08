@@ -39,7 +39,6 @@
     "react-contenteditable": "^3.2.6",
     "react-dev-utils": "^7.0.1",
     "react-dom": "^16.9.0",
-    "react-jss": "^8.6.1",
     "react-media": "^1.9.2",
     "react-redux": "^6.0.0",
     "react-rnd": "^9.1.2",
