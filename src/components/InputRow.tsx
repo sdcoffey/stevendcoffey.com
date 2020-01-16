@@ -2,7 +2,8 @@ import * as React from "react";
 import sanitizeHtml from "sanitize-html";
 import styled from "styled-components";
 
-import { Caret, TerminalInput, Text } from "./styled";
+import { Caret, TerminalInput } from "./styled";
+import { BoldText } from "./style/typography";
 import { LIGHT_BLUE, LIGHT_GREEN, WHITE } from "./style/colors";
 
 import "../style/InputRow.scss";
@@ -12,10 +13,8 @@ interface InputRowProps {
   cwd: string;
   cursorIndex: number;
   value: string;
-  onSubmit: () => void;
-  onChange: (newValue: string) => void;
-  onClearCurrentInput: () => void;
-  onCursorIndexChange: (newIndex: number) => void;
+  onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+  onChange: (value: string) => void;
 }
 
 const Row = styled.div`
@@ -24,7 +23,7 @@ const Row = styled.div`
   flex-flow: row wrap;
 `;
 
-const Separator = styled(Text)`
+const Separator = styled(BoldText)`
   margin: 0 8px;
 `;
 
@@ -44,18 +43,18 @@ export default class InputRow extends React.Component<InputRowProps> {
   }
 
   render() {
-    const { active, cwd, cursorIndex, value } = this.props;
+    const { active, cwd, cursorIndex, onKeyDown, value } = this.props;
 
     return (
       <Row>
-        <Text color={LIGHT_GREEN}>stevendcoffey.com:</Text>
-        <Text color={LIGHT_BLUE}>{cwd}</Text>
+        <BoldText color={LIGHT_GREEN}>stevendcoffey.com:</BoldText>
+        <BoldText color={LIGHT_BLUE}>{cwd}</BoldText>
         <Separator color={WHITE}>%</Separator>
         <TerminalInput
           disabled={!active}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
-          onKeyDown={this.handleKeyPress}
+          onKeyDown={onKeyDown}
           html={value}
           innerRef={this.input}
         />
@@ -73,32 +72,8 @@ export default class InputRow extends React.Component<InputRowProps> {
   };
 
   handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    const {
-      cursorIndex,
-      onClearCurrentInput,
-      onCursorIndexChange,
-      onSubmit
-    } = this.props;
-
-    switch (event.key.toLowerCase()) {
-      case "enter":
-        event.preventDefault();
-        onSubmit();
-
-        break;
-      case "u":
-        if (event.ctrlKey) {
-          onClearCurrentInput();
-        }
-        break;
-      case "arrowleft":
-        onCursorIndexChange(cursorIndex - 1);
-        break;
-      case "arrowright":
-        onCursorIndexChange(cursorIndex + 1);
-        break;
-      default:
-    }
+    const { onKeyDown } = this.props;
+    onKeyDown(event);
   };
 
   handleBlur = (event: React.FocusEvent<HTMLDivElement>): void => {

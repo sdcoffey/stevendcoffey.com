@@ -1,6 +1,7 @@
 import React from "react";
 
-import "../style/OutputRow.scss";
+import { Text } from "./style/typography";
+import { WHITE } from "./style/colors";
 
 interface OutputRowProps {
   children: string;
@@ -8,8 +9,8 @@ interface OutputRowProps {
 
 export default ({ children }: OutputRowProps) => {
   return (
-    <div className="OutputRow">
-      <div className="OutputRow--text">{children}</div>
+    <div>
+      <Text color={WHITE}>{children}</Text>
     </div>
   );
 };

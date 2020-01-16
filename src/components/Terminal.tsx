@@ -1,8 +1,8 @@
 import * as React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
 import { Dispatch } from "../redux/store";
-import { InputPair } from "../redux/reducers/terminal";
+import { CurrentInput, InputPair } from "../redux/reducers/terminal";
 import { State } from "../redux/reducers";
 import {
   clearCurrentInput,
@@ -15,43 +15,69 @@ import OutputRow from "./OutputRow";
 
 import "../style/Terminal.scss";
 
-interface TerminalProps {
-  clearCurrentInput?: typeof clearCurrentInput;
-  cursorIndex: number;
+const mapState = (state: State) => ({
+  cwd: state.terminal.cwd,
+  inputPairs: state.terminal.inputs,
+  currentInput: state.terminal.currentInput
+});
+
+const mapDispatch = {
+  clearCurrentInput,
+  setCurrentInput,
+  setCursorIndex,
+  submit
+}
+
+const connector = connect(
+  mapState,
+  mapDispatch
+);
+
+type TerminalProps = ConnectedProps<typeof connector> & {
+  clearCurrentInput: typeof clearCurrentInput;
+  currentInput: CurrentInput;
   cwd: string;
   inputPairs: InputPair[];
-  submit?: typeof submit;
-  setCurrentInput?: typeof setCurrentInput;
-  setCursorIndex?: typeof setCursorIndex;
-  value: string;
+  submit: typeof submit;
+  setCurrentInput: typeof setCurrentInput;
+  setCursorIndex: typeof setCursorIndex;
 }
 
 function Terminal(props: TerminalProps) {
   const {
     clearCurrentInput,
-    cursorIndex,
+    currentInput,
     cwd,
     inputPairs,
     setCurrentInput,
     setCursorIndex,
-    submit,
-    value
+    submit
   } = props;
 
-  const handleRowChange = (newValue: string) => {
-    setCurrentInput && setCurrentInput(newValue);
-  };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const key = event.key.toLowerCase();
 
-  const handleRowSubmit = () => {
-    submit && submit();
-  };
+    if (event.ctrlKey) {
+      switch(key) {
+        case "u":
+          clearCurrentInput();
+          break
+      }
+    } else {
+      switch(key) {
+      case "enter":
+        event.preventDefault();
+        submit();
 
-  const handleClearCurrentInput = () => {
-    clearCurrentInput && clearCurrentInput();
-  };
-
-  const handleCursorIndexChange = (newIndex: number) => {
-    setCursorIndex && setCursorIndex(newIndex);
+        break;
+      case "arrowleft":
+        setCursorIndex(currentInput.cursorIndex - 1);
+        break;
+      case "arrowright":
+        setCursorIndex(currentInput.cursorIndex + 1);
+        break;
+      default:
+    }
   };
 
   const renderInputRow = (
@@ -62,10 +88,8 @@ function Terminal(props: TerminalProps) {
     <InputRow
       cwd={cwd}
       cursorIndex={cursorIndex}
-      onSubmit={handleRowSubmit}
-      onChange={handleRowChange}
-      onClearCurrentInput={handleClearCurrentInput}
-      onCursorIndexChange={handleCursorIndexChange}
+      onKeyDown={handleKeyDown}
+      onChange={setCurrentInput}
       active={active}
       value={input}
     />
@@ -80,27 +104,10 @@ function Terminal(props: TerminalProps) {
             {pair.output && <OutputRow>{pair.output}</OutputRow>}
           </div>
         ))}
-        {renderInputRow(true, cursorIndex, value)}
+        {renderInputRow(true, currentInput.cursorIndex, currentInput.value)}
       </div>
     </div>
   );
 }
 
-const mapStateToProps = (state: State) => ({
-  cwd: state.terminal.cwd,
-  inputPairs: state.terminal.inputs,
-  value: state.terminal.currentInput.value,
-  cursorIndex: state.terminal.currentInput.cursorIndex
-});
-
-const mapDispatch = (dispatch: Dispatch) => ({
-  clearCurrentInput: (value: string) => dispatch(clearCurrentInput()),
-  setCurrentInput: (value: string) => dispatch(setCurrentInput(value)),
-  setCursorIndex: (index: number) => dispatch(setCursorIndex(index)),
-  submit: () => dispatch(submit())
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatch
-)(Terminal);
+export default connector(Terminal);

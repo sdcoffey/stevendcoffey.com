@@ -64,8 +64,6 @@ export default function terminalReducer(
       const currentValue = state.currentInput.value;
       const diff = actionValue.length - currentValue.length;
 
-      console.log({ diff, actionValue, currentValue });
-
       return {
         ...state,
         currentInput: {

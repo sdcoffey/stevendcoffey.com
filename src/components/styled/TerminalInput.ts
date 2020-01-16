@@ -5,7 +5,7 @@ import ContentEditable from "react-contenteditable";
 import {
   BASE_FONT,
   BASE_FONT_SIZE,
-  BASE_FONT_WEIGHT
+  HEAVY_FONT_WEIGHT
 } from "../style/typography";
 
 const TerminalInput = styled(ContentEditable)`
@@ -15,7 +15,7 @@ const TerminalInput = styled(ContentEditable)`
   color: white;
   font-family: ${BASE_FONT};
   font-size: ${BASE_FONT_SIZE};
-  font-weight: ${BASE_FONT_WEIGHT};
+  font-weight: ${HEAVY_FONT_WEIGHT};
   word-break: break-all;
   word-wrap: break-word;
 
