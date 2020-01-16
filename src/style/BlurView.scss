@@ -1,0 +1,12 @@
+.BlurView {
+  background-color: rgba(0, 0, 0, .8);
+}
+
+/* if backdrop support: very transparent and blurred */
+@supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+  .BlurView {
+    background-color: rgba(0, 0, 0, .3);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}

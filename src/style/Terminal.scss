@@ -1,0 +1,14 @@
+@import 'colors';
+@import 'grid';
+
+.Terminal {
+  background-color: $col-drk-blue;
+  height: 100%;
+  width: 100%;
+  padding: $grid-base 0;
+  overflow-x: hidden;
+}
+
+.Terminal--rows {
+  margin: 0 $grid-base;
+}
