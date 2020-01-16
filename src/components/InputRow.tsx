@@ -1,6 +1,9 @@
 import * as React from "react";
-import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
+import styled from "styled-components";
+
+import { Caret, TerminalInput, Text } from "./styled";
+import { LIGHT_BLUE, LIGHT_GREEN, WHITE } from "./style/colors";
 
 import "../style/InputRow.scss";
 
@@ -15,19 +18,28 @@ interface InputRowProps {
   onCursorIndexChange: (newIndex: number) => void;
 }
 
+const Row = styled.div`
+  display: flex;
+  flex: 1;
+  flex-flow: row wrap;
+`;
+
+const Separator = styled(Text)`
+  margin: 0 8px;
+`;
+
 export default class InputRow extends React.Component<InputRowProps> {
   cwd: string;
-  input: HTMLDivElement | null;
+  input = React.createRef<HTMLInputElement>();
 
   constructor(props: InputRowProps) {
     super(props);
     this.cwd = props.cwd;
-    this.input = null;
   }
 
   componentDidMount() {
-    if (this.input) {
-      this.input.focus();
+    if (this.input.current) {
+      this.input.current.focus();
     }
   }
 
@@ -35,34 +47,22 @@ export default class InputRow extends React.Component<InputRowProps> {
     const { active, cwd, cursorIndex, value } = this.props;
 
     return (
-      <div className="input-row">
-        <span className="input-row__host">stevendcoffey.com:</span>
-        <span className="input-row__prompt">{cwd}</span>
-        <span className="input-row__separator">%</span>
-        <ContentEditable
-          className="input-row__input"
+      <Row>
+        <Text color={LIGHT_GREEN}>stevendcoffey.com:</Text>
+        <Text color={LIGHT_BLUE}>{cwd}</Text>
+        <Separator color={WHITE}>%</Separator>
+        <TerminalInput
           disabled={!active}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyPress}
           html={value}
-          innerRef={(ref: HTMLInputElement) => {
-            this.input = ref;
-          }}
+          innerRef={this.input}
         />
-        {active && (
-          <div
-            style={this.cursorStyle(cursorIndex)}
-            className="input-row__caret"
-          />
-        )}
-      </div>
+        <Row>{active && <Caret index={cursorIndex} />}</Row>
+      </Row>
     );
   }
-
-  cursorStyle = (cursorIndex: number) => ({
-    left: 10 * cursorIndex
-  });
 
   handleChange = (event: any): void => {
     const { onChange } = this.props;
@@ -102,8 +102,8 @@ export default class InputRow extends React.Component<InputRowProps> {
   };
 
   handleBlur = (event: React.FocusEvent<HTMLDivElement>): void => {
-    if (this.input) {
-      this.input.focus();
+    if (this.input.current) {
+      this.input.current.focus();
     }
   };
 }
