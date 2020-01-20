@@ -1,5 +1,7 @@
-import { applyMiddleware, createStore, Store } from "redux";
 import thunk from "redux-thunk";
+
+import { applyMiddleware, createStore, Store } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { createLogger } from "redux-logger";
 
 import { Actions } from "../actions";
@@ -21,5 +23,8 @@ export function configureStore() {
     middleware.push(logger);
   }
 
-  return createStore(rootReducer, applyMiddleware(...middleware));
+  return createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(...middleware))
+  );
 }

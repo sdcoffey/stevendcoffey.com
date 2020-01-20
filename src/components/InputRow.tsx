@@ -2,19 +2,21 @@ import * as React from "react";
 import sanitizeHtml from "sanitize-html";
 import styled from "styled-components";
 
-import { Caret, TerminalInput } from "./styled";
 import { BoldText } from "./style/typography";
+import { Caret, TerminalInput } from "./styled";
+import { CurrentInput } from "../redux/reducers/terminal";
 import { LIGHT_BLUE, LIGHT_GREEN, WHITE } from "./style/colors";
-
-import "../style/InputRow.scss";
 
 interface InputRowProps {
   active: boolean;
   cwd: string;
   cursorIndex: number;
-  value: string;
-  onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+  onKeyDown: (
+    currentInput: CurrentInput,
+    event: React.KeyboardEvent<HTMLDivElement>
+  ) => void;
   onChange: (value: string) => void;
+  value: string;
 }
 
 const Row = styled.div`
@@ -43,7 +45,7 @@ export default class InputRow extends React.Component<InputRowProps> {
   }
 
   render() {
-    const { active, cwd, cursorIndex, onKeyDown, value } = this.props;
+    const { active, value, cursorIndex, cwd } = this.props;
 
     return (
       <Row>
@@ -54,7 +56,7 @@ export default class InputRow extends React.Component<InputRowProps> {
           disabled={!active}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
-          onKeyDown={onKeyDown}
+          onKeyDown={this.handleKeyDown}
           html={value}
           innerRef={this.input}
         />
@@ -63,17 +65,18 @@ export default class InputRow extends React.Component<InputRowProps> {
     );
   }
 
+  handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const { cursorIndex, value, onKeyDown } = this.props;
+
+    onKeyDown({ cursorIndex, value }, event);
+  };
+
   handleChange = (event: any): void => {
     const { onChange } = this.props;
     if (event.target.value) {
       const sanitized = sanitizeHtml(event.target.value, { allowedTags: [] });
       onChange(sanitized);
     }
-  };
-
-  handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    const { onKeyDown } = this.props;
-    onKeyDown(event);
   };
 
   handleBlur = (event: React.FocusEvent<HTMLDivElement>): void => {
