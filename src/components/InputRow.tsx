@@ -60,7 +60,7 @@ export default class InputRow extends React.Component<InputRowProps> {
           html={value}
           innerRef={this.input}
         />
-        <Row>{active && <Caret index={cursorIndex} />}</Row>
+        <Row>{active && <Caret offset={cursorIndex - value.length} />}</Row>
       </Row>
     );
   }

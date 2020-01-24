@@ -1,14 +1,17 @@
 import styled from "styled-components";
 
 interface CaretProps {
-  index: number;
+  offset: number;
 }
 
+const monospaceWidth = 10.93;
+
 const Caret = styled.div<CaretProps>`
-  left: ${props => 10 * props.index}px;
+  left: ${props => monospaceWidth * props.offset}px;
   align-self: stretch;
   background-color: rgba(255, 255, 255, 0.8);
   width: 10px;
+  position: relative;
 `;
 
 export default Caret;

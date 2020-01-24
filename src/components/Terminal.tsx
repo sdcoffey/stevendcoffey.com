@@ -37,11 +37,13 @@ type TerminalProps = ConnectedProps<typeof connector>;
 
 const Terminal = (props: TerminalProps) => {
   const {
+    clearCurrentInput,
     currentInput,
     cwd,
     inputPairs,
     setCursorIndex,
-    setCurrentInput
+    setCurrentInput,
+    submit
   } = props;
 
   const handleKeyDown = (
@@ -52,6 +54,12 @@ const Terminal = (props: TerminalProps) => {
 
     if (event.ctrlKey) {
       switch (key) {
+        case "a":
+          setCursorIndex(0);
+          break;
+        case "e":
+          setCursorIndex(currentInput.value.length);
+          break;
         case "u":
           clearCurrentInput();
           break;
@@ -62,7 +70,6 @@ const Terminal = (props: TerminalProps) => {
         case "enter":
           event.preventDefault();
           submit();
-
           break;
         case "arrowleft":
           setCursorIndex(input.cursorIndex - 1);

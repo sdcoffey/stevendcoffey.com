@@ -78,7 +78,7 @@ export default function terminalReducer(
           ...state.currentInput,
           cursorIndex: Math.max(
             0,
-            Math.min(state.currentInput.value.length - 1, action.index)
+            Math.min(state.currentInput.value.length, action.index)
           )
         }
       };
