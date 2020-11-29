@@ -10,7 +10,7 @@ function generateInitialState(appCount: number): OSXState {
     apps.push({
       appComponent: BaseApp,
       name: i.toString(),
-      dockIconSource: 0
+      dockIconSource: 0,
     });
   }
 

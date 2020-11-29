@@ -1,5 +1,5 @@
 import * as React from "react";
-import { connect, ConnectedProps } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CurrentInput } from "../redux/reducers/terminal";
 import { State } from "../redux/reducers";
@@ -14,37 +14,11 @@ import OutputRow from "./OutputRow";
 
 import "../style/Terminal.scss";
 
-const mapState = (state: State) => ({
-  cwd: state.terminal.cwd,
-  inputPairs: state.terminal.inputs,
-  currentInput: state.terminal.currentInput,
-  value: state.terminal.currentInput.value
-});
-
-const mapDispatch = {
-  clearCurrentInput,
-  setCurrentInput,
-  setCursorIndex,
-  submit
-};
-
-const connector = connect(
-  mapState,
-  mapDispatch
-);
-
-type TerminalProps = ConnectedProps<typeof connector>;
-
-const Terminal = (props: TerminalProps) => {
-  const {
-    clearCurrentInput,
-    currentInput,
-    cwd,
-    inputPairs,
-    setCursorIndex,
-    setCurrentInput,
-    submit
-  } = props;
+const Terminal = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const { cwd, inputs, currentInput } = useSelector(
+    (state: State) => state.terminal
+  );
 
   const handleKeyDown = (
     input: CurrentInput,
@@ -55,13 +29,13 @@ const Terminal = (props: TerminalProps) => {
     if (event.ctrlKey) {
       switch (key) {
         case "a":
-          setCursorIndex(0);
+          dispatch(setCursorIndex(0));
           break;
         case "e":
-          setCursorIndex(currentInput.value.length);
+          dispatch(setCursorIndex(currentInput.value.length));
           break;
         case "u":
-          clearCurrentInput();
+          dispatch(clearCurrentInput());
           break;
         default:
       }
@@ -69,13 +43,13 @@ const Terminal = (props: TerminalProps) => {
       switch (key) {
         case "enter":
           event.preventDefault();
-          submit();
+          dispatch(submit());
           break;
         case "arrowleft":
-          setCursorIndex(input.cursorIndex - 1);
+          dispatch(setCursorIndex(input.cursorIndex - 1));
           break;
         case "arrowright":
-          setCursorIndex(input.cursorIndex + 1);
+          dispatch(setCursorIndex(input.cursorIndex + 1));
           break;
         default:
       }
@@ -85,13 +59,13 @@ const Terminal = (props: TerminalProps) => {
   return (
     <div className="Terminal">
       <div className="Terminal--rows">
-        {inputPairs.map(pair => (
+        {inputs.map(pair => (
           <div key={pair.timestamp.toString()}>
             <InputRow
               cwd={cwd}
               cursorIndex={pair.input.length - 1}
               onKeyDown={handleKeyDown}
-              onChange={setCurrentInput}
+              onChange={value => dispatch(setCurrentInput(value))}
               active={false}
               value={pair.input}
             />
@@ -103,7 +77,7 @@ const Terminal = (props: TerminalProps) => {
           cwd={cwd}
           cursorIndex={currentInput.cursorIndex}
           onKeyDown={handleKeyDown}
-          onChange={setCurrentInput}
+          onChange={value => dispatch(setCurrentInput(value))}
           value={currentInput.value}
         />
       </div>
@@ -111,4 +85,4 @@ const Terminal = (props: TerminalProps) => {
   );
 };
 
-export default connector(Terminal);
+export default Terminal;

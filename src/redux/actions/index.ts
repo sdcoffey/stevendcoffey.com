@@ -1,3 +1,7 @@
-import { TerminalActionsType } from "./terminalActions";
-
-export type Actions = TerminalActionsType;
+export {
+  clearCurrentInput,
+  setCurrentInput,
+  setCursorIndex,
+  submit,
+  TerminalActionsType as Actions,
+} from "./terminalActions";

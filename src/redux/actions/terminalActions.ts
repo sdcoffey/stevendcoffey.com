@@ -1,6 +1,9 @@
+import parse, { Command, CommandResult } from "shlep";
+
 import { GetState, Dispatch, ThunkAction } from "../store";
 import { State } from "../reducers";
 
+import { RootNode } from "../../filesystem";
 import { DEFAULT_DIRECTORY } from "../reducers/terminal";
 
 // Behind the scenes sync actions
@@ -11,20 +14,11 @@ export const SET_CURRENT_INPUT = "SET_CURRENT_INPUT";
 export const SET_CURSOR_INDEX = "SET_CURSOR_INDEX";
 export const UPDATE_CWD = "UPDATE_CWD";
 
-interface CommandMap {
-  [command: string]: (
-    dispatch: Dispatch,
-    state: State,
-    ...args: any[]
-  ) => string;
-}
+console.log({ RootNode });
 
-const AVAILABLE_COMMANDS: CommandMap = {
-  cd,
-  clear,
-  echo,
-  pwd
-};
+interface CommandMap {
+  [command: string]: (dispatch: Dispatch, state: State, ...args: any[]) => string;
+}
 
 interface AddInputPairAction {
   type: typeof ADD_INPUT_PAIR;
@@ -68,21 +62,21 @@ export type TerminalActionsType =
 
 export function clearCurrentInput(): ClearCurrentInputAction {
   return {
-    type: CLEAR_CURRENT_INPUT
+    type: CLEAR_CURRENT_INPUT,
   };
 }
 
 export function setCurrentInput(value: string): SetCurrentInputAction {
   return {
     type: SET_CURRENT_INPUT,
-    value
+    value,
   };
 }
 
 export function setCursorIndex(index: number): SetCursorIndexAction {
   return {
     type: SET_CURSOR_INDEX,
-    index
+    index,
   };
 }
 
@@ -90,8 +84,8 @@ export function submit(): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
     const {
       terminal: {
-        currentInput: { value }
-      }
+        currentInput: { value },
+      },
     } = getState();
 
     dispatch(processCommand(value));
@@ -102,20 +96,17 @@ export function submit(): ThunkAction {
 function updateCwd(cwd: string): UpdateCwdAction {
   return {
     type: UPDATE_CWD,
-    cwd
+    cwd,
   };
 }
 
 function clearInputs(): ClearInputsAction {
   return {
-    type: CLEAR_INPUTS
+    type: CLEAR_INPUTS,
   };
 }
 
-function addInputPair(
-  input: string,
-  output: string | null
-): AddInputPairAction {
+function addInputPair(input: string, output: string | null): AddInputPairAction {
   const timestamp = Date.now();
 
   return {
@@ -123,58 +114,28 @@ function addInputPair(
     inputPair: {
       input,
       output,
-      timestamp
-    }
+      timestamp,
+    },
   };
 }
+
+const evaluateCommand = (dispatch: Dispatch, state: State) => (command: Command): CommandResult => {
+  return {
+    exitCode: 0,
+  };
+};
 
 function processCommand(input: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
-    const cleaned = input.replace(/^\s+/, "").replace(/\s+$/, "");
-    if (cleaned === "") {
-      dispatch(addInputPair(cleaned, null));
-      return;
-    }
-
-    const components = cleaned.split(" ");
-    const exec = components[0];
-    const args = components.slice(1, components.length);
-
-    if (AVAILABLE_COMMANDS[exec] !== undefined) {
-      const output = AVAILABLE_COMMANDS[exec](dispatch, getState(), ...args);
-      dispatch(addInputPair(cleaned, output));
+    if (input.trim().length > 0) {
+      const result = parse(input, {
+        evaluateCommand: evaluateCommand(dispatch, getState()),
+      });
+      if (result.output) {
+        dispatch(addInputPair(input, result.output));
+      }
     } else {
-      const output = `command not found: ${exec}`;
-      dispatch(addInputPair(input, output));
+      dispatch(addInputPair(input, ""));
     }
   };
-}
-
-function clear(dispatch: Dispatch, state: State, ...args: string[]): string {
-  return dispatch(clearInputs());
-}
-
-function echo(dispatch: Dispatch, state: State, ...args: string[]): string {
-  return args.join(" ");
-}
-
-function pwd(dispatch: Dispatch, state: State): string {
-  const { cwd } = state.terminal;
-  return cwd;
-}
-
-function cd(dispatch: Dispatch, state: State, newWd: string): string {
-  const { cwd } = state.terminal;
-
-  if (!newWd) {
-    dispatch(updateCwd(DEFAULT_DIRECTORY));
-    return "";
-  } else if (cwd === ".") {
-    dispatch(updateCwd(cwd));
-    return "";
-  }
-
-  let components = newWd.split("/");
-
-  return "";
 }

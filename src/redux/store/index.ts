@@ -12,7 +12,7 @@ export type GetState = () => State;
 export type PromiseAction = Promise<Actions>;
 export type ThunkAction = (dispatch: Dispatch, getState: GetState) => void;
 export type Dispatch = (
-  action: Actions | ThunkAction | PromiseAction | Array<Actions>
+  action: Actions | ThunkAction | PromiseAction | Array<Actions>,
 ) => any;
 
 export function configureStore() {
@@ -25,6 +25,6 @@ export function configureStore() {
 
   return createStore(
     rootReducer,
-    composeWithDevTools(applyMiddleware(...middleware))
+    composeWithDevTools(applyMiddleware(...middleware)),
   );
 }
