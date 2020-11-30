@@ -5,7 +5,7 @@ import {
   SET_CURRENT_INPUT,
   SET_CURSOR_INDEX,
   UPDATE_CWD,
-  TerminalActionsType
+  TerminalActionsType,
 } from "../actions/terminalActions";
 
 export const DEFAULT_DIRECTORY = "/home/steve";
@@ -23,41 +23,43 @@ export interface CurrentInput {
 
 export interface TerminalState {
   cwd: string;
+  env: Record<string, string>;
   currentInput: CurrentInput;
   inputs: InputPair[];
 }
 
 const initialState: TerminalState = {
   cwd: DEFAULT_DIRECTORY,
+  env: {
+    PATH: "/bin",
+    PWD: DEFAULT_DIRECTORY,
+  },
   currentInput: {
     value: "",
-    cursorIndex: 0
+    cursorIndex: 0,
   },
-  inputs: []
+  inputs: [],
 };
 
-export default function terminalReducer(
-  state = initialState,
-  action: TerminalActionsType
-) {
+export default function terminalReducer(state = initialState, action: TerminalActionsType) {
   switch (action.type) {
     case ADD_INPUT_PAIR:
       return {
         ...state,
-        inputs: [...state.inputs, action.inputPair]
+        inputs: [...state.inputs, action.inputPair],
       };
     case CLEAR_INPUTS:
       return {
         ...state,
-        inputs: []
+        inputs: [],
       };
     case CLEAR_CURRENT_INPUT:
       return {
         ...state,
         currentInput: {
           value: "",
-          cursorIndex: 0
-        }
+          cursorIndex: 0,
+        },
       };
     case SET_CURRENT_INPUT:
       const actionValue = action.value;
@@ -68,24 +70,21 @@ export default function terminalReducer(
         ...state,
         currentInput: {
           value: action.value,
-          cursorIndex: Math.max(0, state.currentInput.cursorIndex + diff)
-        }
+          cursorIndex: Math.max(0, state.currentInput.cursorIndex + diff),
+        },
       };
     case SET_CURSOR_INDEX:
       return {
         ...state,
         currentInput: {
           ...state.currentInput,
-          cursorIndex: Math.max(
-            0,
-            Math.min(state.currentInput.value.length, action.index)
-          )
-        }
+          cursorIndex: Math.max(0, Math.min(state.currentInput.value.length, action.index)),
+        },
       };
     case UPDATE_CWD:
       return {
         ...state,
-        cwd: action.cwd
+        cwd: action.cwd,
       };
     default:
       return state;

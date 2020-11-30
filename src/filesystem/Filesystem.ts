@@ -1,20 +1,8 @@
-import { Command, CommandResult } from "shlep";
+import path from "path";
 
-import { State, Dispatch } from "../redux";
+import { Executable } from "./types";
 
-type Executable = (command: Command, dispatch: Dispatch, state: State) => CommandResult;
-
-export type File = {
-  executable?: Executable;
-};
-
-type FsNode = {
-  name: string;
-  children?: FsNode[];
-  executable?: Executable;
-};
-
-class FilesystemNode {
+export class FilesystemNode {
   name: string;
   children: FilesystemNode[] | null;
   executable: Executable | null;
@@ -49,7 +37,7 @@ class FilesystemNode {
       par = par.parentNode;
     }
 
-    return "/" + path.join("/");
+    return path.join("/");
   }
 
   isRoot(): boolean {
@@ -62,6 +50,12 @@ class FilesystemNode {
     }
 
     return this.parentNode.path();
+  }
+
+  addChild(node: FilesystemNode): void {
+    if (this.children) {
+      this.children = [...this.children, node];
+    }
   }
 
   find(path: string): FilesystemNode | null {
@@ -83,22 +77,35 @@ class FilesystemNode {
 }
 
 export class Filesystem {
-  rootNode: FilesystemNode;
+  private rootNode: FilesystemNode;
 
-  constructor(files: Record<string, File>) {
+  constructor(files: Record<string, Executable | null>) {
     this.rootNode = new FilesystemNode({ name: "", children: [] });
     Object.keys(files).forEach((key: string) => {
       const pathElements = key.split("/");
-      const currentPath: string[] = [];
+      let currentPath: string = "/";
+      let currentParent = this.rootNode;
       pathElements.forEach((pathElement: string, index: number) => {
-        const resolvedPath = currentPath.length === 0 ? "/" : currentPath.join("/");
-        debugger;
-        if (currentPath.length === 0) {
-          currentPath.push(pathElement);
-          return;
+        currentPath = path.join(currentPath, pathElement);
+
+        const node = this.rootNode.find(currentPath);
+        if (!node) {
+          const newNode = new FilesystemNode({
+            name: pathElement,
+            children: index < pathElements.length - 1 ? [] : undefined,
+            executable: files[key] || undefined,
+            parentNode: currentParent,
+          });
+          currentParent.addChild(newNode);
+          currentParent = newNode;
+        } else {
+          currentParent = node;
         }
-        const node = this.rootNode.find(resolvedPath);
       });
     });
+  }
+
+  find(path: string): FilesystemNode | null {
+    return this.rootNode.find(path);
   }
 }

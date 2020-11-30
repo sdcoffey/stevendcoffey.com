@@ -1,18 +1,24 @@
-import { echo, pwd } from "../bin";
-import { Filesystem, File } from "./Filesystem";
+import { echo, pwd, ls, which } from "../bin";
+import { Filesystem, FilesystemNode } from "./Filesystem";
+import { Executable } from "./types";
 
-export const PATH = "/usr/bin";
-
-const filesystem: Record<string, File> = {
-  "/usr/bin/pwd": {
-    executable: pwd,
-  },
-  // "/usr/bin/echo": {
-  //   executable: echo,
-  // },
-  // "/home/steve/resume.txt": {},
+const files = {
+  "/bin/pwd": pwd,
+  "/bin/echo": echo,
+  "/bin/ls": ls,
+  "/bin/which": which,
+  "/home/steve/resume.txt": null,
 };
 
-const RootNode = new Filesystem(filesystem);
+let _fs: Filesystem | null = null;
 
-export { RootNode, Filesystem };
+function fs(): Filesystem {
+  if (_fs) {
+    return _fs;
+  } else {
+    _fs = new Filesystem(files);
+    return _fs;
+  }
+}
+
+export { Executable, Filesystem, FilesystemNode, fs };

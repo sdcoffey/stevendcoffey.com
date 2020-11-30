@@ -3,8 +3,9 @@ import parse, { Command, CommandResult } from "shlep";
 import { GetState, Dispatch, ThunkAction } from "../store";
 import { State } from "../reducers";
 
-import { RootNode } from "../../filesystem";
+import { FilesystemNode, RootNode } from "../../filesystem";
 import { DEFAULT_DIRECTORY } from "../reducers/terminal";
+import { which } from "../../bin";
 
 // Behind the scenes sync actions
 export const ADD_INPUT_PAIR = "ADD_INPUT_PAIR";
@@ -13,12 +14,6 @@ export const CLEAR_INPUTS = "CLEAR_INPUTS";
 export const SET_CURRENT_INPUT = "SET_CURRENT_INPUT";
 export const SET_CURSOR_INDEX = "SET_CURSOR_INDEX";
 export const UPDATE_CWD = "UPDATE_CWD";
-
-console.log({ RootNode });
-
-interface CommandMap {
-  [command: string]: (dispatch: Dispatch, state: State, ...args: any[]) => string;
-}
 
 interface AddInputPairAction {
   type: typeof ADD_INPUT_PAIR;
@@ -119,9 +114,34 @@ function addInputPair(input: string, output: string | null): AddInputPairAction 
   };
 }
 
+function resolveExecutable(executable: string, dispatch: Dispatch, state: State): CommandResult {
+  const whichCommand = {
+    executable: "which",
+    arguments: [executable],
+    opts: {},
+  };
+
+  return which(whichCommand, dispatch, state);
+}
+
 const evaluateCommand = (dispatch: Dispatch, state: State) => (command: Command): CommandResult => {
+  const currentNode = RootNode.find(state.terminal.cwd);
+
+  const { executable } = command;
+  const result = resolveExecutable(executable, dispatch, state);
+  if (result.exitCode) {
+    return result;
+  }
+
+  const node = RootNode.find(result.output as string) as FilesystemNode;
+
+  if (node.executable) {
+    return node.executable(command, dispatch, state);
+  }
+
   return {
-    exitCode: 0,
+    exitCode: 1,
+    output: `permission denied: ${executable}`,
   };
 };
 
