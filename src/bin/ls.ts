@@ -4,7 +4,7 @@ import { Command, CommandResult } from "shlep";
 
 import { Dispatch, State } from "../redux";
 
-import { RootNode } from "../filesystem";
+import { fs } from "../filesystem";
 
 export function ls(command: Command, dispatch: Dispatch, state: State): CommandResult {
   const {
@@ -20,7 +20,7 @@ export function ls(command: Command, dispatch: Dispatch, state: State): CommandR
     filepath = cwd;
   }
 
-  const node = RootNode.find(filepath);
+  const node = fs().find(filepath);
   if (!node) {
     return {
       exitCode: 1,

@@ -2,7 +2,7 @@ import { Command, CommandResult } from "shlep";
 
 import { Dispatch, State } from "../redux";
 
-import { RootNode } from "../filesystem";
+import { fs } from "../filesystem";
 
 export function which(command: Command, dispatch: Dispatch, state: State): CommandResult {
   const {
@@ -19,7 +19,7 @@ export function which(command: Command, dispatch: Dispatch, state: State): Comma
     for (let elem of splitPath) {
       const fullPath = elem + `/${arg}`;
 
-      const node = RootNode.find(fullPath);
+      const node = fs().find(fullPath);
       if (node) {
         return [
           ...arr,

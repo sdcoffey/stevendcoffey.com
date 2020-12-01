@@ -3,7 +3,7 @@ import parse, { Command, CommandResult } from "shlep";
 import { GetState, Dispatch, ThunkAction } from "../store";
 import { State } from "../reducers";
 
-import { FilesystemNode, RootNode } from "../../filesystem";
+import { FilesystemNode, fs } from "../../filesystem";
 import { DEFAULT_DIRECTORY } from "../reducers/terminal";
 import { which } from "../../bin";
 
@@ -125,7 +125,7 @@ function resolveExecutable(executable: string, dispatch: Dispatch, state: State)
 }
 
 const evaluateCommand = (dispatch: Dispatch, state: State) => (command: Command): CommandResult => {
-  const currentNode = RootNode.find(state.terminal.cwd);
+  const currentNode = fs().find(state.terminal.cwd);
 
   const { executable } = command;
   const result = resolveExecutable(executable, dispatch, state);
@@ -133,7 +133,7 @@ const evaluateCommand = (dispatch: Dispatch, state: State) => (command: Command)
     return result;
   }
 
-  const node = RootNode.find(result.output as string) as FilesystemNode;
+  const node = fs().find(result.output as string) as FilesystemNode;
 
   if (node.executable) {
     return node.executable(command, dispatch, state);
