@@ -1,20 +1,15 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import {
-  clearCurrentInput,
-  setCurrentInput,
-  setCursorIndex,
-  submit
-} from "../../src/redux/actions/terminalActions";
-import terminal from "../../src/redux/reducers/terminal";
+import { clearCurrentInput, setCurrentInput, setCursorIndex, submit } from "context";
+import terminal from "context/redux/reducers/terminal";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 let currentInput = {
   value: "",
-  cursorIndex: 0
+  cursorIndex: 0,
 };
 
 let initialState = undefined;
@@ -24,7 +19,7 @@ beforeEach(() => {
   initialState = {
     currentInput,
     cwd: "/",
-    inputs: []
+    inputs: [],
   };
 
   store.clearActions();
@@ -36,8 +31,8 @@ function expectOutput(input: string, output: string) {
     inputPair: {
       timestamp: 1,
       input,
-      output
-    }
+      output,
+    },
   });
 }
 
@@ -48,7 +43,7 @@ describe("terminal reducer", () => {
     beforeAll(() => {
       currentInput = {
         value: "abcd",
-        cursorIndex: 3
+        cursorIndex: 3,
       };
     });
 
@@ -56,7 +51,7 @@ describe("terminal reducer", () => {
       const newState = terminal(initialState, clearCurrentInput());
 
       const {
-        currentInput: { value, cursorIndex }
+        currentInput: { value, cursorIndex },
       } = newState;
 
       expect(value).toEqual("");
@@ -69,7 +64,7 @@ describe("terminal reducer", () => {
       const newState = terminal(initialState, setCurrentInput("a"));
 
       const {
-        currentInput: { value, cursorIndex }
+        currentInput: { value, cursorIndex },
       } = newState;
 
       console.log({ newState });
@@ -82,14 +77,14 @@ describe("terminal reducer", () => {
       beforeAll(() => {
         currentInput = {
           value: "abcd",
-          cursorIndex: 0
+          cursorIndex: 0,
         };
       });
 
       it("does not let the cursor go below 0", () => {
         const newState = terminal(initialState, setCurrentInput("abc"));
         const {
-          currentInput: { value, cursorIndex }
+          currentInput: { value, cursorIndex },
         } = newState;
 
         expect(value).toEqual("abc");

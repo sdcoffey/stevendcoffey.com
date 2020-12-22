@@ -2,9 +2,9 @@ import path from "path";
 
 import { Command, CommandResult } from "shlep";
 
-import { Dispatch, State } from "../redux";
+import { Dispatch, State } from "../context";
 
-import { fs } from "../filesystem";
+import { fs } from "./getfs";
 
 export function ls(command: Command, dispatch: Dispatch, state: State): CommandResult {
   const {

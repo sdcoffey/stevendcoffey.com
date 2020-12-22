@@ -1,14 +1,17 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CurrentInput } from "../redux/reducers/terminal";
-import { State } from "../redux/reducers";
 import {
+  CurrentInput,
+  Input,
+  State,
+  Output,
+  Row,
   clearCurrentInput,
   setCurrentInput,
   setCursorIndex,
-  submit
-} from "../redux/actions/terminalActions";
+  submit,
+} from "../context";
 import InputRow from "./InputRow";
 import OutputRow from "./OutputRow";
 
@@ -16,14 +19,9 @@ import "../style/Terminal.scss";
 
 const Terminal = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { cwd, inputs, currentInput } = useSelector(
-    (state: State) => state.terminal
-  );
+  const { cwd, rows, currentInput } = useSelector((state: State) => state.terminal);
 
-  const handleKeyDown = (
-    input: CurrentInput,
-    event: React.KeyboardEvent<HTMLDivElement>
-  ) => {
+  const handleKeyDown = (input: CurrentInput, event: React.KeyboardEvent<HTMLDivElement>) => {
     const key = event.key.toLowerCase();
 
     if (event.ctrlKey) {
@@ -56,21 +54,30 @@ const Terminal = (): JSX.Element => {
     }
   };
 
+  const renderRow = (row: Row): JSX.Element => {
+    if (row.type === "input") {
+      const input = row as Input;
+      return (
+        <InputRow
+          cwd={input.wd}
+          cursorIndex={input.input.length - 1}
+          onKeyDown={handleKeyDown}
+          onChange={value => dispatch(setCurrentInput(value))}
+          active={false}
+          value={input.input}
+        />
+      );
+    } else {
+      const output = row as Output;
+      return <OutputRow>{output.output}</OutputRow>;
+    }
+  };
+
   return (
     <div className="Terminal">
       <div className="Terminal--rows">
-        {inputs.map(pair => (
-          <div key={pair.timestamp.toString()}>
-            <InputRow
-              cwd={cwd}
-              cursorIndex={pair.input.length - 1}
-              onKeyDown={handleKeyDown}
-              onChange={value => dispatch(setCurrentInput(value))}
-              active={false}
-              value={pair.input}
-            />
-            {pair.output && <OutputRow>{pair.output}</OutputRow>}
-          </div>
+        {rows.map(row => (
+          <div key={row.timestamp.toString()}>{renderRow(row)}</div>
         ))}
         <InputRow
           active

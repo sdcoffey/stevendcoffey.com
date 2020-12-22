@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 
 import Terminal from "./components/Terminal";
-import { configureStore, ReduxStore } from "./redux/store";
+import { configureStore, ReduxStore } from "./context";
 
 import "./style/App.scss";
 

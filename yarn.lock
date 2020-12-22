@@ -12249,10 +12249,10 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shlep@^0.2.0:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/shlep/-/shlep-0.2.2.tgz#420ac8e94e307bfc2aa0b89277fb90bc4fbc114a"
-  integrity sha512-x2FVdAveZgHe7An+aMOcIp96co7y5Tg7fwn2sJNqnMH1aDH+Sl/OkJ0b4r1OP4EPiY2rtthowdKNgkfKe2m/HQ==
+shlep@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/shlep/-/shlep-0.3.0.tgz#c51a29aaef50fccfb2e03fc52c5bff2efc04b80f"
+  integrity sha512-4ohULNIoZkJSkwg1LNA0nmmknVJcTMFSyFJ31sCmlSSCym5gFXkay0mPbtS+PvSBoNUOVDFMO5SG5Ywmgca9GA==
   dependencies:
     moo "^0.5.1"
 

@@ -74,6 +74,18 @@ export class FilesystemNode {
 
     return null;
   }
+
+  async read(): Promise<string | null> {
+    if (!this.isDir() && !this.executable) {
+      const url = `${process.env.PUBLIC_URL}${this.path}`;
+      debugger;
+      const response = await fetch(url);
+      const body = await response.text();
+
+      return body;
+    }
+    return null;
+  }
 }
 
 export class Filesystem {

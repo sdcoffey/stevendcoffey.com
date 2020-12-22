@@ -4,17 +4,14 @@ import styled from "styled-components";
 
 import { BoldText } from "./style/typography";
 import { Caret, TerminalInput } from "./styled";
-import { CurrentInput } from "../redux/reducers/terminal";
+import { CurrentInput } from "../context";
 import { LIGHT_BLUE, LIGHT_GREEN, WHITE } from "./style/colors";
 
 interface InputRowProps {
   active: boolean;
   cwd: string;
   cursorIndex: number;
-  onKeyDown: (
-    currentInput: CurrentInput,
-    event: React.KeyboardEvent<HTMLDivElement>
-  ) => void;
+  onKeyDown: (currentInput: CurrentInput, event: React.KeyboardEvent<HTMLDivElement>) => void;
   onChange: (value: string) => void;
   value: string;
 }

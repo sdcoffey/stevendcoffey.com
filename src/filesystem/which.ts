@@ -1,8 +1,8 @@
 import { Command, CommandResult } from "shlep";
 
-import { Dispatch, State } from "../redux";
-
-import { fs } from "../filesystem";
+import { Dispatch, State } from "../context";
+import { fs } from "./getfs";
+import { findOnPath } from "./findOnPath";
 
 export function which(command: Command, dispatch: Dispatch, state: State): CommandResult {
   const {
@@ -13,22 +13,16 @@ export function which(command: Command, dispatch: Dispatch, state: State): Comma
 
   const { arguments: args } = command;
 
-  const splitPath = PATH.split(":");
-
   const results = args.reduce((arr: CommandResult[], arg: string): CommandResult[] => {
-    for (let elem of splitPath) {
-      const fullPath = elem + `/${arg}`;
-
-      const node = fs().find(fullPath);
-      if (node) {
-        return [
-          ...arr,
-          {
-            exitCode: 0,
-            output: fullPath,
-          },
-        ];
-      }
+    const resolvedPath = findOnPath(PATH, arg);
+    if (resolvedPath) {
+      return [
+        ...arr,
+        {
+          exitCode: 0,
+          output: resolvedPath,
+        },
+      ];
     }
 
     arr.push({

@@ -1,59 +1,40 @@
-import {
-  ADD_INPUT_PAIR,
-  CLEAR_INPUTS,
-  CLEAR_CURRENT_INPUT,
-  SET_CURRENT_INPUT,
-  SET_CURSOR_INDEX,
-  UPDATE_CWD,
-  TerminalActionsType,
-} from "../actions/terminalActions";
+import { AddInputAction, AddOutputAction, TerminalActions, TerminalState, TerminalActionsType } from "../types";
 
-export const DEFAULT_DIRECTORY = "/home/steve";
-
-export interface InputPair {
-  timestamp: number;
-  input: string;
-  output: string | null;
-}
-
-export interface CurrentInput {
-  value: string;
-  cursorIndex: number;
-}
-
-export interface TerminalState {
-  cwd: string;
-  env: Record<string, string>;
-  currentInput: CurrentInput;
-  inputs: InputPair[];
-}
+export const HOME = "/home/steve";
 
 const initialState: TerminalState = {
-  cwd: DEFAULT_DIRECTORY,
+  cwd: HOME,
   env: {
     PATH: "/bin",
-    PWD: DEFAULT_DIRECTORY,
+    PWD: HOME,
   },
   currentInput: {
     value: "",
     cursorIndex: 0,
   },
-  inputs: [],
+  rows: [],
 };
 
 export default function terminalReducer(state = initialState, action: TerminalActionsType) {
   switch (action.type) {
-    case ADD_INPUT_PAIR:
+    case TerminalActions.AddInput:
+      const inputAction = action as AddInputAction;
       return {
         ...state,
-        inputs: [...state.inputs, action.inputPair],
+        rows: [...state.rows, inputAction.input],
       };
-    case CLEAR_INPUTS:
+    case TerminalActions.AddOutput:
+      const outputAction = action as AddOutputAction;
       return {
         ...state,
-        inputs: [],
+        rows: [...state.rows, outputAction.output],
       };
-    case CLEAR_CURRENT_INPUT:
+    case TerminalActions.ClearInputs:
+      return {
+        ...state,
+        rows: [],
+      };
+    case TerminalActions.ClearCurrentInput:
       return {
         ...state,
         currentInput: {
@@ -61,7 +42,7 @@ export default function terminalReducer(state = initialState, action: TerminalAc
           cursorIndex: 0,
         },
       };
-    case SET_CURRENT_INPUT:
+    case TerminalActions.SetCurrentInput:
       const actionValue = action.value;
       const currentValue = state.currentInput.value;
       const diff = actionValue.length - currentValue.length;
@@ -73,7 +54,7 @@ export default function terminalReducer(state = initialState, action: TerminalAc
           cursorIndex: Math.max(0, state.currentInput.cursorIndex + diff),
         },
       };
-    case SET_CURSOR_INDEX:
+    case TerminalActions.SetCursorIndex:
       return {
         ...state,
         currentInput: {
@@ -81,10 +62,14 @@ export default function terminalReducer(state = initialState, action: TerminalAc
           cursorIndex: Math.max(0, Math.min(state.currentInput.value.length, action.index)),
         },
       };
-    case UPDATE_CWD:
+    case TerminalActions.UpdateCwd:
       return {
         ...state,
         cwd: action.cwd,
+        env: {
+          ...state.env,
+          PWD: action.cwd,
+        },
       };
     default:
       return state;
